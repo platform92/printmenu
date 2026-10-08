@@ -22,7 +22,8 @@
 
   /* Toolbar */
   #bar { height: 56px; flex: 0 0 56px; display: flex; align-items: center; justify-content: center; gap: 28px; }
-  #opac { display: flex; align-items: center; gap: 10px; color: #e8e8e8; font: 600 14px "Bricolage Grotesque", system-ui, sans-serif; }
+  #langLabel select { font: 600 13px system-ui, sans-serif; padding: 4px 8px; border-radius: 6px; border: 0; cursor: pointer; }
+  #opac, #langLabel { display: flex; align-items: center; gap: 10px; color: #e8e8e8; font: 600 14px "Bricolage Grotesque", system-ui, sans-serif; }
   #opac input { width: 150px; accent-color: #ff914d; cursor: pointer; }
   #opacVal { min-width: 3ch; text-align: right; }
   #pdf {
@@ -54,6 +55,7 @@
   }
   .col { position: relative; z-index: 1; flex: 1; min-width: 0; display: flex; flex-direction: column; justify-content: space-between; }
   h2 { margin-bottom: 8px; line-height: 1; }
+  .note { margin-inline-start: 10px; font-size: 11px; font-weight: 700; color: var(--ink-soft); font-style: italic; vertical-align: middle; }
   .hl {
     display: inline-block;
     background: #DA291C;           /* McDonald's red */
@@ -86,7 +88,7 @@
   .info { flex: 1; min-width: 0; }
   .row { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
   .name { font-size: 13.5px; font-weight: 600; line-height: 1.2; }
-  .price { font-size: 13.5px; font-weight: 800; white-space: nowrap; }
+  .price { direction: ltr; unicode-bidi: isolate; font-size: 13.5px; font-weight: 800; white-space: nowrap; }
   .desc { margin-top: 2px; color: var(--ink-soft); font-size: 11.5px; line-height: 1.3; }
 
   @media print {
@@ -101,6 +103,9 @@
 <body>
 <div id="bar">
   <button id="pdf" type="button">Download as PDF</button>
+  <label id="langLabel">Language
+    <select id="lang"></select>
+  </label>
   <label id="opac">Logo opacity
     <input id="opacRange" type="range" min="0" max="100" step="1" value="5">
     <span id="opacVal">5%</span>
@@ -116,27 +121,29 @@
 
 <script>
 const MENU = [
+  { title: "FÖRRÄTTER", items: [
+    ["Kyckling 65", "89 Kr", "Krispigt marinerad kyckling med indiska kryddor, friterad till perfektion och serverad", "a"],
+    ["Nuggets", "49 Kr", "Krispiga, med mild dippsås.", "17"],
+    ["Kycklingvingar", "49 Kr", "Saftiga & krispiga, med mild dippsås.", "18"]
+  ]},
   { title: "TALLRIKAR", items: [
-    ["Kyckling", "109 Kr", "Grillad kyckling, med ris eller pommes & sallad."],
+    ["Grillad Kyckling", "109 Kr", "Grillad kyckling, med ris eller pommes & sallad."],
     ["Krispig kyckling", "119 Kr", "Krispig kyckling, med ris eller pommes & sallad."],
     ["Smash Nötkött", "119 Kr", "Kryddat nötkött, med ris/pommes & sallad."],
     ["Combo (Nöt & Kyckling)", "119 Kr", "Grillad kyckling & kryddat nötkött, med ris eller pommes & sallad."],
     ["Fisk", "119 Kr", "Panerad fiskfilé, med ris eller pommes & sallad."],
     ["Falafel", "79 Kr", "Krispiga falafflar, med ris eller pommes & sallad."]
   ]},
-  { title: "PARATHAS", items: [
-    ["Kyckling 65", "89 Kr", "Krispigt marinerad kyckling med indiska kryddor, friterad till perfektion och serverad", "a"],
-    ["Kyckeling 555", "99 Kr", "Krispiga kycklingbitar marinerade med smakrika och serverade med en krämig sås.", "b"]
-  ]},
-  { title: "RULLE", items: [
-    ["Nötkött rulle", "119 Kr", "Kryddat nötkött i varmt pitabröd med sallad & mild sås."],
-    ["Kyckling rulle", "99 Kr", "Grillad kyckling i varmt pitabröd med sallad."],
-    ["Falafel rulle", "79 Kr", "Falafel med färska grönsaker."]
+  { title: "RULLE", note: "Utan ost / Med ost", items: [
+    ["Nötkött rulle", "109 Kr / 129 Kr", "Kryddat nötkött i varmt pitabröd med sallad & mild sås."],
+    ["Kyckling rulle", "109 Kr / 129 Kr", "Grillad kyckling i varmt pitabröd med sallad."],
+    ["Falafel rulle", "79 Kr / 109 Kr", "Falafel med färska grönsaker."]
   ]},
   { title: "HAMBURGARE", items: [
     ["Cheeseburgare", "119 Kr", "Nötköttsburgare grillad till perfektion, toppad med smält ost, serveras med pommes."],
     ["Krispig kyckling-cheeseburgare", "119 Kr", "Krispigt friterad till gyllene perfektion, med smält ost, serveras med pommes."],
-    ["Fisk Burger", "119 Kr", "FiskBurger."]
+    ["Fisk Burger", "119 Kr", "FiskBurger."],
+    ["Bon Burger", "59 Kr", "Nötköttsburgare grillad till perfektion, toppad med smält ost, serveras med pommes.", "b"]
   ]},
   { title: "SALLAD", items: [
     ["Mixed Sallad", "69 Kr / 99 Kr", "Kyckling / Nötkött, Isbergssallad, Fetaost, gurka, tomat, kidneybönor, med mild dressing."]
@@ -144,52 +151,157 @@ const MENU = [
   { title: "POMMES FRITES", items: [
     ["Pommes", "39 Kr", "Krispiga pommes."],
     ["Loaded Pommes", "69 Kr", "Krispiga pommes toppade med valfri dressing."],
-    ["Pommes med ost", "59 Kr", "Krispiga pommes/falafel med färska grönsaker & valfri sås."]
-  ]},
-  { title: "KYCKLING", items: [
-    ["Nuggets", "49 Kr", "Krispiga, med mild dippsås."],
-    ["Kycklingvingar", "49 Kr", "Saftiga & krispiga, med mild dippsås."]
+    ["Pommes med ost", "59 Kr", "Krispiga pommes/falafel med färska grönsaker & valfri sås."],
+    ["Chilimayo Pommes", "49 Kr", "Krispiga pommes med chilimayo.", "c"]
   ]},
   { title: "DRYCKER", items: [
-    ["Dryck", "25 Kr", "Välj mellan läsk, kaffe/te, serveras iskallt/varmt efter val."]
+    ["Dryck", "25 Kr", "Välj mellan läsk, kaffe/te, serveras iskallt/varmt efter val.", "19"]
   ]},
   { title: "MILKSHAKES", items: [
-    ["Välja", "49 Kr", "Banan, Jordgubbe, Blandade Bär, Banan- och dadel, Mango, & Oreo Shake."]
+    ["Välja", "49 Kr", "Banan, Jordgubbe, Blandade Bär, Banan- och dadel, Mango, & Oreo Shake.", "20"]
   ]}
 ];
+
+// Translations: section titles (8), "without / with cheese" note, and 23 descriptions in menu order.
+// Dish names, prices and "Kr" stay as on the Swedish menu.
+const I18N = {
+  en: { label: "English", t: ["STARTERS","PLATES","ROLLS","BURGERS","SALAD","FRIES","DRINKS","MILKSHAKES"], note: "Without cheese / With cheese", d: [
+    "Crispy marinated chicken with Indian spices, deep-fried to perfection and served",
+    "Crispy, with mild dipping sauce.","Juicy & crispy, with mild dipping sauce.",
+    "Grilled chicken, with rice or fries & salad.","Crispy chicken, with rice or fries & salad.","Spiced beef, with rice/fries & salad.",
+    "Grilled chicken & spiced beef, with rice or fries & salad.","Breaded fish fillet, with rice or fries & salad.","Crispy falafel, with rice or fries & salad.",
+    "Spiced beef in warm pita bread with salad & mild sauce.","Grilled chicken in warm pita bread with salad.","Falafel with fresh vegetables.",
+    "Beef burger grilled to perfection, topped with melted cheese, served with fries.",
+    "Crispy chicken fried to golden perfection, with melted cheese, served with fries.","Fish burger.",
+    "Beef burger grilled to perfection, topped with melted cheese, served with fries.",
+    "Chicken / Beef, iceberg lettuce, feta cheese, cucumber, tomato, kidney beans, with mild dressing.",
+    "Crispy fries.","Crispy fries topped with your choice of dressing.","Crispy fries/falafel with fresh vegetables & your choice of sauce.","Crispy fries with chili mayo.",
+    "Choose between soda, coffee/tea, served cold/hot as you prefer.","Banana, Strawberry, Mixed Berries, Banana and date, Mango, & Oreo Shake."] },
+  ar: { label: "العربية", rtl: 1, t: ["المقبلات","الأطباق","اللفائف","البرغر","السلطة","البطاطس المقلية","المشروبات","ميلك شيك"], note: "بدون جبنة / مع جبنة", d: [
+    "دجاج متبّل ومقرمش بالتوابل الهندية، مقلي بإتقان ويُقدَّم",
+    "مقرمش، مع صلصة غمس خفيفة.","طري ومقرمش، مع صلصة غمس خفيفة.",
+    "دجاج مشوي، مع الأرز أو البطاطس والسلطة.","دجاج مقرمش، مع الأرز أو البطاطس والسلطة.","لحم بقري متبّل، مع الأرز أو البطاطس والسلطة.",
+    "دجاج مشوي ولحم بقري متبّل، مع الأرز أو البطاطس والسلطة.","فيليه سمك مقرمش، مع الأرز أو البطاطس والسلطة.","فلافل مقرمشة، مع الأرز أو البطاطس والسلطة.",
+    "لحم بقري متبّل في خبز بيتا دافئ مع السلطة وصلصة خفيفة.","دجاج مشوي في خبز بيتا دافئ مع السلطة.","فلافل مع خضار طازجة.",
+    "برغر لحم بقري مشوي بإتقان، مغطى بجبنة ذائبة، يُقدَّم مع البطاطس.",
+    "دجاج مقرمش مقلي حتى يصبح ذهبياً، مع جبنة ذائبة، يُقدَّم مع البطاطس.","برغر سمك.",
+    "برغر لحم بقري مشوي بإتقان، مغطى بجبنة ذائبة، يُقدَّم مع البطاطس.",
+    "دجاج / لحم بقري، خس آيسبرغ، جبنة فيتا، خيار، طماطم، فاصولياء حمراء، مع صلصة خفيفة.",
+    "بطاطس مقلية مقرمشة.","بطاطس مقلية مقرمشة مع صلصة من اختيارك.","بطاطس مقلية/فلافل مقرمشة مع خضار طازجة وصلصة من اختيارك.","بطاطس مقلية مقرمشة مع مايونيز الفلفل الحار.",
+    "اختر بين المشروبات الغازية والقهوة/الشاي، تُقدَّم باردة/ساخنة حسب الرغبة.","موز، فراولة، توت مشكل، موز وتمر، مانجو، وميلك شيك أوريو."] },
+  so: { label: "Soomaali", t: ["CUNTOOYINKA HORE","SAXANNO","ROOLASHO","BARGARO","SALAAD","BATAATO BIRIYAY","CABITAANNO","MILKSHAKES"], note: "Jiis la'aan / Jiis la socda", d: [
+    "Digaag la maraday la dubay ee xawaash Hindi leh, si fiican loo shiilay oo la bixiyo",
+    "Qallafsan, la socda suugo khafiif ah.","Jilicsan oo qallafsan, la socda suugo khafiif ah.",
+    "Digaag la dubay, la socda bariis ama bataato iyo salaad.","Digaag qallafsan, la socda bariis ama bataato iyo salaad.","Hilib lo' xawaash leh, la socda bariis/bataato iyo salaad.",
+    "Digaag la dubay iyo hilib lo' xawaash leh, la socda bariis ama bataato iyo salaad.","Kalluun la rubay, la socda bariis ama bataato iyo salaad.","Falaafil qallafsan, la socda bariis ama bataato iyo salaad.",
+    "Hilib lo' xawaash leh oo ku jira rooti bita ah oo diiran, la socda salaad iyo suugo khafiif ah.","Digaag la dubay oo ku jira rooti bita ah oo diiran, la socda salaad.","Falaafil la socda khudrad cusub.",
+    "Bargar hilib lo' ah oo si fiican loo dubay, jiis dhalaalay saaran yahay, la socda bataato.",
+    "Digaag qallafsan oo la shiilay ilaa uu dahabi noqdo, jiis dhalaalay leh, la socda bataato.","Bargar kalluun.",
+    "Bargar hilib lo' ah oo si fiican loo dubay, jiis dhalaalay saaran yahay, la socda bataato.",
+    "Digaag / Hilib lo', salaad Isberg, jiis Feta, qajaar, yaanyo, digir kidney, la socda suugo khafiif ah.",
+    "Bataato qallafsan.","Bataato qallafsan oo suugo aad dooratid saaran tahay.","Bataato/falaafil qallafsan oo la socda khudrad cusub iyo suugo aad dooratid.","Bataato qallafsan oo la socda chili mayo.",
+    "Dooro soodhaha ama kafeega/shaaha, loo bixiyo qabow/kulul sida aad doonto.","Moos, Istoroberi, Miro isku dhafan, Moos iyo timir, Cambe, & Oreo Shake."] },
+  fa: { label: "فارسی", rtl: 1, t: ["پیش‌غذا","بشقاب‌ها","رول‌ها","همبرگرها","سالاد","سیب‌زمینی سرخ‌کرده","نوشیدنی‌ها","میلک‌شیک"], note: "بدون پنیر / با پنیر", d: [
+    "مرغ ترد ماریناد‌شده با ادویه‌های هندی، کاملاً سرخ‌شده و سرو می‌شود",
+    "ترد، با سس ملایم.","آبدار و ترد، با سس ملایم.",
+    "مرغ گریل‌شده، با برنج یا سیب‌زمینی سرخ‌کرده و سالاد.","مرغ ترد، با برنج یا سیب‌زمینی سرخ‌کرده و سالاد.","گوشت گاو ادویه‌دار، با برنج/سیب‌زمینی سرخ‌کرده و سالاد.",
+    "مرغ گریل‌شده و گوشت گاو ادویه‌دار، با برنج یا سیب‌زمینی سرخ‌کرده و سالاد.","فیله ماهی پانه‌شده، با برنج یا سیب‌زمینی سرخ‌کرده و سالاد.","فلافل ترد، با برنج یا سیب‌زمینی سرخ‌کرده و سالاد.",
+    "گوشت گاو ادویه‌دار در نان پیتای گرم با سالاد و سس ملایم.","مرغ گریل‌شده در نان پیتای گرم با سالاد.","فلافل با سبزیجات تازه.",
+    "همبرگر گوشت گاو گریل‌شده، با پنیر ذوب‌شده، همراه سیب‌زمینی سرخ‌کرده.",
+    "مرغ ترد سرخ‌شده تا طلایی، با پنیر ذوب‌شده، همراه سیب‌زمینی سرخ‌کرده.","همبرگر ماهی.",
+    "همبرگر گوشت گاو گریل‌شده، با پنیر ذوب‌شده، همراه سیب‌زمینی سرخ‌کرده.",
+    "مرغ / گوشت گاو، کاهو ایسبرگ، پنیر فتا، خیار، گوجه‌فرنگی، لوبیا قرمز، با سس ملایم.",
+    "سیب‌زمینی سرخ‌کرده ترد.","سیب‌زمینی سرخ‌کرده ترد با سس دلخواه.","سیب‌زمینی سرخ‌کرده/فلافل ترد با سبزیجات تازه و سس دلخواه.","سیب‌زمینی سرخ‌کرده ترد با چیلی مایو.",
+    "نوشابه یا قهوه/چای را انتخاب کنید؛ سرد یا گرم به دلخواه.","موز، توت‌فرنگی، توت‌های مخلوط، موز و خرما، انبه و میلک‌شیک اوریو."] },
+  tr: { label: "Türkçe", t: ["BAŞLANGIÇLAR","TABAKLAR","DÜRÜMLER","HAMBURGERLER","SALATA","PATATES KIZARTMASI","İÇECEKLER","MİLKSHAKE"], note: "Peynirsiz / Peynirli", d: [
+    "Hint baharatlarıyla marine edilmiş çıtır tavuk; mükemmel kızartılıp servis edilir",
+    "Çıtır, hafif dip sosla.","Sulu ve çıtır, hafif dip sosla.",
+    "Izgara tavuk, pilav veya patates kızartması ve salata ile.","Çıtır tavuk, pilav veya patates kızartması ve salata ile.","Baharatlı dana eti, pilav/patates kızartması ve salata ile.",
+    "Izgara tavuk ve baharatlı dana eti, pilav veya patates kızartması ve salata ile.","Galeta unlu balık fileto, pilav veya patates kızartması ve salata ile.","Çıtır falafel, pilav veya patates kızartması ve salata ile.",
+    "Sıcak pide ekmeğinde baharatlı dana eti, salata ve hafif sos ile.","Sıcak pide ekmeğinde ızgara tavuk, salata ile.","Taze sebzelerle falafel.",
+    "Mükemmel ızgara dana burger, üzerinde eritilmiş peynir, patates kızartmasıyla servis edilir.",
+    "Altın sarısı olana kadar kızartılmış çıtır tavuk, eritilmiş peynirli, patates kızartmasıyla servis edilir.","Balık burger.",
+    "Mükemmel ızgara dana burger, üzerinde eritilmiş peynir, patates kızartmasıyla servis edilir.",
+    "Tavuk / Dana eti, iceberg marul, feta peyniri, salatalık, domates, kırmızı fasulye, hafif sosla.",
+    "Çıtır patates kızartması.","Dilediğiniz sosla servis edilen çıtır patates kızartması.","Çıtır patates kızartması/falafel, taze sebzeler ve dilediğiniz sos ile.","Acı mayonezli çıtır patates kızartması.",
+    "Gazlı içecek veya kahve/çay seçin; soğuk/sıcak tercihinize göre servis edilir.","Muz, Çilek, Karışık Orman Meyveleri, Muz ve hurma, Mango & Oreo Milkshake."] },
+  pl: { label: "Polski", t: ["PRZYSTAWKI","TALERZE","ROLKI","BURGERY","SAŁATKA","FRYTKI","NAPOJE","SHAKE’I MLECZNE"], note: "Bez sera / Z serem", d: [
+    "Chrupiący kurczak marynowany w indyjskich przyprawach, smażony na złoto i podawany",
+    "Chrupiące, z łagodnym sosem do maczania.","Soczyste i chrupiące, z łagodnym sosem do maczania.",
+    "Grillowany kurczak, z ryżem lub frytkami i sałatką.","Chrupiący kurczak, z ryżem lub frytkami i sałatką.","Przyprawiona wołowina, z ryżem/frytkami i sałatką.",
+    "Grillowany kurczak i przyprawiona wołowina, z ryżem lub frytkami i sałatką.","Panierowany filet rybny, z ryżem lub frytkami i sałatką.","Chrupiące falafele, z ryżem lub frytkami i sałatką.",
+    "Przyprawiona wołowina w ciepłym chlebku pita z sałatką i łagodnym sosem.","Grillowany kurczak w ciepłym chlebku pita z sałatką.","Falafel ze świeżymi warzywami.",
+    "Burger wołowy grillowany do perfekcji, z roztopionym serem, podawany z frytkami.",
+    "Chrupiący kurczak smażony na złoty kolor, z roztopionym serem, podawany z frytkami.","Burger rybny.",
+    "Burger wołowy grillowany do perfekcji, z roztopionym serem, podawany z frytkami.",
+    "Kurczak / Wołowina, sałata lodowa, ser feta, ogórek, pomidor, czerwona fasola, z łagodnym dressingiem.",
+    "Chrupiące frytki.","Chrupiące frytki z dowolnym sosem.","Chrupiące frytki/falafel ze świeżymi warzywami i dowolnym sosem.","Chrupiące frytki z chili mayo.",
+    "Do wyboru napój gazowany lub kawa/herbata, podawane na zimno lub gorąco.","Banan, Truskawka, Mieszanka owoców leśnych, Banan z daktylami, Mango i shake Oreo."] },
+  uk: { label: "Українська", t: ["ЗАКУСКИ","ТАРІЛКИ","РОЛИ","БУРГЕРИ","САЛАТ","КАРТОПЛЯ ФРІ","НАПОЇ","МІЛКШЕЙКИ"], note: "Без сиру / З сиром", d: [
+    "Хрустка курка, маринована в індійських спеціях, смажена до досконалості та подається",
+    "Хрусткі, з м’яким соусом для занурення.","Соковиті та хрусткі, з м’яким соусом для занурення.",
+    "Курка гриль, з рисом або картоплею фрі та салатом.","Хрустка курка, з рисом або картоплею фрі та салатом.","Пряна яловичина, з рисом/картоплею фрі та салатом.",
+    "Курка гриль і пряна яловичина, з рисом або картоплею фрі та салатом.","Паніроване рибне філе, з рисом або картоплею фрі та салатом.","Хрусткі фалафелі, з рисом або картоплею фрі та салатом.",
+    "Пряна яловичина в теплому хлібі піта з салатом і м’яким соусом.","Курка гриль у теплому хлібі піта з салатом.","Фалафель зі свіжими овочами.",
+    "Яловичий бургер, приготований на грилі до досконалості, з розплавленим сиром, подається з картоплею фрі.",
+    "Хрустка курка, смажена до золотистого кольору, з розплавленим сиром, подається з картоплею фрі.","Рибний бургер.",
+    "Яловичий бургер, приготований на грилі до досконалості, з розплавленим сиром, подається з картоплею фрі.",
+    "Курка / Яловичина, салат айсберг, сир фета, огірок, помідор, червона квасоля, з м’яким дресингом.",
+    "Хрустка картопля фрі.","Хрустка картопля фрі з соусом на вибір.","Хрустка картопля фрі/фалафель зі свіжими овочами та соусом на вибір.","Хрустка картопля фрі з чилі-майонезом.",
+    "Оберіть газований напій або каву/чай; подається холодним або гарячим на вибір.","Банан, Полуниця, Лісові ягоди, Банан і фінік, Манго та мілкшейк Орео."] }
+};
 
 // Photos: ./photos/1.jpg, 2.jpg ... numbered in menu order (top to bottom, left column then right column)
 const EXTS = ["jpg", "jpeg", "png", "webp"];
 const esc = s => s.replace(/&/g, "&amp;").replace(/</g, "&lt;");
 
-let n = 0;
-const sectionHTML = sec => `
+let n = 0, di = 0, si = 0, L = null;
+const sectionHTML = sec => {
+  const T = L && I18N[L];
+  const title = T ? T.t[si] : sec.title;
+  const note = sec.note ? (T ? T.note : sec.note) : "";
+  si++;
+  return `
   <section>
-    <h2><span class="hl" contenteditable="true">${esc(sec.title)}</span></h2>
+    <h2><span class="hl" contenteditable="true">${esc(title)}</span>${note ? `<span class="note" contenteditable="true">${esc(note)}</span>` : ""}</h2>
     ${sec.items.map(([name, price, desc, id]) => {
       if (!id) n++;
       const pid = id || n;
+      const text = T ? T.d[di] : desc;
+      di++;
       return `
       <div class="item">
         <div class="photo empty" data-n="${pid}"><img alt="${esc(name)}"></div>
         <div class="info">
           <div class="row"><span class="name" contenteditable="true">${esc(name)}</span><span class="price" contenteditable="true">${esc(price)}</span></div>
-          <p class="desc" contenteditable="true">${esc(desc)}</p>
+          <p class="desc" contenteditable="true">${esc(text)}</p>
         </div>
       </div>`;
     }).join("")}
   </section>`;
+};
 
-document.getElementById("left").innerHTML  = MENU.slice(0, 3).map(sectionHTML).join("");
-document.getElementById("right").innerHTML = MENU.slice(3).map(sectionHTML).join("");
+function render(lang) {
+  L = lang === "sv" ? null : lang;
+  n = 0; di = 0; si = 0;
+  const rtl = !!(L && I18N[L].rtl);
+  document.getElementById("page").dir = rtl ? "rtl" : "ltr";
+  document.documentElement.lang = lang;
+  document.getElementById("left").innerHTML  = MENU.slice(0, 3).map(sectionHTML).join("");
+  document.getElementById("right").innerHTML = MENU.slice(3).map(sectionHTML).join("");
+  document.querySelectorAll(".photo").forEach(box => {
+    const img = box.querySelector("img");
+    let i = 0;
+    img.onload = () => box.classList.remove("empty");
+    img.onerror = () => { i++; if (i < EXTS.length) img.src = `photos/${box.dataset.n}.${EXTS[i]}`; };
+    img.src = `photos/${box.dataset.n}.${EXTS[0]}`;
+  });
+}
 
-document.querySelectorAll(".photo").forEach(box => {
-  const img = box.querySelector("img");
-  let i = 0;
-  img.onload = () => box.classList.remove("empty");
-  img.onerror = () => { i++; if (i < EXTS.length) img.src = `photos/${box.dataset.n}.${EXTS[i]}`; };
-  img.src = `photos/${box.dataset.n}.${EXTS[0]}`;
-});
+const langSel = document.getElementById("lang");
+langSel.innerHTML = `<option value="sv">Svenska</option>` + Object.entries(I18N).map(([k, v]) => `<option value="${k}">${v.label}</option>`).join("");
+langSel.addEventListener("change", () => render(langSel.value));
+render("sv");
 
 // Fit the A4 page inside the window so nothing scrolls
 const stage = document.getElementById("stage");
