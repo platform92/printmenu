@@ -140,19 +140,70 @@
   .d-side .d-photo { flex: 1; }
   .dark [contenteditable]:hover { outline-color: rgba(255,255,255,.7); }
 
+
+  /* ---------- Mobile (screen only; printing stays A4 portrait) ---------- */
+  @media screen and (max-width: 800px) {
+    html, body { height: auto; }
+    body { display: block; overflow-x: hidden; overflow-y: auto; }
+    #bar { height: auto; flex: none; flex-wrap: wrap; gap: 10px 12px; padding: 10px 10px 12px; position: sticky; top: 0; z-index: 50; background: #2b2b2b; }
+    #pager { width: 100%; overflow-x: auto; gap: 6px; padding-bottom: 2px; -webkit-overflow-scrolling: touch; }
+    #pager button { white-space: nowrap; flex: 0 0 auto; padding: 8px 12px; }
+    #opac { display: none; }
+    #pdf { padding: 9px 20px; font-size: 14px; }
+    #langLabel select { font-size: 15px; padding: 6px 8px; }
+    #stage { width: 100% !important; height: auto !important; }
+    #page, .page { width: 100% !important; height: auto !important; min-height: 0; transform: none !important; overflow: hidden; }
+    #page { padding: 16px 14px 24px; flex-direction: column; gap: 18px; }
+    .col { justify-content: flex-start; }
+    .wm { left: 5%; width: 90%; }
+    :root { --photo: 58px; }
+    .name, .price { font-size: 15px; }
+    .desc { font-size: 12.5px; }
+    .item { margin-bottom: 7px; padding: 6px 12px 6px 6px; }
+    .hl { font-size: 17px; }
+    .note { display: inline-block; margin-top: 4px; }
+
+    .dark { padding: 16px 12px 22px; }
+    .dark > .body { gap: 10px; }
+    .d-title { font-size: 26px; padding: 8px 24px 10px; }
+    .d-tag { font-size: 12px; text-align: center; }
+    .d-hours { gap: 8px; }
+    .hbox .lab { font-size: 12px; }
+    .hbox .time { font-size: 17px; }
+    .d-rows { flex: none; gap: 8px; }
+    .d-row { flex: none; min-height: 112px; }
+    .d-row.tall { min-height: 150px; }
+    .d-name { flex: 0 0 50%; font-size: 17px; padding: 8px 10px; }
+    .d-row.tall .d-name { font-size: 18px; }
+    .d-name small { font-size: 12px; }
+    .d-price { font-size: 17px; padding: 2px 10px 3px; inset-inline-end: 6px; bottom: 6px; }
+    .d-strip { height: 130px; }
+    .d-lab { font-size: 11.5px; padding: 4px; }
+
+    #page4 { padding: 18px 12px 20px; }
+    .l-title { font-size: 25px; padding: 8px 20px 10px; text-align: center; }
+    .l-sub { font-size: 11px; margin: 10px 0 12px; }
+    .l-days { flex: none; gap: 10px; }
+    .l-day { flex-direction: column; align-items: stretch; gap: 10px; padding: 12px; }
+    .l-dayname { flex: none; font-size: 17px; }
+    .l-dish { font-size: 15px; }
+    .l-welcome { font-size: 20px; }
+    .l-contact { font-size: 12.5px; }
+  }
+
   @media print {
     html, body { height: auto; overflow: visible; background: none; display: block; }
     #bar { display: none; }
     #stage { width: auto !important; height: auto !important; }
     #page, .page { transform: none !important; display: flex !important; break-after: page; }
-    #page2 { break-after: auto; }
+    #page4 { break-after: auto; }
     [contenteditable] { outline: none !important; }
   }
 </style>
 </head>
 <body>
 <div id="bar">
-  <div id="pager"><button type="button" data-p="1" class="on">1 · Menu</button><button type="button" data-p="3">2 · Pasta</button><button type="button" data-p="4">3 · Lunch</button><button type="button" data-p="2">4 · Eftermiddag</button></div>
+  <div id="pager"><button type="button" data-p="1" class="on">1 · Menu</button><button type="button" data-p="2">2 · Eftermiddag</button><button type="button" data-p="3">3 · Pasta</button><button type="button" data-p="4">4 · Lunch</button></div>
   <button id="pdf" type="button">Download as PDF</button>
   <label id="langLabel">Language
     <select id="lang"></select>
@@ -168,6 +219,10 @@
     <div class="col" id="left"></div>
     <div class="col" id="right"></div>
   </div>
+  <div class="page dark" id="page2">
+    <img class="wm" alt="">
+    <div class="body" id="after"></div>
+  </div>
   <div class="page dark" id="page3">
     <img class="wm" alt="">
     <div class="body" id="pasta"></div>
@@ -175,10 +230,6 @@
   <div class="page" id="page4">
     <img id="logo2" class="wm" alt="">
     <div id="lunch"></div>
-  </div>
-  <div class="page dark" id="page2">
-    <img class="wm" alt="">
-    <div class="body" id="after"></div>
   </div>
 </div>
 
@@ -429,7 +480,7 @@ const I18N = {
   ] }
 };
 
-// Photos: menu 1 -> ./photosmenu1/, afternoon menu -> ./photosmenu2/, pasta menu -> ./photosmenu3/ (files 1.jpg, 2.jpg ... see PHOTO-REFERENCE.pdf)
+// Photos: menu 1 -> ./photosmenu1/, afternoon menu (2) -> ./photosmenu2/, pasta menu (3) -> ./photosmenu3/, lunch (4) has no photos (files 1.jpg, 2.jpg ... see PHOTO-REFERENCE.pdf)
 const EXTS = ["jpg", "jpeg", "png", "webp"];
 const esc = s => s.replace(/&/g, "&amp;").replace(/</g, "&lt;");
 
@@ -596,6 +647,7 @@ let cur = 1;
 function fit() {
   const page = pages[cur];
   page.style.transform = "none";
+  if (matchMedia("(max-width: 800px)").matches) { stage.style.width = ""; stage.style.height = ""; return; }
   const w = page.offsetWidth, h = page.offsetHeight;
   const s = Math.min((innerWidth - 24) / w, (innerHeight - 56 - 12) / h, 1);
   page.style.transform = `scale(${s})`;
@@ -607,6 +659,7 @@ function showPage(p) {
   Object.entries(pages).forEach(([k, el]) => { el.style.display = +k === p ? "flex" : "none"; });
   document.querySelectorAll("#pager button").forEach(b => b.classList.toggle("on", +b.dataset.p === p));
   fit();
+  window.scrollTo(0, 0);
 }
 document.querySelectorAll("#pager button").forEach(b => b.addEventListener("click", () => showPage(+b.dataset.p)));
 addEventListener("resize", fit);
