@@ -121,28 +121,35 @@
   #pager button.on { background: #ffd23f; color: #2a1203; }
 
   /* Pages 2 and 3: dark wood look, red / yellow */
-  /* Pages 2 + 3 (afternoon, pasta): same look as menu 1 - orange gradient, red tags, soft white cards */
-  .dark { background: linear-gradient(90deg, #ffde59, #ff914d); padding: 7.5mm 10mm; display: none; flex-direction: column; color: var(--ink); }
+  /* Pages 2 + 3 (afternoon, pasta). Colour plan (60-30-10):
+     60%  warm yellow-orange background + cream cards (appetite-friendly warm hues, same as menu 1)
+     30%  deep Swedish blue ink for titles, names and price chips (complement of orange = strongest, calmest contrast)
+     10%  ember red / sun yellow only as small accents (feature card, title emphasis)
+     Text contrast: names 14:1, descriptions 8:1 (WCAG AAA). Blue is kept to text and small chips because large blue areas suppress appetite. */
+  .dark { --navy: #14284B; --navy-soft: #38496A; --cream: rgba(255, 251, 239, 0.92); --sun: #FFD23F; --ember: #D8402A;
+          background: linear-gradient(90deg, #ffde59, #ff914d); padding: 7.5mm 10mm; display: none; flex-direction: column; color: var(--navy); }
   .dark > .body { position: relative; z-index: 1; flex: 1; display: flex; flex-direction: column; min-height: 0; gap: 10px; }
-  .d-title { align-self: center; background: #DA291C; font-weight: 800; font-size: 36px; line-height: 1; letter-spacing: .03em; color: #fff; padding: 10px 34px 12px; transform: rotate(-1deg); border-radius: 10px; box-shadow: 0 2px 0 rgba(0,0,0,.14); }
-  .d-title .y { color: #fff; }
-  .d-tag { align-self: center; background: var(--card); color: var(--ink); font-weight: 800; font-size: 14px; padding: 6px 18px; border-radius: 999px; letter-spacing: .05em; }
+  .d-title { align-self: center; background: var(--navy); font-weight: 800; font-size: 34px; line-height: 1.05; letter-spacing: .07em; color: #FFF4D2; padding: 13px 38px 14px; border-radius: 12px; box-shadow: 0 3px 0 rgba(20,40,75,.28); text-align: center; }
+  .d-title .y { color: var(--sun); }
+  .d-tag { align-self: center; background: var(--cream); color: var(--navy); font-weight: 700; font-size: 13px; padding: 6px 20px; border-radius: 999px; letter-spacing: .12em; }
   .d-hours { display: flex; gap: 10px; }
-  .hbox { flex: 1; background: var(--card); border-radius: 14px; padding: 8px 10px 10px; text-align: center; }
-  .hbox .lab { color: var(--ink); font-weight: 800; font-size: 15px; letter-spacing: .03em; }
-  .hbox .time { margin-top: 5px; display: inline-block; background: #DA291C; color: #fff; font-weight: 800; font-size: 22px; padding: 3px 16px 4px; border-radius: 8px; direction: ltr; transform: rotate(-1deg); }
+  .hbox { flex: 1; background: var(--cream); border-radius: 14px; padding: 9px 10px 11px; text-align: center; box-shadow: 0 2px 0 rgba(20,40,75,.12); }
+  .hbox .lab { color: var(--navy-soft); font-weight: 700; font-size: 12.5px; letter-spacing: .12em; }
+  .hbox .time { margin-top: 3px; color: var(--navy); font-weight: 800; font-size: 27px; line-height: 1.15; direction: ltr; }
   .d-rows { flex: 1; min-height: 0; display: flex; flex-direction: column; gap: 8px; }
-  .d-row { flex: 1; min-height: 0; position: relative; display: flex; align-items: stretch; gap: 10px; background: var(--card); border-radius: 14px; padding: 6px; overflow: hidden; }
-  .d-name { flex: 0 0 44%; display: flex; flex-direction: column; justify-content: center; gap: 5px; padding: 4px 10px 4px 12px; font-weight: 700; font-size: 22px; line-height: 1.15; }
-  .d-name small { font-size: 13.5px; font-weight: 500; line-height: 1.3; color: var(--ink-soft); }
-  .d-row.tall .d-name { font-size: 24px; }
-  .d-photo { flex: 1; min-width: 0; background: rgba(255,255,255,.45); border: 2px solid rgba(255,255,255,.85); border-radius: 10px; overflow: hidden; position: relative; }
-  .d-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .d-row { flex: 1; min-height: 0; position: relative; display: flex; align-items: stretch; gap: 12px; background: var(--cream); border-radius: 14px; padding: 6px; overflow: hidden; box-shadow: 0 2px 0 rgba(20,40,75,.12); }
+  .d-row.feat { background: #FFF1B8; box-shadow: inset 6px 0 0 var(--ember), 0 2px 0 rgba(20,40,75,.12); }
+  .d-name { flex: 0 0 44%; display: flex; flex-direction: column; justify-content: center; gap: 6px; padding: 4px 6px 4px 16px; }
+  .d-name > span { color: var(--navy); font-weight: 800; font-size: 23px; line-height: 1.12; }
+  .d-row.tall .d-name > span { font-size: 25px; }
+  .d-name small { color: var(--navy-soft); font-size: 14.5px; font-weight: 500; line-height: 1.38; }
+  .d-photo { flex: 1; min-width: 0; background: rgba(255,255,255,.55); border: 3px solid #fff; border-radius: 10px; overflow: hidden; position: relative; }
+  .d-photo img { width: 100%; height: 100%; object-fit: cover; object-position: center; display: block; }
   .d-photo.empty img { display: none; }
-  .d-price { position: absolute; inset-inline-end: 14px; bottom: 12px; background: #DA291C; color: #fff; font-weight: 800; font-size: 22px; padding: 3px 14px 4px; transform: rotate(-1deg); border-radius: 8px; box-shadow: 0 1px 0 rgba(0,0,0,.18); direction: ltr; unicode-bidi: isolate; }
-  .d-strip { display: flex; gap: 10px; height: 36mm; }
-  .d-side { flex: 1; position: relative; display: flex; flex-direction: column; gap: 6px; background: var(--card); border-radius: 14px; padding: 6px; overflow: hidden; }
-  .d-lab { align-self: center; background: #DA291C; color: #fff; font-weight: 800; font-size: 14px; letter-spacing: .03em; text-align: center; padding: 4px 14px 5px; border-radius: 6px; transform: rotate(-1deg); }
+  .d-price { position: absolute; inset-inline-end: 14px; bottom: 12px; background: var(--navy); color: var(--sun); font-weight: 800; font-size: 23px; padding: 4px 15px 5px; border-radius: 9px; box-shadow: 0 2px 0 rgba(0,0,0,.25); direction: ltr; unicode-bidi: isolate; }
+  .d-strip { display: flex; gap: 10px; height: 46mm; }
+  .d-side { flex: 1; position: relative; display: flex; flex-direction: column; gap: 6px; background: var(--cream); border-radius: 14px; padding: 6px; overflow: hidden; box-shadow: 0 2px 0 rgba(20,40,75,.12); }
+  .d-lab { align-self: center; background: var(--navy); color: var(--sun); font-weight: 800; font-size: 13.5px; letter-spacing: .1em; text-align: center; padding: 5px 16px 6px; border-radius: 7px; }
   .d-side .d-photo { flex: 1; }
   .dark [contenteditable]:hover { outline-color: rgba(255,255,255,.7); }
 
@@ -181,11 +188,12 @@
     .d-rows { flex: none; gap: 8px; }
     .d-row { flex: none; min-height: 112px; }
     .d-row.tall { min-height: 150px; }
-    .d-name { flex: 0 0 50%; font-size: 17px; padding: 8px 10px; }
-    .d-row.tall .d-name { font-size: 18px; }
-    .d-name small { font-size: 12px; }
+    .d-name { flex: 0 0 50%; padding: 6px 4px 6px 10px; }
+    .d-name small { font-size: 13px; }
+    .d-name > span { font-size: 18px; }
+    .d-row.tall .d-name > span { font-size: 19px; }
     .d-price { font-size: 17px; padding: 2px 10px 3px; inset-inline-end: 10px; bottom: 10px; }
-    .d-strip { height: 130px; }
+    .d-strip { height: 160px; }
     .d-lab { font-size: 11.5px; padding: 4px; }
 
     #page4 { padding: 18px 12px 20px; }
@@ -274,7 +282,7 @@ const MENU = [
     ["Combo (Nöt & Kyckling)", "119 Kr", "Grillad kyckling & kryddat nötkött, med ris eller pommes & sallad."],
     ["Fisk", "119 Kr", "Panerad fiskfilé, med ris eller pommes & sallad."],
     ["Falafel", "79 Kr", "Krispiga falafflar, med ris eller pommes & sallad."],
-    ["Pasta", "119–129 Kr", "Välj mellan kyckling, nötkött, combo (kyckling & nötkött), vegetarisk eller räkor, med röd sås, örter och ost.", "g"]
+    ["Pasta (ost)", "119 Kr / 129 Kr", "Välj mellan kyckling, nötkött, combo (kyckling & nötkött), vegetarisk eller räkor, med röd sås, örter och ost.", "photosmenu3/3"]
   ]},
   { title: "RULLE", note: "Utan ost / Med ost", items: [
     ["Nötkött rulle (ost)", "109 Kr / 129 Kr", "Kryddat nötkött i varmt pitabröd med sallad & mild sås."],
@@ -289,8 +297,8 @@ const MENU = [
     ["Bon Burger", "59 Kr", "Nötköttsburgare grillad till perfektion, toppad med smält ost, serveras med pommes.", "b"]
   ]},
   { title: "SALLAD", items: [
-    ["Mixed Sallad", "69 Kr / 99 Kr", "Kyckling / Nötkött, Isbergssallad, Fetaost, gurka, tomat, kidneybönor, med mild dressing."],
-    ["Fetaostsallad", "69 Kr", "Isbergssallad, fetaost, gurka, tomat och kidneybönor, med mild dressing.", "h"]
+    ["Mixed Sallad (ost)", "69 Kr / 99 Kr", "Kyckling / Nötkött, Isbergssallad, Fetaost, gurka, tomat, med mild dressing."],
+    ["Fetaostsallad", "69 Kr", "Isbergssallad, fetaost, gurka och tomat, med mild dressing.", "h"]
   ]},
   { title: "POMMES FRITES", items: [
     ["Pommes", "39 Kr", "Krispiga pommes."],
@@ -330,8 +338,8 @@ const I18N = {
     "Crispy chicken fried to golden perfection, with melted cheese, served with fries.",
     "Fish burger.",
     "Beef burger grilled to perfection, topped with melted cheese, served with fries.",
-    "Chicken / Beef, iceberg lettuce, feta cheese, cucumber, tomato, kidney beans, with mild dressing.",
-    "Iceberg lettuce, feta cheese, cucumber, tomato and kidney beans, with mild dressing.",
+    "Chicken / Beef, iceberg lettuce, feta cheese, cucumber, tomato, with mild dressing.",
+    "Iceberg lettuce, feta cheese, cucumber and tomato, with mild dressing.",
     "Crispy fries.",
     "Crispy fries topped with your choice of dressing.",
     "Crispy fries/falafel with fresh vegetables & your choice of sauce.",
@@ -360,8 +368,8 @@ const I18N = {
     "دجاج مقرمش مقلي حتى يصبح ذهبياً، مع جبنة ذائبة، يُقدَّم مع البطاطس.",
     "برغر سمك.",
     "برغر لحم بقري مشوي بإتقان، مغطى بجبنة ذائبة، يُقدَّم مع البطاطس.",
-    "دجاج / لحم بقري، خس آيسبرغ، جبنة فيتا، خيار، طماطم، فاصولياء حمراء، مع صلصة خفيفة.",
-    "خس آيسبرغ وجبنة فيتا وخيار وطماطم وفاصولياء حمراء، مع صلصة خفيفة.",
+    "دجاج / لحم بقري، خس آيسبرغ، جبنة فيتا، خيار، طماطم، مع صلصة خفيفة.",
+    "خس آيسبرغ وجبنة فيتا وخيار وطماطم، مع صلصة خفيفة.",
     "بطاطس مقلية مقرمشة.",
     "بطاطس مقلية مقرمشة مع صلصة من اختيارك.",
     "بطاطس مقلية/فلافل مقرمشة مع خضار طازجة وصلصة من اختيارك.",
@@ -390,8 +398,8 @@ const I18N = {
     "Digaag qallafsan oo la shiilay ilaa uu dahabi noqdo, jiis dhalaalay leh, la socda bataato.",
     "Bargar kalluun.",
     "Bargar hilib lo' ah oo si fiican loo dubay, jiis dhalaalay saaran yahay, la socda bataato.",
-    "Digaag / Hilib lo', salaad Isberg, jiis Feta, qajaar, yaanyo, digir kidney, la socda suugo khafiif ah.",
-    "Salaar iceberg, jiis feta, qajaar, yaanyo iyo digir kidney, oo leh suugo khafiif ah.",
+    "Digaag / Hilib lo', salaad Isberg, jiis Feta, qajaar, yaanyo, la socda suugo khafiif ah.",
+    "Salaar iceberg, jiis feta, qajaar iyo yaanyo, oo leh suugo khafiif ah.",
     "Bataato qallafsan.",
     "Bataato qallafsan oo suugo aad dooratid saaran tahay.",
     "Bataato/falaafil qallafsan oo la socda khudrad cusub iyo suugo aad dooratid.",
@@ -420,8 +428,8 @@ const I18N = {
     "مرغ ترد سرخ‌شده تا طلایی، با پنیر ذوب‌شده، همراه سیب‌زمینی سرخ‌کرده.",
     "همبرگر ماهی.",
     "همبرگر گوشت گاو گریل‌شده، با پنیر ذوب‌شده، همراه سیب‌زمینی سرخ‌کرده.",
-    "مرغ / گوشت گاو، کاهو ایسبرگ، پنیر فتا، خیار، گوجه‌فرنگی، لوبیا قرمز، با سس ملایم.",
-    "کاهو، پنیر فتا، خیار، گوجه‌فرنگی و لوبیا قرمز، با سس ملایم.",
+    "مرغ / گوشت گاو، کاهو ایسبرگ، پنیر فتا، خیار، گوجه‌فرنگی، با سس ملایم.",
+    "کاهو، پنیر فتا، خیار و گوجه‌فرنگی، با سس ملایم.",
     "سیب‌زمینی سرخ‌کرده ترد.",
     "سیب‌زمینی سرخ‌کرده ترد با سس دلخواه.",
     "سیب‌زمینی سرخ‌کرده/فلافل ترد با سبزیجات تازه و سس دلخواه.",
@@ -450,8 +458,8 @@ const I18N = {
     "Altın sarısı olana kadar kızartılmış çıtır tavuk, eritilmiş peynirli, patates kızartmasıyla servis edilir.",
     "Balık burger.",
     "Mükemmel ızgara dana burger, üzerinde eritilmiş peynir, patates kızartmasıyla servis edilir.",
-    "Tavuk / Dana eti, iceberg marul, feta peyniri, salatalık, domates, kırmızı fasulye, hafif sosla.",
-    "Iceberg marul, feta peyniri, salatalık, domates ve kırmızı fasulye, hafif sosla.",
+    "Tavuk / Dana eti, iceberg marul, feta peyniri, salatalık, domates, hafif sosla.",
+    "Iceberg marul, feta peyniri, salatalık ve domates, hafif sosla.",
     "Çıtır patates kızartması.",
     "Dilediğiniz sosla servis edilen çıtır patates kızartması.",
     "Çıtır patates kızartması/falafel, taze sebzeler ve dilediğiniz sos ile.",
@@ -480,8 +488,8 @@ const I18N = {
     "Chrupiący kurczak smażony na złoty kolor, z roztopionym serem, podawany z frytkami.",
     "Burger rybny.",
     "Burger wołowy grillowany do perfekcji, z roztopionym serem, podawany z frytkami.",
-    "Kurczak / Wołowina, sałata lodowa, ser feta, ogórek, pomidor, czerwona fasola, z łagodnym dressingiem.",
-    "Sałata lodowa, ser feta, ogórek, pomidor i czerwona fasola, z łagodnym dressingiem.",
+    "Kurczak / Wołowina, sałata lodowa, ser feta, ogórek, pomidor, z łagodnym dressingiem.",
+    "Sałata lodowa, ser feta, ogórek i pomidor, z łagodnym dressingiem.",
     "Chrupiące frytki.",
     "Chrupiące frytki z dowolnym sosem.",
     "Chrupiące frytki/falafel ze świeżymi warzywami i dowolnym sosem.",
@@ -510,8 +518,8 @@ const I18N = {
     "Хрустка курка, смажена до золотистого кольору, з розплавленим сиром, подається з картоплею фрі.",
     "Рибний бургер.",
     "Яловичий бургер, приготований на грилі до досконалості, з розплавленим сиром, подається з картоплею фрі.",
-    "Курка / Яловичина, салат айсберг, сир фета, огірок, помідор, червона квасоля, з м’яким дресингом.",
-    "Салат айсберг, сир фета, огірок, помідор і червона квасоля, з м’яким дресингом.",
+    "Курка / Яловичина, салат айсберг, сир фета, огірок, помідор, з м’яким дресингом.",
+    "Салат айсберг, сир фета, огірок і помідор, з м’яким дресингом.",
     "Хрустка картопля фрі.",
     "Хрустка картопля фрі з соусом на вибір.",
     "Хрустка картопля фрі/фалафель зі свіжими овочами та соусом на вибір.",
@@ -537,8 +545,9 @@ function loadPhotos(root, dir) {
     const img = box.querySelector("img");
     let i = 0;
     img.onload = () => box.classList.remove("empty");
-    img.onerror = () => { i++; if (i < EXTS.length) img.src = `${dir}/${box.dataset.n}.${EXTS[i]}`; };
-    img.src = `${dir}/${box.dataset.n}.${EXTS[0]}`;
+    const base = box.dataset.n.includes("/") ? box.dataset.n : `${dir}/${box.dataset.n}`;   // "photosmenu3/3" = reuse a photo from another menu folder
+    img.onerror = () => { i++; if (i < EXTS.length) img.src = `${base}.${EXTS[i]}`; };
+    img.src = `${base}.${EXTS[0]}`;
   });
 }
 
@@ -576,6 +585,17 @@ const AFTER_T = {
   pl: { title: "MENU POPOŁUDNIOWE", wk: "DNI POWSZEDNIE", we: "SOBOTA I NIEDZIELA", pre: "", shakes: "NASZE SHAKE’I MLECZNE", tea: "HERBATA KAWA + PRZEKĄSKI" },
   uk: { title: "МЕНЮ ПІСЛЯ ОБІДУ", wk: "БУДНІ ДНІ", we: "СУБОТА ТА НЕДІЛЯ", pre: "", shakes: "НАШІ МІЛКШЕЙКИ", tea: "ЧАЙ КАВА + ЗАКУСКИ" }
 };
+const AFTER_D = {
+  sv: ["Varm, flagig paratha fylld med smält ost.","Paratha fylld med kryddad potatis och smält ost.","Paratha fylld med kryddad kyckling och smält ost.","Paratha fylld med kryddad nötfärs och smält ost.","Husets specialparatha med extra fyllning och smält ost."],
+  en: ["Warm, flaky paratha filled with melted cheese.","Paratha filled with spiced potato and melted cheese.","Paratha filled with spiced chicken and melted cheese.","Paratha filled with spiced minced beef and melted cheese.","Our house special paratha with extra filling and melted cheese."],
+  ar: ["براتا دافئة مقرمشة محشوة بالجبنة الذائبة.","براتا محشوة بالبطاطس المتبلة والجبنة الذائبة.","براتا محشوة بالدجاج المتبل والجبنة الذائبة.","براتا محشوة باللحم المفروم المتبل والجبنة الذائبة.","براتا السبيشل الخاصة بنا بحشوة إضافية وجبنة ذائبة."],
+  so: ["Paratha diirran oo jiis dhalaalay ka buuxo.","Paratha ka buuxo baradho udgoon iyo jiis dhalaalay.","Paratha ka buuxo digaag udgoon iyo jiis dhalaalay.","Paratha ka buuxo hilib lo' la shiiday oo udgoon iyo jiis dhalaalay.","Paratha-ddeenna gaarka ah oo leh buuxin dheeraad ah iyo jiis dhalaalay."],
+  fa: ["پاراتای گرم و ترد پر شده با پنیر ذوب‌شده.","پاراتا با فیلینگ سیب‌زمینی ادویه‌دار و پنیر ذوب‌شده.","پاراتا با فیلینگ مرغ ادویه‌دار و پنیر ذوب‌شده.","پاراتا با فیلینگ گوشت چرخ‌کرده ادویه‌دار و پنیر ذوب‌شده.","پاراتای مخصوص ما با فیلینگ بیشتر و پنیر ذوب‌شده."],
+  tr: ["Erimiş peynirle doldurulmuş sıcak, katmanlı paratha.","Baharatlı patates ve erimiş peynirle doldurulmuş paratha.","Baharatlı tavuk ve erimiş peynirle doldurulmuş paratha.","Baharatlı kıyma ve erimiş peynirle doldurulmuş paratha.","Ekstra iç harcı ve erimiş peynirle özel paratha."],
+  pl: ["Ciepły, kruchy paratha z roztopionym serem.","Paratha z przyprawionymi ziemniakami i roztopionym serem.","Paratha z przyprawionym kurczakiem i roztopionym serem.","Paratha z przyprawioną mieloną wołowiną i roztopionym serem.","Nasza specjalna paratha z dodatkowym nadzieniem i roztopionym serem."],
+  uk: ["Гаряча хрустка парата з розплавленим сиром.","Парата з пряною картоплею та розплавленим сиром.","Парата з пряною куркою та розплавленим сиром.","Парата з пряним яловичим фаршем та розплавленим сиром.","Наша фірмова парата з додатковою начинкою та розплавленим сиром."]
+};
+const FEAT_AFTER = [4], FEAT_PASTA = [2];   // "feature" cards (Platform92 Special, Combo Pasta) get a highlight
 const PASTA_ITEMS = [["Kycklingpasta","119 Kr"],["Nötfärspasta","119 Kr"],["Combo Pasta Tallrik","119 Kr"],["Vegetarisk Pasta","119 Kr"],["Räkpasta","129 Kr"]];
 const PASTA_T = {
   sv: { title: "PASTA MENY", tag: "FÄRSK PASTA GOD SMAK", d: ["Pasta med kyckling, röd sås, örter och ost.","Pasta med nötkött, röd sås, örter och ost.","Pasta med kyckling och nötkött, röd sås, färska grönsaker och ost.","Pasta med färska grönsaker, röd sås, örter och ost.","Pasta med räkor, röd sås, örter och ost."] },
@@ -599,7 +619,7 @@ function renderAfter(lang) {
       <div class="hbox"><div class="lab" contenteditable="true">${esc(T.we)}</div><div class="time" contenteditable="true">${esc(T.pre)}12:00 – 17:00</div></div>
     </div>
     <div class="d-rows">${AFTER_ITEMS.map(([n, p], i) => `
-      <div class="d-row"><div class="d-name"><span contenteditable="true">${esc(n)}</span></div>${dPhoto(i + 1, n)}<div class="d-price" contenteditable="true">${esc(p)}</div></div>`).join("")}
+      <div class="d-row${FEAT_AFTER.includes(i) ? " feat" : ""}"><div class="d-name"><span contenteditable="true">${esc(n)}</span><small contenteditable="true">${esc((AFTER_D[lang] || AFTER_D.sv)[i])}</small></div>${dPhoto(i + 1, n)}<div class="d-price" contenteditable="true">${esc(p)}</div></div>`).join("")}
     </div>
     <div class="d-strip">
       <div class="d-side"><div class="d-lab" contenteditable="true">${esc(T.shakes)}</div>${dPhoto(6, "Milkshakes")}<div class="d-price" contenteditable="true">49 Kr</div></div>
@@ -614,7 +634,7 @@ function renderPasta(lang) {
     ${bannerHTML(T.title)}
     <div class="d-tag" contenteditable="true">${esc(T.tag)}</div>
     <div class="d-rows">${PASTA_ITEMS.map(([n, p], i) => `
-      <div class="d-row tall"><div class="d-name"><span contenteditable="true">${esc(n)}</span><small contenteditable="true">${esc(T.d[i])}</small></div>${dPhoto(i + 1, n)}<div class="d-price" contenteditable="true">${esc(p)}</div></div>`).join("")}
+      <div class="d-row tall${FEAT_PASTA.includes(i) ? " feat" : ""}"><div class="d-name"><span contenteditable="true">${esc(n)}</span><small contenteditable="true">${esc(T.d[i])}</small></div>${dPhoto(i + 1, n)}<div class="d-price" contenteditable="true">${esc(p)}</div></div>`).join("")}
     </div>`;
   loadPhotos(document.getElementById("pasta"), "photosmenu3");
 }
