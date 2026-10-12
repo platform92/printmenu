@@ -149,6 +149,11 @@
   .d-photo img { width: 100%; height: 100%; object-fit: cover; object-position: center; display: block; }
   .d-photo.empty img { display: none; }
   .d-price { position: absolute; inset-inline-end: 14px; bottom: 12px; background: var(--navy); color: var(--sun); font-weight: 800; font-size: 23px; padding: 4px 15px 5px; border-radius: 9px; box-shadow: 0 2px 0 rgba(0,0,0,.25); direction: ltr; unicode-bidi: isolate; }
+  .d-extras { display: flex; align-items: center; gap: 12px; background: var(--cream); border-radius: 14px; padding: 8px 12px; box-shadow: 0 2px 0 rgba(20,40,75,.12); }
+  .d-extras .d-lab { flex: 0 0 auto; align-self: center; }
+  .d-xi { flex: 1; min-width: 0; display: flex; align-items: center; justify-content: space-between; gap: 8px; padding-inline-start: 12px; border-inline-start: 2px solid rgba(20,40,75,.15); }
+  .d-xi .xn { color: var(--navy); font-weight: 800; font-size: 16px; line-height: 1.15; }
+  .d-xi .xp { flex: 0 0 auto; background: var(--navy); color: var(--sun); font-weight: 800; font-size: 18px; padding: 3px 11px 4px; border-radius: 8px; direction: ltr; unicode-bidi: isolate; }
   .d-strip { display: flex; gap: 10px; height: 46mm; }
   .d-side { flex: 1; position: relative; display: flex; flex-direction: column; gap: 6px; background: var(--cream); border-radius: 14px; padding: 6px; overflow: hidden; box-shadow: 0 2px 0 rgba(20,40,75,.12); }
   .d-lab { align-self: center; background: var(--navy); color: var(--sun); font-weight: 800; font-size: 13.5px; letter-spacing: .1em; text-align: center; padding: 5px 16px 6px; border-radius: 7px; }
@@ -196,6 +201,8 @@
     .d-row.tall .d-name > span { font-size: 19px; }
     .d-price { font-size: 17px; padding: 2px 10px 3px; inset-inline-end: 10px; bottom: 10px; }
     .d-strip { height: 160px; }
+    .d-extras { flex-wrap: wrap; justify-content: center; gap: 8px; }
+    .d-xi { flex: 1 1 100%; border: 0; padding: 0 4px; }
     .d-lab { font-size: 11.5px; padding: 4px; }
 
     #page4 { padding: 18px 12px 20px; }
@@ -272,8 +279,6 @@
 const MENU = [
   { title: "FÖRRÄTTER", items: [
     ["Kyckling 65", "89 Kr", "Krispigt marinerad kyckling med indiska kryddor, friterad till perfektion och serverad", "a"],
-    ["Onion Pakoda", "39 Kr", "Krispiga lökfritters med indiska kryddor.", "d"],
-    ["Samosa (Veg / Kyckling)", "29 Kr", "Krispiga samosas med vegetarisk fyllning eller kycklingfyllning.", "e"],
     ["Nuggets", "49 Kr", "Krispiga, med mild dippsås.", "17"],
     ["Kycklingvingar", "49 Kr", "Saftiga & krispiga, med mild dippsås.", "18"]
   ]},
@@ -316,17 +321,16 @@ const MENU = [
   ]},
   { title: "TILLÄGG", items: [          // add-ons: no photo, a "+" badge is shown instead (item marker "+")
     ["Extra dipp", "10 Kr", "Valfri dipsås till din måltid.", "+"],
-    ["Extra kött (valfritt)", "20 Kr", "Lägg till valfritt kött: kyckling eller nötkött.", "+"]
+    ["Extra kött (valfritt)", "20 Kr", "Lägg till valfritt kött: kyckling eller nötkött.", "+"],
+    ["Extra ost", "10 Kr", "Lägg till extra smält ost.", "+"]
   ]}
 ];
 
-// Translations: section titles (9) and 30 descriptions in menu order.
+// Translations: section titles (9) and 29 descriptions in menu order.
 // Dish names, prices and "Kr" stay as on the Swedish menu.
 const I18N = {
   en: { pop: "Popular", label: "English", t: ["STARTERS","PLATES","ROLLS","BURGERS","SALAD","FRIES","DRINKS","MILKSHAKES","EXTRAS"], d: [
     "Crispy marinated chicken with Indian spices, deep-fried to perfection and served",
-    "Crispy onion fritters with Indian spices.",
-    "Crispy samosas with vegetarian or chicken filling.",
     "Crispy, with mild dipping sauce.",
     "Juicy & crispy, with mild dipping sauce.",
     "Grilled chicken, with rice or fries & salad.",
@@ -353,12 +357,11 @@ const I18N = {
     "Choose between soda, coffee/tea, served cold/hot as you prefer.",
     "Banana, Strawberry, Mixed Berries, Banana and date, Mango, & Oreo Shake.",
     "Any dipping sauce with your meal.",
-    "Add any meat: chicken or beef."
+    "Add any meat: chicken or beef.",
+    "Add extra melted cheese."
   ] },
   ar: { pop: "الأكثر طلبًا", label: "العربية", rtl: 1, t: ["المقبلات","الأطباق","اللفائف","البرغر","السلطة","البطاطس المقلية","المشروبات","ميلك شيك","إضافات"], d: [
     "دجاج متبّل ومقرمش بالتوابل الهندية، مقلي بإتقان ويُقدَّم",
-    "فطائر البصل المقرمشة بالتوابل الهندية.",
-    "سمبوسة مقرمشة بحشوة خضار أو دجاج.",
     "مقرمش، مع صلصة غمس خفيفة.",
     "طري ومقرمش، مع صلصة غمس خفيفة.",
     "دجاج مشوي، مع الأرز أو البطاطس والسلطة.",
@@ -385,12 +388,11 @@ const I18N = {
     "اختر بين المشروبات الغازية والقهوة/الشاي، تُقدَّم باردة/ساخنة حسب الرغبة.",
     "موز، فراولة، توت مشكل، موز وتمر، مانجو، وميلك شيك أوريو.",
     "أي صلصة غمس مع وجبتك.",
-    "أضف أي لحم: دجاج أو لحم بقري."
+    "أضف أي لحم: دجاج أو لحم بقري.",
+    "أضف جبنة ذائبة إضافية."
   ] },
   so: { pop: "Caan ah", label: "Soomaali", t: ["CUNTOOYINKA HORE","SAXANNO","ROOLASHO","BARGARO","SALAAD","BATAATO BIRIYAY","CABITAANNO","MILKSHAKES","DHEERAAD"], d: [
     "Digaag la maraday la dubay ee xawaash Hindi leh, si fiican loo shiilay oo la bixiyo",
-    "Basal qallafsan oo la shiilay oo xawaash Hindi leh.",
-    "Sambuus qallafsan oo ka buuxa khudrad ama digaag.",
     "Qallafsan, la socda suugo khafiif ah.",
     "Jilicsan oo qallafsan, la socda suugo khafiif ah.",
     "Digaag la dubay, la socda bariis ama bataato iyo salaad.",
@@ -417,12 +419,11 @@ const I18N = {
     "Dooro soodhaha ama kafeega/shaaha, loo bixiyo qabow/kulul sida aad doonto.",
     "Moos, Istoroberi, Miro isku dhafan, Moos iyo timir, Cambe, & Oreo Shake.",
     "Suugo kasta oo aad dooratid, la socota cuntadaada.",
-    "Ku dar hilib kasta: digaag ama hilib lo'."
+    "Ku dar hilib kasta: digaag ama hilib lo'.",
+    "Ku dar jiis dhalaalay oo dheeraad ah."
   ] },
   fa: { pop: "پرطرفدار", label: "فارسی", rtl: 1, t: ["پیش‌غذا","بشقاب‌ها","رول‌ها","همبرگرها","سالاد","سیب‌زمینی سرخ‌کرده","نوشیدنی‌ها","میلک‌شیک","افزودنی‌ها"], d: [
     "مرغ ترد ماریناد‌شده با ادویه‌های هندی، کاملاً سرخ‌شده و سرو می‌شود",
-    "پاکوره پیاز ترد با ادویه‌های هندی.",
-    "سمبوسه ترد با مغز سبزیجات یا مرغ.",
     "ترد، با سس ملایم.",
     "آبدار و ترد، با سس ملایم.",
     "مرغ گریل‌شده، با برنج یا سیب‌زمینی سرخ‌کرده و سالاد.",
@@ -449,12 +450,11 @@ const I18N = {
     "نوشابه یا قهوه/چای را انتخاب کنید؛ سرد یا گرم به دلخواه.",
     "موز، توت‌فرنگی، توت‌های مخلوط، موز و خرما، انبه و میلک‌شیک اوریو.",
     "هر سس دیپ دلخواه همراه غذای شما.",
-    "هر گوشت دلخواه اضافه کنید: مرغ یا گوشت گاو."
+    "هر گوشت دلخواه اضافه کنید: مرغ یا گوشت گاو.",
+    "پنیر ذوب‌شده اضافه کنید."
   ] },
   tr: { pop: "Popüler", label: "Türkçe", t: ["BAŞLANGIÇLAR","TABAKLAR","DÜRÜMLER","HAMBURGERLER","SALATA","PATATES KIZARTMASI","İÇECEKLER","MİLKSHAKE","EKSTRALAR"], d: [
     "Hint baharatlarıyla marine edilmiş çıtır tavuk; mükemmel kızartılıp servis edilir",
-    "Hint baharatlı çıtır soğan kızartması.",
-    "Sebzeli veya tavuklu çıtır samosa.",
     "Çıtır, hafif dip sosla.",
     "Sulu ve çıtır, hafif dip sosla.",
     "Izgara tavuk, pilav veya patates kızartması ve salata ile.",
@@ -481,12 +481,11 @@ const I18N = {
     "Gazlı içecek veya kahve/çay seçin; soğuk/sıcak tercihinize göre servis edilir.",
     "Muz, Çilek, Karışık Orman Meyveleri, Muz ve hurma, Mango & Oreo Milkshake.",
     "Yemeğinize istediğiniz dip sos.",
-    "İstediğiniz eti ekleyin: tavuk veya dana eti."
+    "İstediğiniz eti ekleyin: tavuk veya dana eti.",
+    "Ekstra erimiş peynir ekleyin."
   ] },
   pl: { pop: "Popularne", label: "Polski", t: ["PRZYSTAWKI","TALERZE","ROLKI","BURGERY","SAŁATKA","FRYTKI","NAPOJE","SHAKE’I MLECZNE","DODATKI"], d: [
     "Chrupiący kurczak marynowany w indyjskich przyprawach, smażony na złoto i podawany",
-    "Chrupiące placuszki cebulowe z indyjskimi przyprawami.",
-    "Chrupiące samosy z nadzieniem warzywnym lub z kurczakiem.",
     "Chrupiące, z łagodnym sosem do maczania.",
     "Soczyste i chrupiące, z łagodnym sosem do maczania.",
     "Grillowany kurczak, z ryżem lub frytkami i sałatką.",
@@ -513,12 +512,11 @@ const I18N = {
     "Do wyboru napój gazowany lub kawa/herbata, podawane na zimno lub gorąco.",
     "Banan, Truskawka, Mieszanka owoców leśnych, Banan z daktylami, Mango i shake Oreo.",
     "Dowolny sos do maczania do Twojego dania.",
-    "Dodaj dowolne mięso: kurczak lub wołowinę."
+    "Dodaj dowolne mięso: kurczak lub wołowinę.",
+    "Dodaj dodatkowy roztopiony ser."
   ] },
   uk: { pop: "Популярне", label: "Українська", t: ["ЗАКУСКИ","ТАРІЛКИ","РОЛИ","БУРГЕРИ","САЛАТ","КАРТОПЛЯ ФРІ","НАПОЇ","МІЛКШЕЙКИ","ДОДАТКИ"], d: [
     "Хрустка курка, маринована в індійських спеціях, смажена до досконалості та подається",
-    "Хрусткі цибулеві фритери з індійськими спеціями.",
-    "Хрусткі самоси з овочевою або курячою начинкою.",
     "Хрусткі, з м’яким соусом для занурення.",
     "Соковиті та хрусткі, з м’яким соусом для занурення.",
     "Курка гриль, з рисом або картоплею фрі та салатом.",
@@ -545,7 +543,8 @@ const I18N = {
     "Оберіть газований напій або каву/чай; подається холодним або гарячим на вибір.",
     "Банан, Полуниця, Лісові ягоди, Банан і фінік, Манго та мілкшейк Орео.",
     "Будь-який соус для вмочування до вашої страви.",
-    "Додайте будь-яке м’ясо: курку або яловичину."
+    "Додайте будь-яке м’ясо: курку або яловичину.",
+    "Додайте додатковий розплавлений сир."
   ] }
 };
 
@@ -594,7 +593,7 @@ const sectionHTML = sec => {
 };
 
 // ---------- Pages 2 and 3 (dark, red/yellow) ----------
-const AFTER_ITEMS = [["Ost Paratha","99 Kr"],["Aloo (Smash potatis) Ost Paratha","69 Kr"],["Kyckling Ost Paratha","99 Kr"],["Nötfärs Ost Paratha","99 Kr"],["Platform92 Special Paratha","119 Kr"]];
+const AFTER_ITEMS = [["Ost Paratha","89 Kr"],["Aloo (Smash potatis) Ost Paratha","89 Kr"],["Kyckling Ost Paratha","99 Kr"],["Nötfärs Ost Paratha","99 Kr"],["Platform92 Special Paratha","119 Kr"]];
 const AFTER_T = {
   sv: { title: "EFTERMIDDAGS MENY", wk: "VANLIGA DAGAR", we: "LÖRDAG & SÖNDAG", pre: "Kl. ", shakes: "VÅRA MILKSHAKES", tea: "TE KAFFE + SNACKS" },
   en: { title: "AFTERNOON MENU", wk: "WEEKDAYS", we: "SATURDAY & SUNDAY", pre: "", shakes: "OUR MILKSHAKES", tea: "TEA COFFEE + SNACKS" },
@@ -615,6 +614,7 @@ const AFTER_D = {
   pl: ["Ciepły, kruchy paratha z roztopionym serem.","Paratha z przyprawionymi ziemniakami i roztopionym serem.","Paratha z przyprawionym kurczakiem i roztopionym serem.","Paratha z przyprawioną mieloną wołowiną i roztopionym serem.","Nasza specjalna paratha z dodatkowym nadzieniem i roztopionym serem."],
   uk: ["Гаряча хрустка парата з розплавленим сиром.","Парата з пряною картоплею та розплавленим сиром.","Парата з пряною куркою та розплавленим сиром.","Парата з пряним яловичим фаршем та розплавленим сиром.","Наша фірмова парата з додатковою начинкою та розплавленим сиром."]
 };
+const EXTRAS_T = { sv: "TILLÄGG", en: "EXTRAS", ar: "إضافات", so: "DHEERAAD", fa: "افزودنی‌ها", tr: "EKSTRALAR", pl: "DODATKI", uk: "ДОДАТКИ" };
 const FEAT_AFTER = [4], FEAT_PASTA = [2];   // "feature" cards (Platform92 Special, Combo Pasta) get a highlight
 const PASTA_ITEMS = [["Kycklingpasta","119 Kr"],["Nötfärspasta","119 Kr"],["Combo Pasta Tallrik","129 Kr"],["Vegetarisk Pasta","119 Kr"],["Räkpasta","129 Kr"]];
 const PASTA_T = {
@@ -640,6 +640,11 @@ function renderAfter(lang) {
     </div>
     <div class="d-rows">${AFTER_ITEMS.map(([n, p], i) => `
       <div class="d-row${FEAT_AFTER.includes(i) ? " feat" : ""}"><div class="d-name"><span contenteditable="true">${esc(n)}</span><small contenteditable="true">${esc((AFTER_D[lang] || AFTER_D.sv)[i])}</small></div>${dPhoto(i + 1, n)}<div class="d-price" contenteditable="true">${esc(p)}</div></div>`).join("")}
+    </div>
+    <div class="d-extras">
+      <div class="d-lab" contenteditable="true">${esc(EXTRAS_T[lang] || EXTRAS_T.sv)}</div>
+      <div class="d-xi"><span class="xn" contenteditable="true">Extra kött eller kyckling</span><span class="xp" contenteditable="true">19 Kr</span></div>
+      <div class="d-xi"><span class="xn" contenteditable="true">Extra ost</span><span class="xp" contenteditable="true">10 Kr</span></div>
     </div>
     <div class="d-strip">
       <div class="d-side"><div class="d-lab" contenteditable="true">${esc(T.shakes)}</div>${dPhoto(6, "Milkshakes")}<div class="d-price" contenteditable="true">49 Kr</div></div>
