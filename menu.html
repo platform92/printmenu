@@ -3,13 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Meny</title>
+<title>Meny (no prices)</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&display=swap" rel="stylesheet">
 <style>
   @page { size: A4; margin: 0; }
-  :root { --ink: #2a1203; --ink-soft: #5a2f10; --card: rgba(255,255,255,0.28); --photo: 50px; }
+  :root { --ink: #2a1203; --ink-soft: #5a2f10; --card: rgba(255,255,255,0.28); --photo: 46px; }
   * { box-sizing: border-box; margin: 0; padding: 0; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
   html, body { height: 100%; }
   body {
@@ -21,9 +21,12 @@
   }
 
   /* Toolbar */
-  #bar { height: 56px; flex: 0 0 56px; display: flex; align-items: center; justify-content: center; gap: 28px; }
-  #langLabel select { font: 600 13px system-ui, sans-serif; padding: 4px 8px; border-radius: 6px; border: 0; cursor: pointer; }
-  #opac, #langLabel { display: flex; align-items: center; gap: 10px; color: #e8e8e8; font: 600 14px "Bricolage Grotesque", system-ui, sans-serif; }
+  #bar { min-height: 56px; flex: 0 0 auto; display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 8px 22px; padding: 6px 12px; }
+  #langLabel select, #sizeLabel select, #customSize select, #customSize input { font: 600 13px system-ui, sans-serif; padding: 4px 8px; border-radius: 6px; border: 0; cursor: pointer; }
+  #customSize { display: flex; align-items: center; gap: 6px; color: #e8e8e8; font: 600 14px system-ui, sans-serif; }
+  #customSize[hidden] { display: none; }
+  #customSize input { width: 76px; cursor: text; }
+  #opac, #langLabel, #sizeLabel { display: flex; align-items: center; gap: 10px; color: #e8e8e8; font: 600 14px "Bricolage Grotesque", system-ui, sans-serif; }
   #opac input { width: 150px; accent-color: #ff914d; cursor: pointer; }
   #opacVal { min-width: 3ch; text-align: right; }
   #pdf {
@@ -41,7 +44,7 @@
     width: 210mm; height: 296mm;
     transform-origin: top left;
     background: linear-gradient(90deg, #ffde59, #ff914d);
-    padding: 9mm 10mm;
+    padding: 7.5mm 10mm;
     display: flex; gap: 8mm;
     overflow: hidden;
     position: relative;
@@ -75,7 +78,7 @@
   .item {
     display: flex; align-items: center; gap: 10px;
     background: var(--card); border-radius: 14px;
-    padding: 4px 10px 4px 5px; margin-bottom: 5px;
+    padding: 3px 10px 3px 5px; margin-bottom: 3px;
   }
   .photo {
     flex: 0 0 var(--photo); width: var(--photo); height: var(--photo);
@@ -83,13 +86,17 @@
     background: rgba(255,255,255,0.45);
     border: 2px solid rgba(255,255,255,0.85);
   }
+  .item.addon { --photo: 34px; }
+  .plus { flex: 0 0 var(--photo); width: var(--photo); height: var(--photo); border-radius: 50%; background: #DA291C; color: #fff; border: 2px solid rgba(255,255,255,0.85); display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: calc(var(--photo) * 0.6); line-height: 1; padding-bottom: 2px; }
   .photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
   .photo.empty img { display: none; }
   .info { flex: 1; min-width: 0; }
   .row { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+  .nm { display: flex; align-items: baseline; flex-wrap: wrap; gap: 3px 6px; min-width: 0; }
   .name { font-size: 13.5px; font-weight: 600; line-height: 1.2; }
+  .pop { background: #DA291C; color: #fff; font-size: 9px; font-weight: 800; letter-spacing: .05em; text-transform: uppercase; padding: 2px 7px 2px; border-radius: 999px; white-space: nowrap; line-height: 1.2; transform: rotate(-2deg); box-shadow: 0 1px 0 rgba(0,0,0,.15); }
   .price { direction: ltr; unicode-bidi: isolate; font-size: 13.5px; font-weight: 800; white-space: nowrap; }
-  .desc { margin-top: 2px; color: var(--ink-soft); font-size: 11.5px; line-height: 1.3; }
+  .desc { margin-top: 1px; color: var(--ink-soft); font-size: 11px; line-height: 1.28; }
 
 
   /* Page 2: weekly lunch (red / yellow) */
@@ -116,44 +123,132 @@
   #pager button.on { background: #ffd23f; color: #2a1203; }
 
   /* Pages 2 and 3: dark wood look, red / yellow */
-  .dark { background: radial-gradient(ellipse at 50% 0%, #3a1c10 0%, #1b0d09 55%, #0c0605 100%); padding: 9mm 10mm 9mm; display: none; flex-direction: column; color: #fff; }
-  .dark > .body { position: relative; z-index: 1; flex: 1; display: flex; flex-direction: column; min-height: 0; gap: 8px; }
-  .d-title { align-self: center; background: #d4121f; font-weight: 800; font-size: 38px; line-height: 1; letter-spacing: .01em; color: #fff; padding: 10px 40px 12px; transform: skewX(-8deg); border-radius: 4px; box-shadow: 0 3px 0 rgba(0,0,0,.4); font-style: italic; }
-  .d-title .y { color: #ffd23f; }
-  .d-tag { align-self: center; background: #ffd23f; color: #2a1203; font-weight: 800; font-size: 14px; padding: 5px 16px; transform: rotate(-1.5deg); border-radius: 3px; letter-spacing: .04em; }
+  /* Pages 2 + 3 (afternoon, pasta). Colour plan (60-30-10):
+     60%  warm yellow-orange background + cream cards (appetite-friendly warm hues, same as menu 1)
+     30%  deep Swedish blue ink for titles, names and price chips (complement of orange = strongest, calmest contrast)
+     10%  ember red / sun yellow only as small accents (feature card, title emphasis)
+     Text contrast: names 14:1, descriptions 8:1 (WCAG AAA). Blue is kept to text and small chips because large blue areas suppress appetite. */
+  .dark { --navy: #14284B; --navy-soft: #38496A; --cream: rgba(255, 251, 239, 0.92); --sun: #FFD23F; --ember: #D8402A;
+          background: linear-gradient(90deg, #ffde59, #ff914d); padding: 7.5mm 10mm; display: none; flex-direction: column; color: var(--navy); }
+  .dark > .body { position: relative; z-index: 1; flex: 1; display: flex; flex-direction: column; min-height: 0; gap: 10px; }
+  .d-title { align-self: center; background: var(--navy); font-weight: 800; font-size: 34px; line-height: 1.05; letter-spacing: .07em; color: #FFF4D2; padding: 13px 38px 14px; border-radius: 12px; box-shadow: 0 3px 0 rgba(20,40,75,.28); text-align: center; }
+  .d-title .y { color: var(--sun); }
+  .d-tag { align-self: center; background: var(--cream); color: var(--navy); font-weight: 700; font-size: 13px; padding: 6px 20px; border-radius: 999px; letter-spacing: .12em; }
   .d-hours { display: flex; gap: 10px; }
-  .hbox { flex: 1; background: #ffd23f; border-radius: 8px; padding: 6px 8px 8px; text-align: center; }
-  .hbox .lab { color: #2a1203; font-weight: 800; font-size: 15px; letter-spacing: .02em; }
-  .hbox .time { margin-top: 4px; background: #d4121f; color: #fff; font-weight: 800; font-size: 22px; padding: 3px 8px; border-radius: 4px; direction: ltr; }
-  .d-rows { flex: 1; min-height: 0; display: flex; flex-direction: column; gap: 6px; }
-  .d-row { flex: 1; min-height: 0; position: relative; display: flex; align-items: stretch; background: rgba(0,0,0,.6); border: 1.5px solid #f4c20d; border-radius: 10px; overflow: hidden; }
-  .d-name { flex: 0 0 46%; display: flex; flex-direction: column; justify-content: center; gap: 4px; padding: 6px 14px; font-weight: 800; font-size: 22px; line-height: 1.1; }
-  .d-name small { font-size: 13.5px; font-weight: 500; line-height: 1.3; color: #f3e6d4; }
-  .d-row.tall .d-name { font-size: 25px; }
-  .d-photo { flex: 1; min-width: 0; background: rgba(255,255,255,.06); position: relative; }
-  .d-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .hbox { flex: 1; background: var(--cream); border-radius: 14px; padding: 9px 10px 11px; text-align: center; box-shadow: 0 2px 0 rgba(20,40,75,.12); }
+  .hbox .lab { color: var(--navy-soft); font-weight: 700; font-size: 12.5px; letter-spacing: .12em; }
+  .hbox .time { margin-top: 3px; color: var(--navy); font-weight: 800; font-size: 27px; line-height: 1.15; direction: ltr; }
+  .d-rows { flex: 1; min-height: 0; display: flex; flex-direction: column; gap: 8px; }
+  .d-row { flex: 1; min-height: 0; position: relative; display: flex; align-items: stretch; gap: 12px; background: var(--cream); border-radius: 14px; padding: 6px; overflow: hidden; box-shadow: 0 2px 0 rgba(20,40,75,.12); }
+  .d-row.feat { background: #FFF1B8; box-shadow: inset 6px 0 0 var(--ember), 0 2px 0 rgba(20,40,75,.12); }
+  .d-name { flex: 0 0 44%; display: flex; flex-direction: column; justify-content: center; gap: 6px; padding: 4px 6px 4px 16px; }
+  .d-name > span { color: var(--navy); font-weight: 800; font-size: 23px; line-height: 1.12; }
+  .d-row.tall .d-name > span { font-size: 25px; }
+  .d-name small { color: var(--navy-soft); font-size: 14.5px; font-weight: 500; line-height: 1.38; }
+  .d-photo { flex: 1; min-width: 0; background: rgba(255,255,255,.55); border: 3px solid #fff; border-radius: 10px; overflow: hidden; position: relative; }
+  .d-photo img { width: 100%; height: 100%; object-fit: cover; object-position: center; display: block; }
   .d-photo.empty img { display: none; }
-  .d-price { position: absolute; inset-inline-end: 10px; bottom: 8px; background: #d4121f; color: #fff; font-weight: 800; font-size: 24px; padding: 3px 16px 5px; transform: skewX(-8deg); border-radius: 4px; box-shadow: 0 2px 0 rgba(0,0,0,.45); direction: ltr; unicode-bidi: isolate; }
-  .d-strip { display: flex; gap: 10px; height: 36mm; }
-  .d-side { flex: 1; position: relative; display: flex; flex-direction: column; background: rgba(0,0,0,.6); border: 1.5px solid #f4c20d; border-radius: 10px; overflow: hidden; }
-  .d-lab { background: #ffd23f; color: #2a1203; font-weight: 800; font-size: 15px; text-align: center; padding: 5px 6px; }
+  .d-price { position: absolute; inset-inline-end: 14px; bottom: 12px; background: var(--navy); color: var(--sun); font-weight: 800; font-size: 23px; padding: 4px 15px 5px; border-radius: 9px; box-shadow: 0 2px 0 rgba(0,0,0,.25); direction: ltr; unicode-bidi: isolate; }
+  .d-extras { display: flex; align-items: center; gap: 12px; background: var(--cream); border-radius: 14px; padding: 8px 12px; box-shadow: 0 2px 0 rgba(20,40,75,.12); }
+  .d-extras .d-lab { flex: 0 0 auto; align-self: center; }
+  .d-xi { flex: 1; min-width: 0; display: flex; align-items: center; justify-content: space-between; gap: 8px; padding-inline-start: 12px; border-inline-start: 2px solid rgba(20,40,75,.15); }
+  .d-xi .xn { color: var(--navy); font-weight: 800; font-size: 16px; line-height: 1.15; }
+  .d-xi .xp { flex: 0 0 auto; background: var(--navy); color: var(--sun); font-weight: 800; font-size: 18px; padding: 3px 11px 4px; border-radius: 8px; direction: ltr; unicode-bidi: isolate; }
+  .d-strip { display: flex; gap: 10px; height: 46mm; }
+  .d-side { flex: 1; position: relative; display: flex; flex-direction: column; gap: 6px; background: var(--cream); border-radius: 14px; padding: 6px; overflow: hidden; box-shadow: 0 2px 0 rgba(20,40,75,.12); }
+  .d-lab { align-self: center; background: var(--navy); color: var(--sun); font-weight: 800; font-size: 13.5px; letter-spacing: .1em; text-align: center; padding: 5px 16px 6px; border-radius: 7px; }
   .d-side .d-photo { flex: 1; }
   .dark [contenteditable]:hover { outline-color: rgba(255,255,255,.7); }
+
+
+  /* ---------- Mobile (screen only; printing stays A4 portrait) ---------- */
+  @media screen and (max-width: 800px) {
+    html, body { height: auto; }
+    body { display: block; overflow-x: hidden; overflow-y: auto; }
+    #bar { height: auto; flex: none; flex-wrap: wrap; gap: 10px 12px; padding: 10px 10px 12px; position: sticky; top: 0; z-index: 50; background: #2b2b2b; }
+    #pager { width: 100%; overflow-x: auto; gap: 6px; padding-bottom: 2px; -webkit-overflow-scrolling: touch; }
+    #pager button { white-space: nowrap; flex: 0 0 auto; padding: 8px 12px; }
+    #opac { display: none; }
+    #pdf { padding: 9px 20px; font-size: 14px; }
+    #langLabel select, #sizeLabel select, #customSize select, #customSize input { font-size: 15px; padding: 6px 8px; }
+    #customSize input { width: 72px; }
+    #stage { width: 100% !important; height: auto !important; }
+    #page, .page { width: 100% !important; height: auto !important; min-height: 0; transform: none !important; overflow: hidden; }
+    #page { padding: 16px 14px 24px; flex-direction: column; gap: 18px; }
+    .col { justify-content: flex-start; }
+    .wm { left: 5%; width: 90%; }
+    :root { --photo: 58px; }
+    .name, .price { font-size: 15px; }
+    .pop { font-size: 10px; }
+    .desc { font-size: 12.5px; }
+    .item { margin-bottom: 7px; padding: 6px 12px 6px 6px; }
+    .hl { font-size: 17px; }
+    .note { display: inline-block; margin-top: 4px; }
+
+    .dark { padding: 16px 12px 22px; }
+    .dark > .body { gap: 10px; }
+    .d-title { font-size: 26px; padding: 8px 24px 10px; }
+    .d-tag { font-size: 12px; text-align: center; }
+    .d-hours { gap: 8px; }
+    .hbox .lab { font-size: 12px; }
+    .hbox .time { font-size: 17px; }
+    .d-rows { flex: none; gap: 8px; }
+    .d-row { flex: none; min-height: 112px; }
+    .d-row.tall { min-height: 150px; }
+    .d-name { flex: 0 0 50%; padding: 6px 4px 6px 10px; }
+    .d-name small { font-size: 13px; }
+    .d-name > span { font-size: 18px; }
+    .d-row.tall .d-name > span { font-size: 19px; }
+    .d-price { font-size: 17px; padding: 2px 10px 3px; inset-inline-end: 10px; bottom: 10px; }
+    .d-strip { height: 160px; }
+    .d-extras { flex-wrap: wrap; justify-content: center; gap: 8px; }
+    .d-xi { flex: 1 1 100%; border: 0; padding: 0 4px; }
+    .d-lab { font-size: 11.5px; padding: 4px; }
+
+    #page4 { padding: 18px 12px 20px; }
+    .l-title { font-size: 25px; padding: 8px 20px 10px; text-align: center; }
+    .l-sub { font-size: 11px; margin: 10px 0 12px; }
+    .l-days { flex: none; gap: 10px; }
+    .l-day { flex-direction: column; align-items: stretch; gap: 10px; padding: 12px; }
+    .l-dayname { flex: none; font-size: 17px; }
+    .l-dish { font-size: 15px; }
+    .l-welcome { font-size: 20px; }
+    .l-contact { font-size: 12.5px; }
+  }
 
   @media print {
     html, body { height: auto; overflow: visible; background: none; display: block; }
     #bar { display: none; }
     #stage { width: auto !important; height: auto !important; }
-    #page, .page { transform: none !important; display: flex !important; break-after: page; }
-    #page4 { break-after: auto; }
+    #stage #page, #stage .page { transform: none !important; display: flex !important; break-after: page; }
+    #stage #page4 { break-after: auto; }
     [contenteditable] { outline: none !important; }
+    /* Custom paper size: every menu sits on its own sheet of the chosen size, scaled to fit (design is never reflowed) */
+    body.printing #stage { display: none !important; }
+    #printRoot { display: block; }
+    .sheet { position: relative; overflow: hidden; break-after: page; break-inside: avoid; }
+    .sheet:last-child { break-after: auto; }
+    .sheet > .page, .sheet > #page { position: absolute; transform-origin: 0 0; margin: 0; background: none; display: flex !important; }
   }
+  @media print { #printRoot .page, #printRoot #page { background: none !important; } }
+  @media screen { #printRoot { display: none; } }
+  /* ---- NO-PRICE VERSION: every price is hidden on screen and in the PDF ---- */
+  .price, .d-price, .xp { display: none !important; }
 </style>
 </head>
 <body>
 <div id="bar">
   <div id="pager"><button type="button" data-p="1" class="on">1 · Menu</button><button type="button" data-p="2">2 · Eftermiddag</button><button type="button" data-p="3">3 · Pasta</button><button type="button" data-p="4">4 · Lunch</button></div>
   <button id="pdf" type="button">Download as PDF</button>
+  <label id="sizeLabel">Size
+    <select id="paper"></select>
+  </label>
+  <span id="customSize" hidden>
+    <input id="cw" type="number" min="1" step="any" value="210" aria-label="Width">
+    <span>×</span>
+    <input id="ch" type="number" min="1" step="any" value="297" aria-label="Height">
+    <select id="cu" aria-label="Unit"><option value="mm">mm</option><option value="cm">cm</option><option value="in">in</option><option value="ft">ft</option></select>
+  </span>
   <label id="langLabel">Language
     <select id="lang"></select>
   </label>
@@ -186,20 +281,19 @@
 const MENU = [
   { title: "FÖRRÄTTER", items: [
     ["Kyckling 65", "89 Kr", "Krispigt marinerad kyckling med indiska kryddor, friterad till perfektion och serverad", "a"],
-    ["Onion Pakoda", "39 Kr", "Krispiga lökfritters med indiska kryddor.", "d"],
-    ["Samosa (Veg / Kyckling)", "19 Kr", "Krispiga samosas med vegetarisk fyllning eller kycklingfyllning.", "e"],
     ["Nuggets", "49 Kr", "Krispiga, med mild dippsås.", "17"],
     ["Kycklingvingar", "49 Kr", "Saftiga & krispiga, med mild dippsås.", "18"]
   ]},
   { title: "TALLRIKAR", items: [
     ["Grillad Kyckling", "109 Kr", "Grillad kyckling, med ris eller pommes & sallad."],
-    ["Krispig kyckling", "119 Kr", "Krispig kyckling, med ris eller pommes & sallad."],
+    ["Krispig kyckling", "109 Kr", "Krispig kyckling, med ris eller pommes & sallad."],
     ["Smash Nötkött", "119 Kr", "Kryddat nötkött, med ris/pommes & sallad."],
     ["Combo (Nöt & Kyckling)", "119 Kr", "Grillad kyckling & kryddat nötkött, med ris eller pommes & sallad."],
     ["Fisk", "119 Kr", "Panerad fiskfilé, med ris eller pommes & sallad."],
-    ["Falafel", "79 Kr", "Krispiga falafflar, med ris eller pommes & sallad."]
+    ["Falafel", "79 Kr", "Krispiga falafflar, med ris eller pommes & sallad."],
+    ["Pasta (ost)", "119 Kr / 129 Kr", "Välj mellan kyckling, nötkött, combo (kyckling & nötkött), vegetarisk eller räkor, med röd sås, örter och ost.", "photosmenu3/3"]
   ]},
-  { title: "RULLE", note: "Utan ost / Med ost", items: [
+  { title: "RULLE", items: [
     ["Nötkött rulle (ost)", "109 Kr / 129 Kr", "Kryddat nötkött i varmt pitabröd med sallad & mild sås."],
     ["Kyckling rulle (ost)", "109 Kr / 129 Kr", "Grillad kyckling i varmt pitabröd med sallad."],
     ["Falafel rulle (ost)", "79 Kr / 109 Kr", "Falafel med färska grönsaker."],
@@ -208,15 +302,17 @@ const MENU = [
   { title: "HAMBURGARE", items: [
     ["Cheeseburgare", "119 Kr", "Nötköttsburgare grillad till perfektion, toppad med smält ost, serveras med pommes."],
     ["Krispig kyckling-cheeseburgare", "119 Kr", "Krispigt friterad till gyllene perfektion, med smält ost, serveras med pommes."],
-    ["Fisk Burger", "119 Kr", "FiskBurger."],
-    ["Bon Burger", "59 Kr", "Nötköttsburgare grillad till perfektion, toppad med smält ost, serveras med pommes.", "b"]
+    ["Fisk Burger", "119 Kr", "Fiskburgare, serveras med pommes."],
+    ["Bon Burger", "59 Kr", "Nötköttsburgare grillad till perfektion.", "b"],
+    ["Halloumi Burger (Veg)", "109 Kr", "Grillad halloumi med färska grönsaker.", "i"]
   ]},
   { title: "SALLAD", items: [
-    ["Mixed Sallad", "69 Kr / 99 Kr", "Kyckling / Nötkött, Isbergssallad, Fetaost, gurka, tomat, kidneybönor, med mild dressing."]
+    ["Mixed Sallad (ost)", "69 Kr / 99 Kr", "Kyckling / Nötkött, Isbergssallad, Fetaost, gurka, tomat, med mild dressing."],
+    ["Fetaostsallad", "99 Kr", "Isbergssallad, fetaost, gurka och tomat, med mild dressing.", "h"]
   ]},
   { title: "POMMES FRITES", items: [
     ["Pommes", "39 Kr", "Krispiga pommes."],
-    ["Loaded Pommes", "69 Kr", "Krispiga pommes toppade med valfri dressing."],
+    ["Loaded Pommes", "49 Kr", "Krispiga pommes toppade med valfri dressing."],
     ["Pommes med ost", "59 Kr", "Krispiga pommes/falafel med färska grönsaker & valfri sås."],
     ["Chilimayo Pommes", "49 Kr", "Krispiga pommes med chilimayo.", "c"]
   ]},
@@ -225,16 +321,19 @@ const MENU = [
   ]},
   { title: "MILKSHAKES", items: [
     ["Välja", "49 Kr", "Banan, Jordgubbe, Blandade Bär, Banan- och dadel, Mango, & Oreo Shake.", "20"]
+  ]},
+  { title: "TILLÄGG", items: [          // add-ons: no photo, a "+" badge is shown instead (item marker "+")
+    ["Extra dipp", "10 Kr", "Valfri dipsås till din måltid.", "+"],
+    ["Extra kött (valfritt)", "20 Kr", "Lägg till valfritt kött: kyckling eller nötkött.", "+"],
+    ["Extra ost", "10 Kr", "Lägg till extra smält ost.", "+"]
   ]}
 ];
 
-// Translations: section titles (8), "without / with cheese" note, and 23 descriptions in menu order.
+// Translations: section titles (9) and 30 descriptions in menu order.
 // Dish names, prices and "Kr" stay as on the Swedish menu.
 const I18N = {
-  en: { label: "English", t: ["STARTERS","PLATES","ROLLS","BURGERS","SALAD","FRIES","DRINKS","MILKSHAKES"], note: "Without cheese / With cheese", d: [
+  en: { pop: "Popular", label: "English", t: ["STARTERS","PLATES","ROLLS","BURGERS","SALAD","FRIES","DRINKS","MILKSHAKES","EXTRAS"], d: [
     "Crispy marinated chicken with Indian spices, deep-fried to perfection and served",
-    "Crispy onion fritters with Indian spices.",
-    "Crispy samosas with vegetarian or chicken filling.",
     "Crispy, with mild dipping sauce.",
     "Juicy & crispy, with mild dipping sauce.",
     "Grilled chicken, with rice or fries & salad.",
@@ -243,26 +342,30 @@ const I18N = {
     "Grilled chicken & spiced beef, with rice or fries & salad.",
     "Breaded fish fillet, with rice or fries & salad.",
     "Crispy falafel, with rice or fries & salad.",
+    "Choose from chicken, beef, combo (chicken & beef), vegetarian or shrimp, with red sauce, herbs and cheese.",
     "Spiced beef in warm pita bread with salad & mild sauce.",
     "Grilled chicken in warm pita bread with salad.",
     "Falafel with fresh vegetables.",
     "Grilled chicken & spiced beef in warm pita bread with salad & mild sauce.",
     "Beef burger grilled to perfection, topped with melted cheese, served with fries.",
     "Crispy chicken fried to golden perfection, with melted cheese, served with fries.",
-    "Fish burger.",
-    "Beef burger grilled to perfection, topped with melted cheese, served with fries.",
-    "Chicken / Beef, iceberg lettuce, feta cheese, cucumber, tomato, kidney beans, with mild dressing.",
+    "Fish burger, served with fries.",
+    "Beef burger grilled to perfection.",
+    "Grilled halloumi with fresh vegetables.",
+    "Chicken / Beef, iceberg lettuce, feta cheese, cucumber, tomato, with mild dressing.",
+    "Iceberg lettuce, feta cheese, cucumber and tomato, with mild dressing.",
     "Crispy fries.",
     "Crispy fries topped with your choice of dressing.",
     "Crispy fries/falafel with fresh vegetables & your choice of sauce.",
     "Crispy fries with chili mayo.",
     "Choose between soda, coffee/tea, served cold/hot as you prefer.",
-    "Banana, Strawberry, Mixed Berries, Banana and date, Mango, & Oreo Shake."
+    "Banana, Strawberry, Mixed Berries, Banana and date, Mango, & Oreo Shake.",
+    "Any dipping sauce with your meal.",
+    "Add any meat: chicken or beef.",
+    "Add extra melted cheese."
   ] },
-  ar: { label: "العربية", rtl: 1, t: ["المقبلات","الأطباق","اللفائف","البرغر","السلطة","البطاطس المقلية","المشروبات","ميلك شيك"], note: "بدون جبنة / مع جبنة", d: [
+  ar: { pop: "الأكثر طلبًا", label: "العربية", rtl: 1, t: ["المقبلات","الأطباق","اللفائف","البرغر","السلطة","البطاطس المقلية","المشروبات","ميلك شيك","إضافات"], d: [
     "دجاج متبّل ومقرمش بالتوابل الهندية، مقلي بإتقان ويُقدَّم",
-    "فطائر البصل المقرمشة بالتوابل الهندية.",
-    "سمبوسة مقرمشة بحشوة خضار أو دجاج.",
     "مقرمش، مع صلصة غمس خفيفة.",
     "طري ومقرمش، مع صلصة غمس خفيفة.",
     "دجاج مشوي، مع الأرز أو البطاطس والسلطة.",
@@ -271,26 +374,30 @@ const I18N = {
     "دجاج مشوي ولحم بقري متبّل، مع الأرز أو البطاطس والسلطة.",
     "فيليه سمك مقرمش، مع الأرز أو البطاطس والسلطة.",
     "فلافل مقرمشة، مع الأرز أو البطاطس والسلطة.",
+    "اختر بين الدجاج أو اللحم البقري أو الكومبو (دجاج ولحم بقري) أو الخضار أو الروبيان، مع صلصة حمراء وأعشاب وجبنة.",
     "لحم بقري متبّل في خبز بيتا دافئ مع السلطة وصلصة خفيفة.",
     "دجاج مشوي في خبز بيتا دافئ مع السلطة.",
     "فلافل مع خضار طازجة.",
     "دجاج مشوي ولحم بقري متبّل في خبز بيتا دافئ مع السلطة وصلصة خفيفة.",
     "برغر لحم بقري مشوي بإتقان، مغطى بجبنة ذائبة، يُقدَّم مع البطاطس.",
     "دجاج مقرمش مقلي حتى يصبح ذهبياً، مع جبنة ذائبة، يُقدَّم مع البطاطس.",
-    "برغر سمك.",
-    "برغر لحم بقري مشوي بإتقان، مغطى بجبنة ذائبة، يُقدَّم مع البطاطس.",
-    "دجاج / لحم بقري، خس آيسبرغ، جبنة فيتا، خيار، طماطم، فاصولياء حمراء، مع صلصة خفيفة.",
+    "برغر سمك، يُقدَّم مع البطاطس.",
+    "برغر لحم بقري مشوي بإتقان.",
+    "حلوم مشوي مع خضار طازجة.",
+    "دجاج / لحم بقري، خس آيسبرغ، جبنة فيتا، خيار، طماطم، مع صلصة خفيفة.",
+    "خس آيسبرغ وجبنة فيتا وخيار وطماطم، مع صلصة خفيفة.",
     "بطاطس مقلية مقرمشة.",
     "بطاطس مقلية مقرمشة مع صلصة من اختيارك.",
     "بطاطس مقلية/فلافل مقرمشة مع خضار طازجة وصلصة من اختيارك.",
     "بطاطس مقلية مقرمشة مع مايونيز الفلفل الحار.",
     "اختر بين المشروبات الغازية والقهوة/الشاي، تُقدَّم باردة/ساخنة حسب الرغبة.",
-    "موز، فراولة، توت مشكل، موز وتمر، مانجو، وميلك شيك أوريو."
+    "موز، فراولة، توت مشكل، موز وتمر، مانجو، وميلك شيك أوريو.",
+    "أي صلصة غمس مع وجبتك.",
+    "أضف أي لحم: دجاج أو لحم بقري.",
+    "أضف جبنة ذائبة إضافية."
   ] },
-  so: { label: "Soomaali", t: ["CUNTOOYINKA HORE","SAXANNO","ROOLASHO","BARGARO","SALAAD","BATAATO BIRIYAY","CABITAANNO","MILKSHAKES"], note: "Jiis la'aan / Jiis la socda", d: [
+  so: { pop: "Caan ah", label: "Soomaali", t: ["CUNTOOYINKA HORE","SAXANNO","ROOLASHO","BARGARO","SALAAD","BATAATO BIRIYAY","CABITAANNO","MILKSHAKES","DHEERAAD"], d: [
     "Digaag la maraday la dubay ee xawaash Hindi leh, si fiican loo shiilay oo la bixiyo",
-    "Basal qallafsan oo la shiilay oo xawaash Hindi leh.",
-    "Sambuus qallafsan oo ka buuxa khudrad ama digaag.",
     "Qallafsan, la socda suugo khafiif ah.",
     "Jilicsan oo qallafsan, la socda suugo khafiif ah.",
     "Digaag la dubay, la socda bariis ama bataato iyo salaad.",
@@ -299,26 +406,30 @@ const I18N = {
     "Digaag la dubay iyo hilib lo' xawaash leh, la socda bariis ama bataato iyo salaad.",
     "Kalluun la rubay, la socda bariis ama bataato iyo salaad.",
     "Falaafil qallafsan, la socda bariis ama bataato iyo salaad.",
+    "Dooro digaag, hilib lo', isku-dar (digaag & hilib lo'), khudrad ama jambari (shrimp), oo leh suugo cas, geedo udgoon iyo jiis.",
     "Hilib lo' xawaash leh oo ku jira rooti bita ah oo diiran, la socda salaad iyo suugo khafiif ah.",
     "Digaag la dubay oo ku jira rooti bita ah oo diiran, la socda salaad.",
     "Falaafil la socda khudrad cusub.",
     "Digaag la dubay iyo hilib lo' xawaash leh oo ku jira rooti bita ah oo diiran, la socda salaad iyo suugo khafiif ah.",
     "Bargar hilib lo' ah oo si fiican loo dubay, jiis dhalaalay saaran yahay, la socda bataato.",
     "Digaag qallafsan oo la shiilay ilaa uu dahabi noqdo, jiis dhalaalay leh, la socda bataato.",
-    "Bargar kalluun.",
-    "Bargar hilib lo' ah oo si fiican loo dubay, jiis dhalaalay saaran yahay, la socda bataato.",
-    "Digaag / Hilib lo', salaad Isberg, jiis Feta, qajaar, yaanyo, digir kidney, la socda suugo khafiif ah.",
+    "Bargar kalluun, la socda bataato.",
+    "Bargar hilib lo' ah oo si fiican loo dubay.",
+    "Halloumi la dubay oo leh khudaar cusub.",
+    "Digaag / Hilib lo', salaad Isberg, jiis Feta, qajaar, yaanyo, la socda suugo khafiif ah.",
+    "Salaar iceberg, jiis feta, qajaar iyo yaanyo, oo leh suugo khafiif ah.",
     "Bataato qallafsan.",
     "Bataato qallafsan oo suugo aad dooratid saaran tahay.",
     "Bataato/falaafil qallafsan oo la socda khudrad cusub iyo suugo aad dooratid.",
     "Bataato qallafsan oo la socda chili mayo.",
     "Dooro soodhaha ama kafeega/shaaha, loo bixiyo qabow/kulul sida aad doonto.",
-    "Moos, Istoroberi, Miro isku dhafan, Moos iyo timir, Cambe, & Oreo Shake."
+    "Moos, Istoroberi, Miro isku dhafan, Moos iyo timir, Cambe, & Oreo Shake.",
+    "Suugo kasta oo aad dooratid, la socota cuntadaada.",
+    "Ku dar hilib kasta: digaag ama hilib lo'.",
+    "Ku dar jiis dhalaalay oo dheeraad ah."
   ] },
-  fa: { label: "فارسی", rtl: 1, t: ["پیش‌غذا","بشقاب‌ها","رول‌ها","همبرگرها","سالاد","سیب‌زمینی سرخ‌کرده","نوشیدنی‌ها","میلک‌شیک"], note: "بدون پنیر / با پنیر", d: [
+  fa: { pop: "پرطرفدار", label: "فارسی", rtl: 1, t: ["پیش‌غذا","بشقاب‌ها","رول‌ها","همبرگرها","سالاد","سیب‌زمینی سرخ‌کرده","نوشیدنی‌ها","میلک‌شیک","افزودنی‌ها"], d: [
     "مرغ ترد ماریناد‌شده با ادویه‌های هندی، کاملاً سرخ‌شده و سرو می‌شود",
-    "پاکوره پیاز ترد با ادویه‌های هندی.",
-    "سمبوسه ترد با مغز سبزیجات یا مرغ.",
     "ترد، با سس ملایم.",
     "آبدار و ترد، با سس ملایم.",
     "مرغ گریل‌شده، با برنج یا سیب‌زمینی سرخ‌کرده و سالاد.",
@@ -327,26 +438,30 @@ const I18N = {
     "مرغ گریل‌شده و گوشت گاو ادویه‌دار، با برنج یا سیب‌زمینی سرخ‌کرده و سالاد.",
     "فیله ماهی پانه‌شده، با برنج یا سیب‌زمینی سرخ‌کرده و سالاد.",
     "فلافل ترد، با برنج یا سیب‌زمینی سرخ‌کرده و سالاد.",
+    "انتخاب از بین مرغ، گوشت گاو، کامبو (مرغ و گوشت گاو)، سبزیجات یا میگو، با سس قرمز، سبزی‌های معطر و پنیر.",
     "گوشت گاو ادویه‌دار در نان پیتای گرم با سالاد و سس ملایم.",
     "مرغ گریل‌شده در نان پیتای گرم با سالاد.",
     "فلافل با سبزیجات تازه.",
     "مرغ گریل‌شده و گوشت گاو ادویه‌دار در نان پیتای گرم با سالاد و سس ملایم.",
     "همبرگر گوشت گاو گریل‌شده، با پنیر ذوب‌شده، همراه سیب‌زمینی سرخ‌کرده.",
     "مرغ ترد سرخ‌شده تا طلایی، با پنیر ذوب‌شده، همراه سیب‌زمینی سرخ‌کرده.",
-    "همبرگر ماهی.",
-    "همبرگر گوشت گاو گریل‌شده، با پنیر ذوب‌شده، همراه سیب‌زمینی سرخ‌کرده.",
-    "مرغ / گوشت گاو، کاهو ایسبرگ، پنیر فتا، خیار، گوجه‌فرنگی، لوبیا قرمز، با سس ملایم.",
+    "همبرگر ماهی، همراه سیب‌زمینی سرخ‌کرده.",
+    "همبرگر گوشت گاو گریل‌شده.",
+    "هالومی گریل‌شده با سبزیجات تازه.",
+    "مرغ / گوشت گاو، کاهو ایسبرگ، پنیر فتا، خیار، گوجه‌فرنگی، با سس ملایم.",
+    "کاهو، پنیر فتا، خیار و گوجه‌فرنگی، با سس ملایم.",
     "سیب‌زمینی سرخ‌کرده ترد.",
     "سیب‌زمینی سرخ‌کرده ترد با سس دلخواه.",
     "سیب‌زمینی سرخ‌کرده/فلافل ترد با سبزیجات تازه و سس دلخواه.",
     "سیب‌زمینی سرخ‌کرده ترد با چیلی مایو.",
     "نوشابه یا قهوه/چای را انتخاب کنید؛ سرد یا گرم به دلخواه.",
-    "موز، توت‌فرنگی، توت‌های مخلوط، موز و خرما، انبه و میلک‌شیک اوریو."
+    "موز، توت‌فرنگی، توت‌های مخلوط، موز و خرما، انبه و میلک‌شیک اوریو.",
+    "هر سس دیپ دلخواه همراه غذای شما.",
+    "هر گوشت دلخواه اضافه کنید: مرغ یا گوشت گاو.",
+    "پنیر ذوب‌شده اضافه کنید."
   ] },
-  tr: { label: "Türkçe", t: ["BAŞLANGIÇLAR","TABAKLAR","DÜRÜMLER","HAMBURGERLER","SALATA","PATATES KIZARTMASI","İÇECEKLER","MİLKSHAKE"], note: "Peynirsiz / Peynirli", d: [
+  tr: { pop: "Popüler", label: "Türkçe", t: ["BAŞLANGIÇLAR","TABAKLAR","DÜRÜMLER","HAMBURGERLER","SALATA","PATATES KIZARTMASI","İÇECEKLER","MİLKSHAKE","EKSTRALAR"], d: [
     "Hint baharatlarıyla marine edilmiş çıtır tavuk; mükemmel kızartılıp servis edilir",
-    "Hint baharatlı çıtır soğan kızartması.",
-    "Sebzeli veya tavuklu çıtır samosa.",
     "Çıtır, hafif dip sosla.",
     "Sulu ve çıtır, hafif dip sosla.",
     "Izgara tavuk, pilav veya patates kızartması ve salata ile.",
@@ -355,26 +470,30 @@ const I18N = {
     "Izgara tavuk ve baharatlı dana eti, pilav veya patates kızartması ve salata ile.",
     "Galeta unlu balık fileto, pilav veya patates kızartması ve salata ile.",
     "Çıtır falafel, pilav veya patates kızartması ve salata ile.",
+    "Tavuk, dana eti, kombo (tavuk ve dana eti), sebzeli veya karidesli seçenekleri arasından seçin; kırmızı sos, otlar ve peynir ile.",
     "Sıcak pide ekmeğinde baharatlı dana eti, salata ve hafif sos ile.",
     "Sıcak pide ekmeğinde ızgara tavuk, salata ile.",
     "Taze sebzelerle falafel.",
     "Sıcak pide ekmeğinde ızgara tavuk ve baharatlı dana eti, salata ve hafif sos ile.",
     "Mükemmel ızgara dana burger, üzerinde eritilmiş peynir, patates kızartmasıyla servis edilir.",
     "Altın sarısı olana kadar kızartılmış çıtır tavuk, eritilmiş peynirli, patates kızartmasıyla servis edilir.",
-    "Balık burger.",
-    "Mükemmel ızgara dana burger, üzerinde eritilmiş peynir, patates kızartmasıyla servis edilir.",
-    "Tavuk / Dana eti, iceberg marul, feta peyniri, salatalık, domates, kırmızı fasulye, hafif sosla.",
+    "Balık burger, patates kızartmasıyla servis edilir.",
+    "Mükemmel ızgara dana burger.",
+    "Taze sebzelerle ızgara hellim.",
+    "Tavuk / Dana eti, iceberg marul, feta peyniri, salatalık, domates, hafif sosla.",
+    "Iceberg marul, feta peyniri, salatalık ve domates, hafif sosla.",
     "Çıtır patates kızartması.",
     "Dilediğiniz sosla servis edilen çıtır patates kızartması.",
     "Çıtır patates kızartması/falafel, taze sebzeler ve dilediğiniz sos ile.",
     "Acı mayonezli çıtır patates kızartması.",
     "Gazlı içecek veya kahve/çay seçin; soğuk/sıcak tercihinize göre servis edilir.",
-    "Muz, Çilek, Karışık Orman Meyveleri, Muz ve hurma, Mango & Oreo Milkshake."
+    "Muz, Çilek, Karışık Orman Meyveleri, Muz ve hurma, Mango & Oreo Milkshake.",
+    "Yemeğinize istediğiniz dip sos.",
+    "İstediğiniz eti ekleyin: tavuk veya dana eti.",
+    "Ekstra erimiş peynir ekleyin."
   ] },
-  pl: { label: "Polski", t: ["PRZYSTAWKI","TALERZE","ROLKI","BURGERY","SAŁATKA","FRYTKI","NAPOJE","SHAKE’I MLECZNE"], note: "Bez sera / Z serem", d: [
+  pl: { pop: "Popularne", label: "Polski", t: ["PRZYSTAWKI","TALERZE","ROLKI","BURGERY","SAŁATKA","FRYTKI","NAPOJE","SHAKE’I MLECZNE","DODATKI"], d: [
     "Chrupiący kurczak marynowany w indyjskich przyprawach, smażony na złoto i podawany",
-    "Chrupiące placuszki cebulowe z indyjskimi przyprawami.",
-    "Chrupiące samosy z nadzieniem warzywnym lub z kurczakiem.",
     "Chrupiące, z łagodnym sosem do maczania.",
     "Soczyste i chrupiące, z łagodnym sosem do maczania.",
     "Grillowany kurczak, z ryżem lub frytkami i sałatką.",
@@ -383,26 +502,30 @@ const I18N = {
     "Grillowany kurczak i przyprawiona wołowina, z ryżem lub frytkami i sałatką.",
     "Panierowany filet rybny, z ryżem lub frytkami i sałatką.",
     "Chrupiące falafele, z ryżem lub frytkami i sałatką.",
+    "Do wyboru: kurczak, wołowina, combo (kurczak i wołowina), wegetariański lub krewetki, z czerwonym sosem, ziołami i serem.",
     "Przyprawiona wołowina w ciepłym chlebku pita z sałatką i łagodnym sosem.",
     "Grillowany kurczak w ciepłym chlebku pita z sałatką.",
     "Falafel ze świeżymi warzywami.",
     "Grillowany kurczak i przyprawiona wołowina w ciepłym chlebku pita z sałatką i łagodnym sosem.",
     "Burger wołowy grillowany do perfekcji, z roztopionym serem, podawany z frytkami.",
     "Chrupiący kurczak smażony na złoty kolor, z roztopionym serem, podawany z frytkami.",
-    "Burger rybny.",
-    "Burger wołowy grillowany do perfekcji, z roztopionym serem, podawany z frytkami.",
-    "Kurczak / Wołowina, sałata lodowa, ser feta, ogórek, pomidor, czerwona fasola, z łagodnym dressingiem.",
+    "Burger rybny, podawany z frytkami.",
+    "Burger wołowy grillowany do perfekcji.",
+    "Grillowany halloumi ze świeżymi warzywami.",
+    "Kurczak / Wołowina, sałata lodowa, ser feta, ogórek, pomidor, z łagodnym dressingiem.",
+    "Sałata lodowa, ser feta, ogórek i pomidor, z łagodnym dressingiem.",
     "Chrupiące frytki.",
     "Chrupiące frytki z dowolnym sosem.",
     "Chrupiące frytki/falafel ze świeżymi warzywami i dowolnym sosem.",
     "Chrupiące frytki z chili mayo.",
     "Do wyboru napój gazowany lub kawa/herbata, podawane na zimno lub gorąco.",
-    "Banan, Truskawka, Mieszanka owoców leśnych, Banan z daktylami, Mango i shake Oreo."
+    "Banan, Truskawka, Mieszanka owoców leśnych, Banan z daktylami, Mango i shake Oreo.",
+    "Dowolny sos do maczania do Twojego dania.",
+    "Dodaj dowolne mięso: kurczak lub wołowinę.",
+    "Dodaj dodatkowy roztopiony ser."
   ] },
-  uk: { label: "Українська", t: ["ЗАКУСКИ","ТАРІЛКИ","РОЛИ","БУРГЕРИ","САЛАТ","КАРТОПЛЯ ФРІ","НАПОЇ","МІЛКШЕЙКИ"], note: "Без сиру / З сиром", d: [
+  uk: { pop: "Популярне", label: "Українська", t: ["ЗАКУСКИ","ТАРІЛКИ","РОЛИ","БУРГЕРИ","САЛАТ","КАРТОПЛЯ ФРІ","НАПОЇ","МІЛКШЕЙКИ","ДОДАТКИ"], d: [
     "Хрустка курка, маринована в індійських спеціях, смажена до досконалості та подається",
-    "Хрусткі цибулеві фритери з індійськими спеціями.",
-    "Хрусткі самоси з овочевою або курячою начинкою.",
     "Хрусткі, з м’яким соусом для занурення.",
     "Соковиті та хрусткі, з м’яким соусом для занурення.",
     "Курка гриль, з рисом або картоплею фрі та салатом.",
@@ -411,40 +534,49 @@ const I18N = {
     "Курка гриль і пряна яловичина, з рисом або картоплею фрі та салатом.",
     "Паніроване рибне філе, з рисом або картоплею фрі та салатом.",
     "Хрусткі фалафелі, з рисом або картоплею фрі та салатом.",
+    "На вибір: курка, яловичина, комбо (курка та яловичина), вегетаріанська або креветки, з червоним соусом, травами та сиром.",
     "Пряна яловичина в теплому хлібі піта з салатом і м’яким соусом.",
     "Курка гриль у теплому хлібі піта з салатом.",
     "Фалафель зі свіжими овочами.",
     "Курка гриль і пряна яловичина в теплому хлібі піта з салатом і м’яким соусом.",
     "Яловичий бургер, приготований на грилі до досконалості, з розплавленим сиром, подається з картоплею фрі.",
     "Хрустка курка, смажена до золотистого кольору, з розплавленим сиром, подається з картоплею фрі.",
-    "Рибний бургер.",
-    "Яловичий бургер, приготований на грилі до досконалості, з розплавленим сиром, подається з картоплею фрі.",
-    "Курка / Яловичина, салат айсберг, сир фета, огірок, помідор, червона квасоля, з м’яким дресингом.",
+    "Рибний бургер, подається з картоплею фрі.",
+    "Яловичий бургер, приготований на грилі до досконалості.",
+    "Халумі на грилі зі свіжими овочами.",
+    "Курка / Яловичина, салат айсберг, сир фета, огірок, помідор, з м’яким дресингом.",
+    "Салат айсберг, сир фета, огірок і помідор, з м’яким дресингом.",
     "Хрустка картопля фрі.",
     "Хрустка картопля фрі з соусом на вибір.",
     "Хрустка картопля фрі/фалафель зі свіжими овочами та соусом на вибір.",
     "Хрустка картопля фрі з чилі-майонезом.",
     "Оберіть газований напій або каву/чай; подається холодним або гарячим на вибір.",
-    "Банан, Полуниця, Лісові ягоди, Банан і фінік, Манго та мілкшейк Орео."
+    "Банан, Полуниця, Лісові ягоди, Банан і фінік, Манго та мілкшейк Орео.",
+    "Будь-який соус для вмочування до вашої страви.",
+    "Додайте будь-яке м’ясо: курку або яловичину.",
+    "Додайте додатковий розплавлений сир."
   ] }
 };
 
-// Photos: ./photos/1.jpg, 2.jpg ... numbered in menu order (top to bottom, left column then right column)
+// Photos: menu 1 -> ./photosmenu1/, afternoon menu (2) -> ./photosmenu2/, pasta menu (3) -> ./photosmenu3/, lunch (4) has no photos (files 1.jpg, 2.jpg ... see PHOTO-REFERENCE.pdf)
 const EXTS = ["jpg", "jpeg", "png", "webp"];
 const esc = s => s.replace(/&/g, "&amp;").replace(/</g, "&lt;");
 
 let L = null;
 // photo numbers and translation indexes are fixed per item, so moving sections never changes them
-(() => { let n = 0, d = 0; MENU.forEach((sec, i) => { sec.si = i; sec.items.forEach(it => { if (!it[3]) n++; it.pid = it[3] || n; it.di = d++; }); }); })();
-const LEFT = [0, 1, 4], RIGHT = [2, 3, 5, 6, 7];
+const POPULAR = ["Krispig kyckling", "Fisk", "Combo (Nöt & Kyckling)"];   // items that get the "Popular" tag
+const POP_SV = "Populär";
+(() => { let n = 0, d = 0; MENU.forEach((sec, i) => { sec.si = i; sec.items.forEach(it => { if (!it[3]) n++; it.pid = it[3] || n; it.di = d++; it.pop = POPULAR.includes(it[0]); }); }); })();
+const LEFT = [0, 1, 4, 8], RIGHT = [2, 3, 5, 6, 7];
 
 function loadPhotos(root, dir) {
   root.querySelectorAll(".photo, .d-photo").forEach(box => {
     const img = box.querySelector("img");
     let i = 0;
     img.onload = () => box.classList.remove("empty");
-    img.onerror = () => { i++; if (i < EXTS.length) img.src = `${dir}/${box.dataset.n}.${EXTS[i]}`; };
-    img.src = `${dir}/${box.dataset.n}.${EXTS[0]}`;
+    const base = box.dataset.n.includes("/") ? box.dataset.n : `${dir}/${box.dataset.n}`;   // "photosmenu3/3" = reuse a photo from another menu folder
+    img.onerror = () => { i++; if (i < EXTS.length) img.src = `${base}.${EXTS[i]}`; };
+    img.src = `${base}.${EXTS[0]}`;
   });
 }
 
@@ -459,10 +591,10 @@ const sectionHTML = sec => {
       const [name, price, desc] = it;
       const text = T ? T.d[it.di] : desc;
       return `
-      <div class="item">
-        <div class="photo empty" data-n="${it.pid}" data-name="${esc(name)}"><img alt="${esc(name)}"></div>
+      <div class="item${it[3] === "+" ? " addon" : ""}">
+        ${it[3] === "+" ? `<div class="plus">+</div>` : `<div class="photo empty" data-n="${it.pid}" data-name="${esc(name)}"><img alt="${esc(name)}"></div>`}
         <div class="info">
-          <div class="row"><span class="name" contenteditable="true">${esc(name)}</span><span class="price" contenteditable="true">${esc(price)}</span></div>
+          <div class="row"><span class="nm"><span class="name" contenteditable="true">${esc(name)}</span>${it.pop ? `<span class="pop" contenteditable="true">${esc(T ? T.pop : POP_SV)}</span>` : ""}</span><span class="price" contenteditable="true">${esc(price)}</span></div>
           <p class="desc" contenteditable="true">${esc(text)}</p>
         </div>
       </div>`;
@@ -471,7 +603,7 @@ const sectionHTML = sec => {
 };
 
 // ---------- Pages 2 and 3 (dark, red/yellow) ----------
-const AFTER_ITEMS = [["Ost Paratha","49 Kr"],["Aloo Ost Paratha","59 Kr"],["Kyckling Ost Paratha","69 Kr"],["Nötfärs Ost Paratha","69 Kr"],["Platform92 Special Paratha","119 Kr"]];
+const AFTER_ITEMS = [["Ost Paratha","89 Kr"],["Aloo (Smash potatis) Ost Paratha","89 Kr"],["Kyckling Ost Paratha","99 Kr"],["Nötfärs Ost Paratha","99 Kr"],["Platform92 Special Paratha","119 Kr"]];
 const AFTER_T = {
   sv: { title: "EFTERMIDDAGS MENY", wk: "VANLIGA DAGAR", we: "LÖRDAG & SÖNDAG", pre: "Kl. ", shakes: "VÅRA MILKSHAKES", tea: "TE KAFFE + SNACKS" },
   en: { title: "AFTERNOON MENU", wk: "WEEKDAYS", we: "SATURDAY & SUNDAY", pre: "", shakes: "OUR MILKSHAKES", tea: "TEA COFFEE + SNACKS" },
@@ -482,7 +614,19 @@ const AFTER_T = {
   pl: { title: "MENU POPOŁUDNIOWE", wk: "DNI POWSZEDNIE", we: "SOBOTA I NIEDZIELA", pre: "", shakes: "NASZE SHAKE’I MLECZNE", tea: "HERBATA KAWA + PRZEKĄSKI" },
   uk: { title: "МЕНЮ ПІСЛЯ ОБІДУ", wk: "БУДНІ ДНІ", we: "СУБОТА ТА НЕДІЛЯ", pre: "", shakes: "НАШІ МІЛКШЕЙКИ", tea: "ЧАЙ КАВА + ЗАКУСКИ" }
 };
-const PASTA_ITEMS = [["Kycklingpasta","119 Kr"],["Nötfärspasta","119 Kr"],["Combo Pasta Tallrik","119 Kr"],["Vegetarisk Pasta","119 Kr"],["Räkpasta","129 Kr"]];
+const AFTER_D = {
+  sv: ["Varm, flagig paratha fylld med smält ost.","Paratha fylld med kryddad potatis och smält ost.","Paratha fylld med kryddad kyckling och smält ost.","Paratha fylld med kryddad nötfärs och smält ost.","Husets specialparatha med extra fyllning och smält ost."],
+  en: ["Warm, flaky paratha filled with melted cheese.","Paratha filled with spiced potato and melted cheese.","Paratha filled with spiced chicken and melted cheese.","Paratha filled with spiced minced beef and melted cheese.","Our house special paratha with extra filling and melted cheese."],
+  ar: ["براتا دافئة مقرمشة محشوة بالجبنة الذائبة.","براتا محشوة بالبطاطس المتبلة والجبنة الذائبة.","براتا محشوة بالدجاج المتبل والجبنة الذائبة.","براتا محشوة باللحم المفروم المتبل والجبنة الذائبة.","براتا السبيشل الخاصة بنا بحشوة إضافية وجبنة ذائبة."],
+  so: ["Paratha diirran oo jiis dhalaalay ka buuxo.","Paratha ka buuxo baradho udgoon iyo jiis dhalaalay.","Paratha ka buuxo digaag udgoon iyo jiis dhalaalay.","Paratha ka buuxo hilib lo' la shiiday oo udgoon iyo jiis dhalaalay.","Paratha-ddeenna gaarka ah oo leh buuxin dheeraad ah iyo jiis dhalaalay."],
+  fa: ["پاراتای گرم و ترد پر شده با پنیر ذوب‌شده.","پاراتا با فیلینگ سیب‌زمینی ادویه‌دار و پنیر ذوب‌شده.","پاراتا با فیلینگ مرغ ادویه‌دار و پنیر ذوب‌شده.","پاراتا با فیلینگ گوشت چرخ‌کرده ادویه‌دار و پنیر ذوب‌شده.","پاراتای مخصوص ما با فیلینگ بیشتر و پنیر ذوب‌شده."],
+  tr: ["Erimiş peynirle doldurulmuş sıcak, katmanlı paratha.","Baharatlı patates ve erimiş peynirle doldurulmuş paratha.","Baharatlı tavuk ve erimiş peynirle doldurulmuş paratha.","Baharatlı kıyma ve erimiş peynirle doldurulmuş paratha.","Ekstra iç harcı ve erimiş peynirle özel paratha."],
+  pl: ["Ciepły, kruchy paratha z roztopionym serem.","Paratha z przyprawionymi ziemniakami i roztopionym serem.","Paratha z przyprawionym kurczakiem i roztopionym serem.","Paratha z przyprawioną mieloną wołowiną i roztopionym serem.","Nasza specjalna paratha z dodatkowym nadzieniem i roztopionym serem."],
+  uk: ["Гаряча хрустка парата з розплавленим сиром.","Парата з пряною картоплею та розплавленим сиром.","Парата з пряною куркою та розплавленим сиром.","Парата з пряним яловичим фаршем та розплавленим сиром.","Наша фірмова парата з додатковою начинкою та розплавленим сиром."]
+};
+const EXTRAS_T = { sv: "TILLÄGG", en: "EXTRAS", ar: "إضافات", so: "DHEERAAD", fa: "افزودنی‌ها", tr: "EKSTRALAR", pl: "DODATKI", uk: "ДОДАТКИ" };
+const FEAT_AFTER = [4], FEAT_PASTA = [2];   // "feature" cards (Platform92 Special, Combo Pasta) get a highlight
+const PASTA_ITEMS = [["Kycklingpasta","119 Kr"],["Nötfärspasta","119 Kr"],["Combo Pasta Tallrik","129 Kr"],["Vegetarisk Pasta","119 Kr"],["Räkpasta","129 Kr"]];
 const PASTA_T = {
   sv: { title: "PASTA MENY", tag: "FÄRSK PASTA GOD SMAK", d: ["Pasta med kyckling, röd sås, örter och ost.","Pasta med nötkött, röd sås, örter och ost.","Pasta med kyckling och nötkött, röd sås, färska grönsaker och ost.","Pasta med färska grönsaker, röd sås, örter och ost.","Pasta med räkor, röd sås, örter och ost."] },
   en: { title: "PASTA MENU", tag: "FRESH PASTA, GREAT TASTE", d: ["Pasta with chicken, red sauce, herbs and cheese.","Pasta with beef, red sauce, herbs and cheese.","Pasta with chicken and beef, red sauce, fresh vegetables and cheese.","Pasta with fresh vegetables, red sauce, herbs and cheese.","Pasta with shrimp, red sauce, herbs and cheese."] },
@@ -505,7 +649,12 @@ function renderAfter(lang) {
       <div class="hbox"><div class="lab" contenteditable="true">${esc(T.we)}</div><div class="time" contenteditable="true">${esc(T.pre)}12:00 – 17:00</div></div>
     </div>
     <div class="d-rows">${AFTER_ITEMS.map(([n, p], i) => `
-      <div class="d-row"><div class="d-name"><span contenteditable="true">${esc(n)}</span></div>${dPhoto(i + 1, n)}<div class="d-price" contenteditable="true">${esc(p)}</div></div>`).join("")}
+      <div class="d-row${FEAT_AFTER.includes(i) ? " feat" : ""}"><div class="d-name"><span contenteditable="true">${esc(n)}</span><small contenteditable="true">${esc((AFTER_D[lang] || AFTER_D.sv)[i])}</small></div>${dPhoto(i + 1, n)}<div class="d-price" contenteditable="true">${esc(p)}</div></div>`).join("")}
+    </div>
+    <div class="d-extras">
+      <div class="d-lab" contenteditable="true">${esc(EXTRAS_T[lang] || EXTRAS_T.sv)}</div>
+      <div class="d-xi"><span class="xn" contenteditable="true">Extra kött eller kyckling</span><span class="xp" contenteditable="true">19 Kr</span></div>
+      <div class="d-xi"><span class="xn" contenteditable="true">Extra ost</span><span class="xp" contenteditable="true">10 Kr</span></div>
     </div>
     <div class="d-strip">
       <div class="d-side"><div class="d-lab" contenteditable="true">${esc(T.shakes)}</div>${dPhoto(6, "Milkshakes")}<div class="d-price" contenteditable="true">49 Kr</div></div>
@@ -520,7 +669,7 @@ function renderPasta(lang) {
     ${bannerHTML(T.title)}
     <div class="d-tag" contenteditable="true">${esc(T.tag)}</div>
     <div class="d-rows">${PASTA_ITEMS.map(([n, p], i) => `
-      <div class="d-row tall"><div class="d-name"><span contenteditable="true">${esc(n)}</span><small contenteditable="true">${esc(T.d[i])}</small></div>${dPhoto(i + 1, n)}<div class="d-price" contenteditable="true">${esc(p)}</div></div>`).join("")}
+      <div class="d-row tall${FEAT_PASTA.includes(i) ? " feat" : ""}"><div class="d-name"><span contenteditable="true">${esc(n)}</span><small contenteditable="true">${esc(T.d[i])}</small></div>${dPhoto(i + 1, n)}<div class="d-price" contenteditable="true">${esc(p)}</div></div>`).join("")}
     </div>`;
   loadPhotos(document.getElementById("pasta"), "photosmenu3");
 }
@@ -596,8 +745,9 @@ let cur = 1;
 function fit() {
   const page = pages[cur];
   page.style.transform = "none";
+  if (matchMedia("(max-width: 800px)").matches) { stage.style.width = ""; stage.style.height = ""; return; }
   const w = page.offsetWidth, h = page.offsetHeight;
-  const s = Math.min((innerWidth - 24) / w, (innerHeight - 56 - 12) / h, 1);
+  const s = Math.min((innerWidth - 24) / w, (innerHeight - document.getElementById("bar").offsetHeight - 12) / h, 1);
   page.style.transform = `scale(${s})`;
   stage.style.width = w * s + "px";
   stage.style.height = h * s + "px";
@@ -607,6 +757,7 @@ function showPage(p) {
   Object.entries(pages).forEach(([k, el]) => { el.style.display = +k === p ? "flex" : "none"; });
   document.querySelectorAll("#pager button").forEach(b => b.classList.toggle("on", +b.dataset.p === p));
   fit();
+  window.scrollTo(0, 0);
 }
 document.querySelectorAll("#pager button").forEach(b => b.addEventListener("click", () => showPage(+b.dataset.p)));
 addEventListener("resize", fit);
@@ -633,7 +784,72 @@ document.addEventListener("paste", e => {
   document.execCommand("insertText", false, t);
 });
 
-document.getElementById("pdf").addEventListener("click", () => window.print());
+// ---------- PDF paper size ----------
+// The designed page is 210 x 296 mm. For any other size it is scaled uniformly (never reflowed) and centred on its own sheet.
+const DESIGN_W = 210, DESIGN_H = 296;
+const UNIT_MM = { mm: 1, cm: 10, in: 25.4, ft: 304.8 };
+const PAPERS = {
+  a4:    [210, 297,     "A4 (210 × 297 mm)"],
+  a5:    [148, 210,     "A5 (148 × 210 mm)"],
+  a3:    [297, 420,     "A3 (297 × 420 mm)"],
+  a2:    [420, 594,     "A2 (420 × 594 mm)"],
+  letter:[215.9, 279.4, "Letter (8.5 × 11 in)"],
+  legal: [215.9, 355.6, "Legal (8.5 × 14 in)"],
+  tabloid:[279.4, 431.8,"Tabloid (11 × 17 in)"],
+  p1824: [457.2, 609.6, "Poster 18 × 24 in"],
+  p2436: [609.6, 914.4, "Poster 24 × 36 in"],
+  custom:null
+};
+const MIN_MM = 50, MAX_MM = 3000;
+const paperSel = document.getElementById("paper"), customBox = document.getElementById("customSize");
+const cw = document.getElementById("cw"), ch = document.getElementById("ch"), cu = document.getElementById("cu");
+paperSel.innerHTML = Object.entries(PAPERS).map(([k, v]) => `<option value="${k}">${v ? v[2] : "Custom size…"}</option>`).join("");
+let lastUnit = "mm";
+paperSel.addEventListener("change", () => { customBox.hidden = paperSel.value !== "custom"; fit(); });
+cu.addEventListener("change", () => {      // keep the same physical size when the unit changes
+  const f = UNIT_MM[lastUnit] / UNIT_MM[cu.value];
+  cw.value = +(cw.value * f).toFixed(3); ch.value = +(ch.value * f).toFixed(3); lastUnit = cu.value;
+});
+function chosenSizeMM() {
+  if (paperSel.value !== "custom") return PAPERS[paperSel.value].slice(0, 2);
+  const u = UNIT_MM[cu.value];
+  const clamp = v => Math.min(MAX_MM, Math.max(MIN_MM, v));
+  const W = clamp(parseFloat(cw.value) * u), H = clamp(parseFloat(ch.value) * u);
+  if (!isFinite(W) || !isFinite(H)) return PAPERS.a4.slice(0, 2);
+  cw.value = +(W / u).toFixed(3); ch.value = +(H / u).toFixed(3);   // show the value actually used
+  return [W, H];
+}
+function removePrintRoot() {
+  document.getElementById("printRoot")?.remove();
+  document.getElementById("printSize")?.remove();
+  document.body.classList.remove("printing");
+}
+async function printPDF() {
+  removePrintRoot();
+  const [W, H] = chosenSizeMM().map(v => +v.toFixed(2));
+  const s = Math.min(W / DESIGN_W, H / DESIGN_H);
+  const root = document.createElement("div"); root.id = "printRoot";
+  Object.values(pages).forEach(page => {
+    const cs = getComputedStyle(page);
+    const sheet = document.createElement("div"); sheet.className = "sheet";
+    sheet.style.width = W + "mm"; sheet.style.height = H + "mm";
+    sheet.style.backgroundColor = cs.backgroundColor; sheet.style.backgroundImage = cs.backgroundImage;
+    const clone = page.cloneNode(true);
+    clone.style.display = "flex"; clone.style.width = DESIGN_W + "mm"; clone.style.height = DESIGN_H + "mm";
+    clone.style.left = ((W - DESIGN_W * s) / 2).toFixed(3) + "mm"; clone.style.top = ((H - DESIGN_H * s) / 2).toFixed(3) + "mm";
+    clone.style.transform = `scale(${s})`;
+    sheet.appendChild(clone); root.appendChild(sheet);
+  });
+  const st = document.createElement("style"); st.id = "printSize";
+  st.textContent = `@page { size: ${W}mm ${H}mm; margin: 0; }`;
+  document.head.appendChild(st); document.body.appendChild(root); document.body.classList.add("printing");
+  // make sure every photo in the copies has loaded before the print dialog opens
+  await Promise.all([...root.querySelectorAll("img")].filter(i => i.getAttribute("src") && !i.complete)
+    .map(i => new Promise(r => { i.onload = i.onerror = r; setTimeout(r, 2500); })));
+  window.print();
+}
+addEventListener("afterprint", removePrintRoot);
+document.getElementById("pdf").addEventListener("click", printPDF);
 </script>
 </body>
 </html>
