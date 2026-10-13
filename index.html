@@ -301,7 +301,8 @@ const MENU = [
     ["Cheeseburgare", "119 Kr", "Nötköttsburgare grillad till perfektion, toppad med smält ost, serveras med pommes."],
     ["Krispig kyckling-cheeseburgare", "119 Kr", "Krispigt friterad till gyllene perfektion, med smält ost, serveras med pommes."],
     ["Fisk Burger", "119 Kr", "Fiskburgare, serveras med pommes."],
-    ["Bon Burger", "59 Kr", "Nötköttsburgare grillad till perfektion.", "b"]
+    ["Bon Burger", "59 Kr", "Nötköttsburgare grillad till perfektion.", "b"],
+    ["Halloumi Burger", "109 Kr", "Grillad halloumi med färska grönsaker.", "i"]
   ]},
   { title: "SALLAD", items: [
     ["Mixed Sallad (ost)", "69 Kr / 99 Kr", "Kyckling / Nötkött, Isbergssallad, Fetaost, gurka, tomat, med mild dressing."],
@@ -326,7 +327,7 @@ const MENU = [
   ]}
 ];
 
-// Translations: section titles (9) and 29 descriptions in menu order.
+// Translations: section titles (9) and 30 descriptions in menu order.
 // Dish names, prices and "Kr" stay as on the Swedish menu.
 const I18N = {
   en: { pop: "Popular", label: "English", t: ["STARTERS","PLATES","ROLLS","BURGERS","SALAD","FRIES","DRINKS","MILKSHAKES","EXTRAS"], d: [
@@ -348,6 +349,7 @@ const I18N = {
     "Crispy chicken fried to golden perfection, with melted cheese, served with fries.",
     "Fish burger, served with fries.",
     "Beef burger grilled to perfection.",
+    "Grilled halloumi with fresh vegetables.",
     "Chicken / Beef, iceberg lettuce, feta cheese, cucumber, tomato, with mild dressing.",
     "Iceberg lettuce, feta cheese, cucumber and tomato, with mild dressing.",
     "Crispy fries.",
@@ -379,6 +381,7 @@ const I18N = {
     "دجاج مقرمش مقلي حتى يصبح ذهبياً، مع جبنة ذائبة، يُقدَّم مع البطاطس.",
     "برغر سمك، يُقدَّم مع البطاطس.",
     "برغر لحم بقري مشوي بإتقان.",
+    "حلوم مشوي مع خضار طازجة.",
     "دجاج / لحم بقري، خس آيسبرغ، جبنة فيتا، خيار، طماطم، مع صلصة خفيفة.",
     "خس آيسبرغ وجبنة فيتا وخيار وطماطم، مع صلصة خفيفة.",
     "بطاطس مقلية مقرمشة.",
@@ -410,6 +413,7 @@ const I18N = {
     "Digaag qallafsan oo la shiilay ilaa uu dahabi noqdo, jiis dhalaalay leh, la socda bataato.",
     "Bargar kalluun, la socda bataato.",
     "Bargar hilib lo' ah oo si fiican loo dubay.",
+    "Halloumi la dubay oo leh khudaar cusub.",
     "Digaag / Hilib lo', salaad Isberg, jiis Feta, qajaar, yaanyo, la socda suugo khafiif ah.",
     "Salaar iceberg, jiis feta, qajaar iyo yaanyo, oo leh suugo khafiif ah.",
     "Bataato qallafsan.",
@@ -441,6 +445,7 @@ const I18N = {
     "مرغ ترد سرخ‌شده تا طلایی، با پنیر ذوب‌شده، همراه سیب‌زمینی سرخ‌کرده.",
     "همبرگر ماهی، همراه سیب‌زمینی سرخ‌کرده.",
     "همبرگر گوشت گاو گریل‌شده.",
+    "هالومی گریل‌شده با سبزیجات تازه.",
     "مرغ / گوشت گاو، کاهو ایسبرگ، پنیر فتا، خیار، گوجه‌فرنگی، با سس ملایم.",
     "کاهو، پنیر فتا، خیار و گوجه‌فرنگی، با سس ملایم.",
     "سیب‌زمینی سرخ‌کرده ترد.",
@@ -472,6 +477,7 @@ const I18N = {
     "Altın sarısı olana kadar kızartılmış çıtır tavuk, eritilmiş peynirli, patates kızartmasıyla servis edilir.",
     "Balık burger, patates kızartmasıyla servis edilir.",
     "Mükemmel ızgara dana burger.",
+    "Taze sebzelerle ızgara hellim.",
     "Tavuk / Dana eti, iceberg marul, feta peyniri, salatalık, domates, hafif sosla.",
     "Iceberg marul, feta peyniri, salatalık ve domates, hafif sosla.",
     "Çıtır patates kızartması.",
@@ -503,6 +509,7 @@ const I18N = {
     "Chrupiący kurczak smażony na złoty kolor, z roztopionym serem, podawany z frytkami.",
     "Burger rybny, podawany z frytkami.",
     "Burger wołowy grillowany do perfekcji.",
+    "Grillowany halloumi ze świeżymi warzywami.",
     "Kurczak / Wołowina, sałata lodowa, ser feta, ogórek, pomidor, z łagodnym dressingiem.",
     "Sałata lodowa, ser feta, ogórek i pomidor, z łagodnym dressingiem.",
     "Chrupiące frytki.",
@@ -534,6 +541,7 @@ const I18N = {
     "Хрустка курка, смажена до золотистого кольору, з розплавленим сиром, подається з картоплею фрі.",
     "Рибний бургер, подається з картоплею фрі.",
     "Яловичий бургер, приготований на грилі до досконалості.",
+    "Халумі на грилі зі свіжими овочами.",
     "Курка / Яловичина, салат айсберг, сир фета, огірок, помідор, з м’яким дресингом.",
     "Салат айсберг, сир фета, огірок і помідор, з м’яким дресингом.",
     "Хрустка картопля фрі.",
