@@ -99,25 +99,7 @@
   .desc { margin-top: 1px; color: var(--ink-soft); font-size: 11px; line-height: 1.28; }
 
 
-  /* Page 2: weekly lunch (red / yellow) */
   .page { width: 210mm; height: 296mm; transform-origin: top left; overflow: hidden; position: relative; }
-  #page4 {
-    background: radial-gradient(ellipse at 50% 18%, #d11a26 0%, #a50f1b 55%, #7a0912 100%);
-    padding: 12mm 12mm 10mm; display: none; flex-direction: column; color: #fff;
-  }
-  #lunch { position: relative; z-index: 1; flex: 1; display: flex; flex-direction: column; min-height: 0; }
-  .l-title { align-self: center; background: #ffd23f; color: #7a0912; font-weight: 800; font-size: 40px; letter-spacing: .02em; line-height: 1; padding: 10px 34px 12px; transform: rotate(-1.5deg) skewX(-4deg); border-radius: 6px; box-shadow: 0 3px 0 rgba(0,0,0,.25); }
-  .l-sub { align-self: center; margin: 12px 0 14px; color: #ffd23f; font-weight: 700; font-size: 13px; letter-spacing: .12em; text-align: center; }
-  .l-days { flex: 1; display: flex; flex-direction: column; justify-content: space-between; gap: 8px; }
-  .l-day { display: flex; align-items: center; gap: 16px; background: rgba(60,0,6,.38); border: 1.5px solid rgba(255,210,63,.55); border-radius: 14px; padding: 10px 16px; flex: 1; }
-  .l-dayname { flex: 0 0 38mm; text-align: center; background: #ffd23f; color: #7a0912; font-weight: 800; font-size: 19px; padding: 7px 8px 8px; border-radius: 6px; transform: rotate(-1deg); box-shadow: 0 2px 0 rgba(0,0,0,.25); }
-  .l-dishes { flex: 1; display: flex; flex-direction: column; gap: 7px; }
-  .l-dish { position: relative; padding-inline-start: 18px; font-size: 16px; font-weight: 600; line-height: 1.25; }
-  .l-dish::before { content: ""; position: absolute; inset-inline-start: 0; top: .42em; width: 9px; height: 9px; border-radius: 50%; background: #ffd23f; }
-  .l-foot { margin-top: 14px; text-align: center; }
-  .l-welcome { font-size: 24px; font-weight: 800; color: #ffd23f; }
-  .l-contact { margin-top: 6px; font-size: 14px; font-weight: 600; direction: ltr; }
-  #page4 [contenteditable]:hover { outline-color: rgba(255,255,255,.7); }
   #pager { display: flex; gap: 6px; }
   #pager button { font: 700 13px system-ui, sans-serif; padding: 6px 12px; border: 0; border-radius: 6px; cursor: pointer; background: #444; color: #e8e8e8; }
   #pager button.on { background: #ffd23f; color: #2a1203; }
@@ -205,15 +187,6 @@
     .d-xi { flex: 1 1 100%; border: 0; padding: 0 4px; }
     .d-lab { font-size: 11.5px; padding: 4px; }
 
-    #page4 { padding: 18px 12px 20px; }
-    .l-title { font-size: 25px; padding: 8px 20px 10px; text-align: center; }
-    .l-sub { font-size: 11px; margin: 10px 0 12px; }
-    .l-days { flex: none; gap: 10px; }
-    .l-day { flex-direction: column; align-items: stretch; gap: 10px; padding: 12px; }
-    .l-dayname { flex: none; font-size: 17px; }
-    .l-dish { font-size: 15px; }
-    .l-welcome { font-size: 20px; }
-    .l-contact { font-size: 12.5px; }
   }
 
   @media print {
@@ -221,7 +194,7 @@
     #bar { display: none; }
     #stage { width: auto !important; height: auto !important; }
     #stage #page, #stage .page { transform: none !important; display: flex !important; break-after: page; }
-    #stage #page4 { break-after: auto; }
+    #stage #page3 { break-after: auto; }
     [contenteditable] { outline: none !important; }
     /* Custom paper size: every menu sits on its own sheet of the chosen size, scaled to fit (design is never reflowed) */
     body.printing #stage { display: none !important; }
@@ -232,11 +205,30 @@
   }
   @media print { #printRoot .page, #printRoot #page { background: none !important; } }
   @media screen { #printRoot { display: none; } }
+  /* ---- Download dialog ---- */
+  #dlg { position: fixed; inset: 0; z-index: 200; display: flex; align-items: center; justify-content: center; padding: 16px; background: rgba(10,15,30,.62); font-family: system-ui, sans-serif; }
+  #dlg[hidden] { display: none; }
+  #dlgCard { width: min(100%, 440px); max-height: 100%; overflow: auto; background: #FFFBEF; color: #14284B; border-radius: 18px; padding: 22px 22px 18px; box-shadow: 0 18px 50px rgba(0,0,0,.45); }
+  #dlgCard h2 { margin: 0 0 14px; font-size: 21px; font-weight: 800; }
+  #dlgCard fieldset { border: 0; margin: 0 0 14px; padding: 0; }
+  #dlgCard legend { padding: 0; margin-bottom: 6px; font-size: 12px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; color: #38496A; }
+  #dlgCard label.opt { display: flex; align-items: center; gap: 12px; padding: 10px 12px; margin-bottom: 6px; background: #fff; border: 2px solid #E6DDBE; border-radius: 12px; font-size: 16px; font-weight: 700; cursor: pointer; }
+  #dlgCard label.opt:has(input:checked) { border-color: #14284B; background: #FFF3C2; }
+  #dlgCard input[type=checkbox] { width: 22px; height: 22px; accent-color: #14284B; flex: 0 0 auto; cursor: pointer; }
+  #dlgInfo { margin: 2px 0 14px; font-size: 13px; font-weight: 600; color: #38496A; min-height: 18px; }
+  #dlgInfo.warn { color: #B3261E; }
+  #dlgBtns { display: flex; gap: 10px; justify-content: flex-end; }
+  #dlgBtns button { font: 800 15px system-ui, sans-serif; padding: 11px 20px; border: 0; border-radius: 10px; cursor: pointer; }
+  #dlgCancel { background: #E6DDBE; color: #14284B; }
+  #dlgGo { background: #14284B; color: #FFD23F; }
+  #dlgGo:disabled { opacity: .4; cursor: not-allowed; }
+  .sheet.noprice .price, .sheet.noprice .d-price, .sheet.noprice .xp { display: none !important; }
+  @media print { #dlg { display: none !important; } }
 </style>
 </head>
 <body>
 <div id="bar">
-  <div id="pager"><button type="button" data-p="1" class="on">1 · Menu</button><button type="button" data-p="2">2 · Eftermiddag</button><button type="button" data-p="3">3 · Pasta</button><button type="button" data-p="4">4 · Lunch</button></div>
+  <div id="pager"><button type="button" data-p="1" class="on">1 · Menu</button><button type="button" data-p="2">2 · Eftermiddag</button><button type="button" data-p="3">3 · Pasta</button></div>
   <button id="pdf" type="button">Download as PDF</button>
   <label id="sizeLabel">Size
     <select id="paper"></select>
@@ -269,9 +261,24 @@
     <img class="wm" alt="">
     <div class="body" id="pasta"></div>
   </div>
-  <div class="page" id="page4">
-    <img id="logo2" class="wm" alt="">
-    <div id="lunch"></div>
+</div>
+
+<div id="dlg" hidden>
+  <div id="dlgCard" role="dialog" aria-modal="true" aria-labelledby="dlgTitle">
+    <h2 id="dlgTitle">Download PDF</h2>
+    <fieldset>
+      <legend>Prices</legend>
+      <label class="opt"><input type="checkbox" id="optWith" checked> With prices</label>
+      <label class="opt"><input type="checkbox" id="optWithout"> Without prices</label>
+    </fieldset>
+    <fieldset>
+      <legend>Menus</legend>
+      <label class="opt"><input type="checkbox" class="optMenu" value="1" checked> 1 · Menu</label>
+      <label class="opt"><input type="checkbox" class="optMenu" value="2" checked> 2 · Eftermiddag</label>
+      <label class="opt"><input type="checkbox" class="optMenu" value="3" checked> 3 · Pasta</label>
+    </fieldset>
+    <div id="dlgInfo"></div>
+    <div id="dlgBtns"><button type="button" id="dlgCancel">Cancel</button><button type="button" id="dlgGo">Download PDF</button></div>
   </div>
 </div>
 
@@ -556,7 +563,7 @@ const I18N = {
   ] }
 };
 
-// Photos: menu 1 -> ./photosmenu1/, afternoon menu (2) -> ./photosmenu2/, pasta menu (3) -> ./photosmenu3/, lunch (4) has no photos (files 1.jpg, 2.jpg ... see PHOTO-REFERENCE.pdf)
+// Photos: menu 1 -> ./photosmenu1/, afternoon menu (2) -> ./photosmenu2/, pasta menu (3) -> ./photosmenu3/ (files 1.jpg, 2.jpg ... see PHOTO-REFERENCE.pdf)
 const EXTS = ["jpg", "jpeg", "png", "webp"];
 const esc = s => s.replace(/&/g, "&amp;").replace(/</g, "&lt;");
 
@@ -682,52 +689,6 @@ function render(lang) {
   loadPhotos(document.getElementById("page"), "photosmenu1");
   renderAfter(lang);
   renderPasta(lang);
-  renderLunch(lang);
-}
-
-
-// Page 2: weekly lunch. Address/phone stay the same in every language.
-const LUNCH_SV = { title: "LUNCH VECKA {n}", sub: "DAGENS LUNCH SERVERAS MED SALLAD", welcome: "Välkommen till Platform 92",
-  days: ["Måndag","Tisdag","Onsdag","Torsdag","Fredag"],
-  dishes: [["Kycklingfilé med krämig pasta & ris","Falafel med ris & sallad"],["Krispig kyckling med ris & sallad","Krämig kycklingpasta (utan ost)"],["Smash nötkött med ris & sallad","Vegetarisk krämig pasta (utan ost)"],["Panerad fiskfilé med ris & sallad","Grillad kyckling med ris & sallad"],["Cheeseburgare med pommes","Krispig kyckling-cheeseburgare med pommes"]] };
-const LUNCH = {
-  sv: LUNCH_SV,
-  en: { title: "LUNCH WEEK {n}", sub: "DAILY LUNCH IS SERVED WITH SALAD", welcome: "Welcome to Platform 92",
-    days: ["Monday","Tuesday","Wednesday","Thursday","Friday"],
-    dishes: [["Chicken fillet with creamy pasta & rice","Falafel with rice & salad"],["Crispy chicken with rice & salad","Creamy chicken pasta (no cheese)"],["Smash beef with rice & salad","Vegetarian creamy pasta (no cheese)"],["Breaded fish fillet with rice & salad","Grilled chicken with rice & salad"],["Cheeseburger with fries","Crispy chicken cheeseburger with fries"]] },
-  ar: { title: "غداء الأسبوع {n}", sub: "يُقدَّم غداء اليوم مع السلطة", welcome: "أهلاً بكم في Platform 92",
-    days: ["الإثنين","الثلاثاء","الأربعاء","الخميس","الجمعة"],
-    dishes: [["فيليه دجاج مع باستا كريمية وأرز","فلافل مع أرز وسلطة"],["دجاج مقرمش مع أرز وسلطة","باستا كريمية بالدجاج (بدون جبنة)"],["لحم بقري سماش مع أرز وسلطة","باستا كريمية نباتية (بدون جبنة)"],["فيليه سمك مقرمش مع أرز وسلطة","دجاج مشوي مع أرز وسلطة"],["تشيزبرغر مع بطاطس مقلية","تشيزبرغر دجاج مقرمش مع بطاطس مقلية"]] },
-  so: { title: "QADADA TODDOBAADKA {n}", sub: "QADADA MAALINLAHA WAXAA LA SOCDA SALAAD", welcome: "Ku soo dhawaada Platform 92",
-    days: ["Isniin","Salaasa","Arbaco","Khamiis","Jimce"],
-    dishes: [["Hilib digaag oo la socda baasto kareemo leh iyo bariis","Falaafil la socda bariis iyo salaad"],["Digaag qallafsan oo la socda bariis iyo salaad","Baasto digaag kareemo leh (jiis la'aan)"],["Hilib lo' smash oo la socda bariis iyo salaad","Baasto kareemo leh oo khudrad ah (jiis la'aan)"],["Kalluun la rubay oo la socda bariis iyo salaad","Digaag la dubay oo la socda bariis iyo salaad"],["Jiisburger la socda bataato","Jiisburger digaag qallafsan oo la socda bataato"]] },
-  fa: { title: "ناهار هفته {n}", sub: "ناهار روز همراه با سالاد سرو می‌شود", welcome: "به Platform 92 خوش آمدید",
-    days: ["دوشنبه","سه‌شنبه","چهارشنبه","پنجشنبه","جمعه"],
-    dishes: [["فیله مرغ با پاستای خامه‌ای و برنج","فلافل با برنج و سالاد"],["مرغ ترد با برنج و سالاد","پاستای خامه‌ای مرغ (بدون پنیر)"],["گوشت گاو اسمش با برنج و سالاد","پاستای خامه‌ای گیاهی (بدون پنیر)"],["فیله ماهی پانه‌شده با برنج و سالاد","مرغ گریل‌شده با برنج و سالاد"],["چیزبرگر با سیب‌زمینی سرخ‌کرده","چیزبرگر مرغ ترد با سیب‌زمینی سرخ‌کرده"]] },
-  tr: { title: "ÖĞLE MENÜSÜ · HAFTA {n}", sub: "GÜNÜN ÖĞLE MENÜSÜ SALATA İLE SERVİS EDİLİR", welcome: "Platform 92’ye hoş geldiniz",
-    days: ["Pazartesi","Salı","Çarşamba","Perşembe","Cuma"],
-    dishes: [["Kremalı makarna ve pilavlı tavuk fileto","Pilav ve salata ile falafel"],["Pilav ve salata ile çıtır tavuk","Kremalı tavuklu makarna (peynirsiz)"],["Pilav ve salata ile smash dana eti","Vejetaryen kremalı makarna (peynirsiz)"],["Pilav ve salata ile galeta unlu balık fileto","Pilav ve salata ile ızgara tavuk"],["Patates kızartmalı cheeseburger","Patates kızartmalı çıtır tavuk cheeseburger"]] },
-  pl: { title: "LUNCH · TYDZIEŃ {n}", sub: "OBIAD DNIA PODAWANY Z SAŁATKĄ", welcome: "Zapraszamy do Platform 92",
-    days: ["Poniedziałek","Wtorek","Środa","Czwartek","Piątek"],
-    dishes: [["Filet z kurczaka z kremowym makaronem i ryżem","Falafel z ryżem i sałatką"],["Chrupiący kurczak z ryżem i sałatką","Kremowy makaron z kurczakiem (bez sera)"],["Wołowina smash z ryżem i sałatką","Wegetariański kremowy makaron (bez sera)"],["Panierowany filet rybny z ryżem i sałatką","Grillowany kurczak z ryżem i sałatką"],["Cheeseburger z frytkami","Cheeseburger z chrupiącym kurczakiem i frytkami"]] },
-  uk: { title: "ОБІД · ТИЖДЕНЬ {n}", sub: "ОБІД ДНЯ ПОДАЄТЬСЯ З САЛАТОМ", welcome: "Ласкаво просимо до Platform 92",
-    days: ["Понеділок","Вівторок","Середа","Четвер","П’ятниця"],
-    dishes: [["Куряче філе з кремовою пастою та рисом","Фалафель з рисом і салатом"],["Хрустка курка з рисом і салатом","Кремова паста з куркою (без сиру)"],["Смеш-яловичина з рисом і салатом","Вегетаріанська кремова паста (без сиру)"],["Паніроване рибне філе з рисом і салатом","Курка гриль з рисом і салатом"],["Чізбургер з картоплею фрі","Чізбургер з хрусткою куркою та картоплею фрі"]] }
-};
-let weekNo = "41";
-function renderLunch(lang) {
-  const T = LUNCH[lang] || LUNCH_SV;
-  const [a, b] = T.title.split("{n}");
-  document.getElementById("lunch").innerHTML = `
-    <div class="l-title"><span contenteditable="true">${esc(a)}</span><span id="weekNo" contenteditable="true">${esc(weekNo)}</span><span contenteditable="true">${esc(b)}</span></div>
-    <div class="l-sub" contenteditable="true">${esc(T.sub)}</div>
-    <div class="l-days">${T.days.map((d, i) => `
-      <div class="l-day"><div class="l-dayname" contenteditable="true">${esc(d)}</div>
-        <div class="l-dishes">${T.dishes[i].map(x => `<div class="l-dish" contenteditable="true">${esc(x)}</div>`).join("")}</div></div>`).join("")}
-    </div>
-    <div class="l-foot"><div class="l-welcome" contenteditable="true">${esc(T.welcome)}</div>
-      <div class="l-contact" contenteditable="true">Stationsgatan 6A, Vaggeryd 567 30 &nbsp;·&nbsp; +46 36 719 900</div></div>`;
-  document.getElementById("weekNo").addEventListener("input", e => { weekNo = e.target.textContent; });
 }
 
 
@@ -738,7 +699,7 @@ render("sv");
 
 // Fit the active A4 page inside the window so nothing scrolls
 const stage = document.getElementById("stage");
-const pages = { 1: document.getElementById("page"), 2: document.getElementById("page2"), 3: document.getElementById("page3"), 4: document.getElementById("page4") };
+const pages = { 1: document.getElementById("page"), 2: document.getElementById("page2"), 3: document.getElementById("page3") };
 let cur = 1;
 function fit() {
   const page = pages[cur];
@@ -822,14 +783,15 @@ function removePrintRoot() {
   document.getElementById("printSize")?.remove();
   document.body.classList.remove("printing");
 }
-async function printPDF() {
+async function printPDF(menus = [1, 2, 3], variants = ["with"]) {
   removePrintRoot();
   const [W, H] = chosenSizeMM().map(v => +v.toFixed(2));
   const s = Math.min(W / DESIGN_W, H / DESIGN_H);
   const root = document.createElement("div"); root.id = "printRoot";
-  Object.values(pages).forEach(page => {
+  variants.forEach(variant => menus.forEach(k => {
+    const page = pages[k];
     const cs = getComputedStyle(page);
-    const sheet = document.createElement("div"); sheet.className = "sheet";
+    const sheet = document.createElement("div"); sheet.className = "sheet" + (variant === "without" ? " noprice" : "");
     sheet.style.width = W + "mm"; sheet.style.height = H + "mm";
     sheet.style.backgroundColor = cs.backgroundColor; sheet.style.backgroundImage = cs.backgroundImage;
     const clone = page.cloneNode(true);
@@ -837,7 +799,7 @@ async function printPDF() {
     clone.style.left = ((W - DESIGN_W * s) / 2).toFixed(3) + "mm"; clone.style.top = ((H - DESIGN_H * s) / 2).toFixed(3) + "mm";
     clone.style.transform = `scale(${s})`;
     sheet.appendChild(clone); root.appendChild(sheet);
-  });
+  }));
   const st = document.createElement("style"); st.id = "printSize";
   st.textContent = `@page { size: ${W}mm ${H}mm; margin: 0; }`;
   document.head.appendChild(st); document.body.appendChild(root); document.body.classList.add("printing");
@@ -847,7 +809,39 @@ async function printPDF() {
   window.print();
 }
 addEventListener("afterprint", removePrintRoot);
-document.getElementById("pdf").addEventListener("click", printPDF);
+
+// ---------- Download dialog: with / without prices + which menus ----------
+const dlg = document.getElementById("dlg"), dlgInfo = document.getElementById("dlgInfo"), dlgGo = document.getElementById("dlgGo");
+const optWith = document.getElementById("optWith"), optWithout = document.getElementById("optWithout");
+const optMenus = [...document.querySelectorAll(".optMenu")];
+function dlgChoice() {
+  return { menus: optMenus.filter(c => c.checked).map(c => +c.value),
+           variants: [optWith.checked && "with", optWithout.checked && "without"].filter(Boolean) };
+}
+function dlgRefresh() {
+  const { menus, variants } = dlgChoice();
+  const ok = menus.length > 0 && variants.length > 0;
+  dlgGo.disabled = !ok;
+  dlgInfo.classList.toggle("warn", !ok);
+  if (!ok) { dlgInfo.textContent = variants.length ? "Choose at least one menu." : "Choose with prices, without prices, or both."; return; }
+  const [W, H] = chosenSizeMM();
+  const label = paperSel.value === "custom" ? `${+(W / 25.4).toFixed(2)} × ${+(H / 25.4).toFixed(2)} in` : PAPERS[paperSel.value][2].split(" (")[0];
+  const n = menus.length * variants.length;
+  dlgInfo.textContent = `${n} page${n > 1 ? "s" : ""} · size ${label}`;
+}
+function dlgOpen() { dlg.hidden = false; dlgRefresh(); optWith.focus(); }
+function dlgClose() { dlg.hidden = true; }
+[optWith, optWithout, ...optMenus].forEach(c => c.addEventListener("change", dlgRefresh));
+document.getElementById("pdf").addEventListener("click", dlgOpen);
+document.getElementById("dlgCancel").addEventListener("click", dlgClose);
+dlg.addEventListener("click", e => { if (e.target === dlg) dlgClose(); });
+addEventListener("keydown", e => { if (e.key === "Escape" && !dlg.hidden) dlgClose(); });
+dlgGo.addEventListener("click", () => {
+  const { menus, variants } = dlgChoice();
+  if (!menus.length || !variants.length) return;
+  dlgClose();
+  printPDF(menus, variants);
+});
 </script>
 </body>
 </html>
