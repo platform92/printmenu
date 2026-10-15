@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Platform92 – Meny</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#fff7e6;--card:#fff;--ink:#2a1203;--soft:#6b4a33;--line:rgba(42,18,3,.1);--red:#DA291C;--sun:#ffde59;--org:#ff914d;--chip:rgba(42,18,3,.08);
+ box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#17110c;--card:#241c15;--ink:#fbefdc;--soft:#c9b49c;--line:rgba(255,255,255,.1);--chip:rgba(255,255,255,.1);color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#17110c;--card:#241c15;--ink:#fbefdc;--soft:#c9b49c;--line:rgba(255,255,255,.1);--chip:rgba(255,255,255,.1);color-scheme:dark}
+html{scroll-behavior:smooth;scroll-padding-top:var(--h,120px)}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--ink);font-family:"Bricolage Grotesque",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;-webkit-text-size-adjust:100%}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--sun);z-index:20}
+#top{position:sticky;top:env(safe-area-inset-top,0px);z-index:10;background:linear-gradient(90deg,var(--sun),var(--org));color:#2a1203;box-shadow:0 2px 12px rgba(0,0,0,.18)}
+.bar{max-width:720px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 16px 8px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:22px;letter-spacing:-.01em}
+.brand i{font-style:normal;background:var(--red);color:#fff;border-radius:10px;padding:2px 9px 3px;transform:rotate(-3deg);font-size:20px}
+.lang{display:flex;align-items:center;gap:6px;background:rgba(255,255,255,.55);border-radius:999px;padding:0 6px 0 12px}
+.lang select{appearance:none;-webkit-appearance:none;background:none;border:0;font:700 14px inherit;font-family:inherit;color:#2a1203;padding:9px 18px 9px 2px;cursor:pointer;min-height:40px;
+ background-image:linear-gradient(45deg,transparent 50%,#2a1203 50%),linear-gradient(135deg,#2a1203 50%,transparent 50%);background-size:5px 5px;background-position:calc(100% - 9px) 52%,calc(100% - 4px) 52%;background-repeat:no-repeat}
+.lang select:focus-visible{outline:2px solid #2a1203;border-radius:8px}
+nav{max-width:720px;margin:0 auto;display:flex;gap:8px;overflow-x:auto;padding:4px 16px 12px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+nav::-webkit-scrollbar{display:none}
+nav a{flex:0 0 auto;text-decoration:none;color:#2a1203;font-weight:700;font-size:14px;background:rgba(255,255,255,.5);padding:8px 14px;border-radius:999px;white-space:nowrap;transition:.15s}
+nav a.on{background:#2a1203;color:#ffde59}
+main{max-width:720px;margin:0 auto;padding:8px 16px 24px}
+section{padding-top:22px}
+h2{display:flex;align-items:center;gap:10px;font-size:22px;font-weight:800;letter-spacing:-.01em;margin-bottom:12px}
+h2 span{display:grid;place-items:center;width:38px;height:38px;border-radius:12px;background:var(--red);font-size:20px}
+.item{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px 16px;margin-bottom:10px;box-shadow:0 1px 0 var(--line)}
+.row{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.nm{font-weight:700;font-size:17px;line-height:1.25;display:flex;flex-wrap:wrap;align-items:center;gap:4px 8px}
+.pop{background:var(--red);color:#fff;font-size:11px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;padding:2px 9px;border-radius:999px}
+.price{flex:0 0 auto;direction:ltr;unicode-bidi:isolate;background:var(--chip);border-radius:10px;padding:4px 10px;font-weight:800;font-size:15px;white-space:nowrap}
+.desc{margin-top:6px;color:var(--soft);font-size:14.5px;line-height:1.45}
+.desc::first-letter{text-transform:uppercase}
+.hours{display:flex;gap:10px;margin-bottom:12px}
+.hours div{flex:1;background:var(--card);border:1px dashed var(--red);border-radius:14px;padding:10px;text-align:center}
+.hours b{display:block;font-size:12px;letter-spacing:.06em;color:var(--soft);text-transform:uppercase}
+.hours span{display:block;margin-top:2px;font-weight:800;font-size:18px;direction:ltr}
+footer{max-width:720px;margin:0 auto;padding:8px 16px 32px;text-align:center}
+footer div{background:var(--red);color:#fff;border-radius:20px;padding:16px;display:grid;gap:6px;font-weight:700}
+footer a{color:var(--sun);text-decoration:none;font-weight:800}
+@media (min-width:600px){.item{padding:16px 20px}.nm{font-size:18px}}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<div id="top">
+  <div class="bar">
+    <div class="brand"><i>92</i>Platform</div>
+    <label class="lang"><span aria-hidden="true">🌐</span><select id="lang" aria-label="Language"></select></label>
+  </div>
+  <nav id="nav"></nav>
+</div>
+<main id="menu"></main>
+<footer><div>
+  <span>📍 Stationsgatan 6A, 567 30 Vaggeryd</span>
+  <a href="tel:+4636719900" dir="ltr">📞 +46 36 71 99 00</a>
+  <a href="https://Platform92.com" dir="ltr">Platform92.com</a>
+</div></footer>
+
+<script>
+// Words used to describe paratha/pasta fillings (index order: cheese, potato, chicken, beef, shrimp, veg, red sauce, herbs, extra filling)
+const T = {
+sv:{n:"Svenska",pop:"Populär",wk:"Vardagar",we:"Lör & Sön",
+ t:"Förrätter|Tallrikar|Rulle|Hamburgare|Sallad|Pommes frites|Drycker|Milkshakes|Tillägg|Eftermiddag|Pasta",
+ w:"ost|potatis|kyckling|nötkött|räkor|grönsaker|röd sås|örter|extra fyllning",
+ d:"Krispigt marinerad kyckling med indiska kryddor, friterad till perfektion.|Krispiga, med mild dippsås.|Saftiga & krispiga, med mild dippsås.|Grillad kyckling, med ris eller pommes & sallad.|Krispig kyckling, med ris eller pommes & sallad.|Kryddat nötkött, med ris/pommes & sallad.|Grillad kyckling & kryddat nötkött, med ris eller pommes & sallad.|Panerad fiskfilé, med ris eller pommes & sallad.|Krispiga falafflar, med ris eller pommes & sallad.|Välj kyckling, nötkött, combo, vegetarisk eller räkor, med röd sås, örter och ost.|Kryddat nötkött i varmt pitabröd med sallad & mild sås.|Grillad kyckling i varmt pitabröd med sallad.|Falafel med färska grönsaker.|Grillad kyckling & kryddat nötkött i varmt pitabröd med sallad & mild sås.|Nötköttsburgare grillad till perfektion, med smält ost, serveras med pommes.|Krispig kyckling med smält ost, serveras med pommes.|Fiskburgare, serveras med pommes.|Nötköttsburgare grillad till perfektion.|Grillad halloumi med färska grönsaker.|Kyckling / Nötkött, isbergssallad, fetaost, gurka, tomat, mild dressing.|Isbergssallad, fetaost, gurka och tomat, med mild dressing.|Krispiga pommes.|Krispiga pommes toppade med valfri dressing.|Krispiga pommes/falafel med färska grönsaker & valfri sås.|Krispiga pommes med chilimayo.|Välj läsk eller kaffe/te, serveras iskallt/varmt.|Banan, jordgubbe, blandade bär, banan & dadel, mango & Oreo.|Valfri dipsås till din måltid.|Lägg till kyckling eller nötkött.|Lägg till extra smält ost."},
+en:{n:"English",pop:"Popular",wk:"Weekdays",we:"Sat & Sun",
+ t:"Starters|Plates|Rolls|Burgers|Salad|Fries|Drinks|Milkshakes|Extras|Afternoon|Pasta",
+ w:"cheese|potato|chicken|beef|shrimp|vegetables|red sauce|herbs|extra filling",
+ d:"Crispy chicken marinated in Indian spices, deep-fried to perfection.|Crispy, with mild dipping sauce.|Juicy & crispy, with mild dipping sauce.|Grilled chicken, with rice or fries & salad.|Crispy chicken, with rice or fries & salad.|Spiced beef, with rice/fries & salad.|Grilled chicken & spiced beef, with rice or fries & salad.|Breaded fish fillet, with rice or fries & salad.|Crispy falafel, with rice or fries & salad.|Choose chicken, beef, combo, vegetarian or shrimp, with red sauce, herbs and cheese.|Spiced beef in warm pita bread with salad & mild sauce.|Grilled chicken in warm pita bread with salad.|Falafel with fresh vegetables.|Grilled chicken & spiced beef in warm pita bread with salad & mild sauce.|Beef burger grilled to perfection, with melted cheese, served with fries.|Crispy chicken with melted cheese, served with fries.|Fish burger, served with fries.|Beef burger grilled to perfection.|Grilled halloumi with fresh vegetables.|Chicken / Beef, iceberg lettuce, feta, cucumber, tomato, mild dressing.|Iceberg lettuce, feta, cucumber and tomato, with mild dressing.|Crispy fries.|Crispy fries topped with your choice of dressing.|Crispy fries/falafel with fresh vegetables & your choice of sauce.|Crispy fries with chili mayo.|Choose soda or coffee/tea, served cold/hot.|Banana, strawberry, mixed berries, banana & date, mango & Oreo.|Any dipping sauce with your meal.|Add chicken or beef.|Add extra melted cheese."},
+ar:{n:"العربية",rtl:1,pop:"الأكثر طلبًا",wk:"أيام الأسبوع",we:"السبت والأحد",
+ t:"المقبلات|الأطباق|اللفائف|البرغر|السلطة|البطاطس المقلية|المشروبات|ميلك شيك|إضافات|بعد الظهر|الباستا",
+ w:"جبنة|بطاطس|دجاج|لحم بقري|روبيان|خضار|صلصة حمراء|أعشاب|حشوة إضافية",
+ d:"دجاج مقرمش متبّل بالتوابل الهندية، مقلي بإتقان.|مقرمش، مع صلصة غمس خفيفة.|طري ومقرمش، مع صلصة غمس خفيفة.|دجاج مشوي، مع الأرز أو البطاطس والسلطة.|دجاج مقرمش، مع الأرز أو البطاطس والسلطة.|لحم بقري متبّل، مع الأرز أو البطاطس والسلطة.|دجاج مشوي ولحم بقري متبّل، مع الأرز أو البطاطس والسلطة.|فيليه سمك مقرمش، مع الأرز أو البطاطس والسلطة.|فلافل مقرمشة، مع الأرز أو البطاطس والسلطة.|اختر دجاج أو لحم بقري أو كومبو أو خضار أو روبيان، مع صلصة حمراء وأعشاب وجبنة.|لحم بقري متبّل في خبز بيتا دافئ مع السلطة وصلصة خفيفة.|دجاج مشوي في خبز بيتا دافئ مع السلطة.|فلافل مع خضار طازجة.|دجاج مشوي ولحم بقري متبّل في خبز بيتا دافئ مع السلطة وصلصة خفيفة.|برغر لحم بقري مشوي بإتقان مع جبنة ذائبة، يُقدَّم مع البطاطس.|دجاج مقرمش مع جبنة ذائبة، يُقدَّم مع البطاطس.|برغر سمك، يُقدَّم مع البطاطس.|برغر لحم بقري مشوي بإتقان.|حلوم مشوي مع خضار طازجة.|دجاج / لحم بقري، خس آيسبرغ، جبنة فيتا، خيار، طماطم، مع صلصة خفيفة.|خس آيسبرغ وجبنة فيتا وخيار وطماطم، مع صلصة خفيفة.|بطاطس مقلية مقرمشة.|بطاطس مقلية مقرمشة مع صلصة من اختيارك.|بطاطس مقلية/فلافل مع خضار طازجة وصلصة من اختيارك.|بطاطس مقلية مقرمشة مع مايونيز الفلفل الحار.|اختر مشروبًا غازيًا أو قهوة/شاي، بارد أو ساخن.|موز، فراولة، توت مشكل، موز وتمر، مانجو، وأوريو.|أي صلصة غمس مع وجبتك.|أضف دجاجًا أو لحمًا بقريًا.|أضف جبنة ذائبة إضافية."},
+so:{n:"Soomaali",pop:"Caan ah",wk:"Maalmaha caadiga",we:"Sabti & Axad",
+ t:"Cuntooyin hore|Saxanno|Roolasho|Bargaro|Salaad|Bataato|Cabitaanno|Milkshakes|Dheeraad|Galabta|Baasto",
+ w:"jiis|baradho|digaag|hilib lo'|jambari|khudrad|suugo cas|geedo udgoon|buuxin dheeraad",
+ d:"Digaag qallafsan oo xawaash Hindi ku maraysan, si fiican loo shiilay.|Qallafsan, la socda suugo khafiif ah.|Jilicsan oo qallafsan, la socda suugo khafiif ah.|Digaag la dubay, la socda bariis ama bataato iyo salaad.|Digaag qallafsan, la socda bariis ama bataato iyo salaad.|Hilib lo' xawaash leh, la socda bariis/bataato iyo salaad.|Digaag la dubay iyo hilib lo' xawaash leh, la socda bariis ama bataato iyo salaad.|Kalluun la rubay, la socda bariis ama bataato iyo salaad.|Falaafil qallafsan, la socda bariis ama bataato iyo salaad.|Dooro digaag, hilib lo', isku-dar, khudrad ama jambari, oo leh suugo cas, geedo udgoon iyo jiis.|Hilib lo' xawaash leh oo ku jira rooti bita diiran, la socda salaad iyo suugo khafiif ah.|Digaag la dubay oo ku jira rooti bita diiran, la socda salaad.|Falaafil la socda khudrad cusub.|Digaag la dubay iyo hilib lo' xawaash leh oo ku jira rooti bita diiran, la socda salaad iyo suugo khafiif ah.|Bargar hilib lo' ah oo si fiican loo dubay, jiis dhalaalay leh, la socda bataato.|Digaag qallafsan oo jiis dhalaalay leh, la socda bataato.|Bargar kalluun, la socda bataato.|Bargar hilib lo' ah oo si fiican loo dubay.|Halloumi la dubay oo leh khudrad cusub.|Digaag / Hilib lo', salaad iceberg, jiis feta, qajaar, yaanyo, suugo khafiif ah.|Salaad iceberg, jiis feta, qajaar iyo yaanyo, oo leh suugo khafiif ah.|Bataato qallafsan.|Bataato qallafsan oo suugo aad dooratid leh.|Bataato/falaafil qallafsan oo la socda khudrad cusub iyo suugo aad dooratid.|Bataato qallafsan oo chili mayo leh.|Dooro soodhaha ama kafeega/shaaha, qabow ama kulul.|Moos, istoroberi, miro isku dhafan, moos iyo timir, cambe & Oreo.|Suugo kasta oo aad dooratid.|Ku dar digaag ama hilib lo'.|Ku dar jiis dhalaalay oo dheeraad ah."},
+fa:{n:"فارسی",rtl:1,pop:"پرطرفدار",wk:"روزهای عادی",we:"شنبه و یکشنبه",
+ t:"پیش‌غذا|بشقاب‌ها|رول‌ها|همبرگرها|سالاد|سیب‌زمینی سرخ‌کرده|نوشیدنی‌ها|میلک‌شیک|افزودنی‌ها|بعدازظهر|پاستا",
+ w:"پنیر|سیب‌زمینی|مرغ|گوشت گاو|میگو|سبزیجات|سس قرمز|سبزی معطر|فیلینگ بیشتر",
+ d:"مرغ ترد ماریناد‌شده با ادویه‌های هندی، سرخ‌شده به بهترین شکل.|ترد، با سس ملایم.|آبدار و ترد، با سس ملایم.|مرغ گریل‌شده، با برنج یا سیب‌زمینی سرخ‌کرده و سالاد.|مرغ ترد، با برنج یا سیب‌زمینی سرخ‌کرده و سالاد.|گوشت گاو ادویه‌دار، با برنج/سیب‌زمینی سرخ‌کرده و سالاد.|مرغ گریل‌شده و گوشت گاو ادویه‌دار، با برنج یا سیب‌زمینی سرخ‌کرده و سالاد.|فیله ماهی پانه‌شده، با برنج یا سیب‌زمینی سرخ‌کرده و سالاد.|فلافل ترد، با برنج یا سیب‌زمینی سرخ‌کرده و سالاد.|مرغ، گوشت گاو، کامبو، سبزیجات یا میگو را انتخاب کنید، با سس قرمز، سبزی معطر و پنیر.|گوشت گاو ادویه‌دار در نان پیتای گرم با سالاد و سس ملایم.|مرغ گریل‌شده در نان پیتای گرم با سالاد.|فلافل با سبزیجات تازه.|مرغ گریل‌شده و گوشت گاو ادویه‌دار در نان پیتای گرم با سالاد و سس ملایم.|همبرگر گوشت گاو گریل‌شده با پنیر ذوب‌شده، همراه سیب‌زمینی سرخ‌کرده.|مرغ ترد با پنیر ذوب‌شده، همراه سیب‌زمینی سرخ‌کرده.|همبرگر ماهی، همراه سیب‌زمینی سرخ‌کرده.|همبرگر گوشت گاو گریل‌شده.|هالومی گریل‌شده با سبزیجات تازه.|مرغ / گوشت گاو، کاهو ایسبرگ، پنیر فتا، خیار، گوجه‌فرنگی، با سس ملایم.|کاهو، پنیر فتا، خیار و گوجه‌فرنگی، با سس ملایم.|سیب‌زمینی سرخ‌کرده ترد.|سیب‌زمینی سرخ‌کرده ترد با سس دلخواه.|سیب‌زمینی سرخ‌کرده/فلافل ترد با سبزیجات تازه و سس دلخواه.|سیب‌زمینی سرخ‌کرده ترد با چیلی مایو.|نوشابه یا قهوه/چای، سرد یا گرم.|موز، توت‌فرنگی، توت‌های مخلوط، موز و خرما، انبه و اوریو.|هر سس دلخواه همراه غذای شما.|مرغ یا گوشت گاو اضافه کنید.|پنیر ذوب‌شده اضافه کنید."},
+tr:{n:"Türkçe",pop:"Popüler",wk:"Hafta içi",we:"Cmt & Paz",
+ t:"Başlangıçlar|Tabaklar|Dürümler|Hamburgerler|Salata|Patates kızartması|İçecekler|Milkshake|Ekstralar|Öğleden sonra|Makarna",
+ w:"peynir|patates|tavuk|dana eti|karides|sebze|kırmızı sos|otlar|ekstra iç",
+ d:"Hint baharatlarıyla marine edilmiş çıtır tavuk, mükemmel kızartılmış.|Çıtır, hafif dip sosla.|Sulu ve çıtır, hafif dip sosla.|Izgara tavuk, pilav veya patates kızartması ve salata ile.|Çıtır tavuk, pilav veya patates kızartması ve salata ile.|Baharatlı dana eti, pilav/patates kızartması ve salata ile.|Izgara tavuk ve baharatlı dana eti, pilav veya patates kızartması ve salata ile.|Galeta unlu balık fileto, pilav veya patates kızartması ve salata ile.|Çıtır falafel, pilav veya patates kızartması ve salata ile.|Tavuk, dana eti, kombo, sebze veya karides seçin; kırmızı sos, otlar ve peynir ile.|Sıcak pidede baharatlı dana eti, salata ve hafif sos ile.|Sıcak pidede ızgara tavuk, salata ile.|Taze sebzelerle falafel.|Sıcak pidede ızgara tavuk ve baharatlı dana eti, salata ve hafif sos ile.|Mükemmel ızgara dana burger, erimiş peynirli, patates kızartmasıyla.|Erimiş peynirli çıtır tavuk, patates kızartmasıyla.|Balık burger, patates kızartmasıyla.|Mükemmel ızgara dana burger.|Taze sebzelerle ızgara hellim.|Tavuk / Dana eti, iceberg marul, feta, salatalık, domates, hafif sosla.|Iceberg marul, feta, salatalık ve domates, hafif sosla.|Çıtır patates kızartması.|Dilediğiniz sosla çıtır patates kızartması.|Çıtır patates kızartması/falafel, taze sebzeler ve dilediğiniz sos ile.|Acı mayonezli çıtır patates kızartması.|Gazlı içecek veya kahve/çay seçin, soğuk/sıcak.|Muz, çilek, karışık orman meyveleri, muz ve hurma, mango & Oreo.|Yemeğinize istediğiniz dip sos.|Tavuk veya dana eti ekleyin.|Ekstra erimiş peynir ekleyin."},
+pl:{n:"Polski",pop:"Popularne",wk:"Dni robocze",we:"Sob i Niedz",
+ t:"Przystawki|Talerze|Rolki|Burgery|Sałatka|Frytki|Napoje|Shake’i mleczne|Dodatki|Popołudnie|Makaron",
+ w:"ser|ziemniaki|kurczak|wołowina|krewetki|warzywa|czerwony sos|zioła|dodatkowe nadzienie",
+ d:"Chrupiący kurczak marynowany w indyjskich przyprawach, smażony do perfekcji.|Chrupiące, z łagodnym sosem do maczania.|Soczyste i chrupiące, z łagodnym sosem do maczania.|Grillowany kurczak, z ryżem lub frytkami i sałatką.|Chrupiący kurczak, z ryżem lub frytkami i sałatką.|Przyprawiona wołowina, z ryżem/frytkami i sałatką.|Grillowany kurczak i przyprawiona wołowina, z ryżem lub frytkami i sałatką.|Panierowany filet rybny, z ryżem lub frytkami i sałatką.|Chrupiące falafele, z ryżem lub frytkami i sałatką.|Do wyboru: kurczak, wołowina, combo, wegetariański lub krewetki, z czerwonym sosem, ziołami i serem.|Przyprawiona wołowina w ciepłej pita z sałatką i łagodnym sosem.|Grillowany kurczak w ciepłej pita z sałatką.|Falafel ze świeżymi warzywami.|Grillowany kurczak i przyprawiona wołowina w ciepłej pita z sałatką i łagodnym sosem.|Burger wołowy grillowany do perfekcji, z roztopionym serem, z frytkami.|Chrupiący kurczak z roztopionym serem, z frytkami.|Burger rybny, z frytkami.|Burger wołowy grillowany do perfekcji.|Grillowany halloumi ze świeżymi warzywami.|Kurczak / Wołowina, sałata lodowa, feta, ogórek, pomidor, łagodny dressing.|Sałata lodowa, feta, ogórek i pomidor, z łagodnym dressingiem.|Chrupiące frytki.|Chrupiące frytki z dowolnym sosem.|Chrupiące frytki/falafel ze świeżymi warzywami i dowolnym sosem.|Chrupiące frytki z chili mayo.|Napój gazowany lub kawa/herbata, na zimno lub gorąco.|Banan, truskawka, owoce leśne, banan z daktylami, mango i Oreo.|Dowolny sos do Twojego dania.|Dodaj kurczaka lub wołowinę.|Dodaj roztopiony ser."},
+uk:{n:"Українська",pop:"Популярне",wk:"Будні",we:"Сб і Нд",
+ t:"Закуски|Тарілки|Роли|Бургери|Салат|Картопля фрі|Напої|Мілкшейки|Додатки|Після обіду|Паста",
+ w:"сир|картопля|курка|яловичина|креветки|овочі|червоний соус|трави|додаткова начинка",
+ d:"Хрустка курка, маринована в індійських спеціях, смажена до досконалості.|Хрусткі, з м’яким соусом.|Соковиті та хрусткі, з м’яким соусом.|Курка гриль, з рисом або картоплею фрі та салатом.|Хрустка курка, з рисом або картоплею фрі та салатом.|Пряна яловичина, з рисом/картоплею фрі та салатом.|Курка гриль і пряна яловичина, з рисом або картоплею фрі та салатом.|Пановане рибне філе, з рисом або картоплею фрі та салатом.|Хрусткі фалафелі, з рисом або картоплею фрі та салатом.|На вибір: курка, яловичина, комбо, вегетаріанська або креветки, з червоним соусом, травами та сиром.|Пряна яловичина в теплій піті з салатом і м’яким соусом.|Курка гриль у теплій піті з салатом.|Фалафель зі свіжими овочами.|Курка гриль і пряна яловичина в теплій піті з салатом і м’яким соусом.|Яловичий бургер на грилі з розплавленим сиром, з картоплею фрі.|Хрустка курка з розплавленим сиром, з картоплею фрі.|Рибний бургер, з картоплею фрі.|Яловичий бургер на грилі до досконалості.|Халумі на грилі зі свіжими овочами.|Курка / Яловичина, салат айсберг, фета, огірок, помідор, м’який дресинг.|Салат айсберг, фета, огірок і помідор, з м’яким дресингом.|Хрустка картопля фрі.|Хрустка картопля фрі з соусом на вибір.|Хрустка картопля фрі/фалафель зі свіжими овочами та соусом на вибір.|Хрустка картопля фрі з чилі-майонезом.|Газований напій або кава/чай, холодний чи гарячий.|Банан, полуниця, лісові ягоди, банан і фінік, манго та Орео.|Будь-який соус до вашої страви.|Додайте курку або яловичину.|Додайте розплавлений сир."}
+};
+for (const k in T) { T[k].t = T[k].t.split("|"); T[k].w = T[k].w.split("|"); T[k].d = T[k].d.split("|"); }
+
+// Items: [name, price, description index | array of ingredient indexes]
+const S = [
+ ["🍗",[["Kyckling 65","89 Kr",0],["Nuggets","49 Kr",1],["Kycklingvingar","49 Kr",2]]],
+ ["🍽️",[["Grillad Kyckling","109 Kr",3],["Krispig kyckling","109 Kr",4,1],["Smash Nötkött","119 Kr",5],["Combo (Nöt & Kyckling)","119 Kr",6,1],["Fisk","119 Kr",7,1],["Falafel","79 Kr",8],["Pasta (ost)","119 Kr / 129 Kr",9]]],
+ ["🌯",[["Nötkött rulle (ost)","109 Kr / 129 Kr",10],["Kyckling rulle (ost)","109 Kr / 129 Kr",11],["Falafel rulle (ost)","79 Kr / 109 Kr",12],["Combo rulle (ost)","109 Kr / 129 Kr",13]]],
+ ["🍔",[["Cheeseburgare","119 Kr",14],["Krispig kyckling-cheeseburgare","119 Kr",15],["Fisk Burger","119 Kr",16],["Bon Burger","59 Kr",17],["Halloumi Burger (Veg)","109 Kr",18]]],
+ ["🥗",[["Mixed Sallad (ost)","69 Kr / 99 Kr",19],["Fetaostsallad","99 Kr",20]]],
+ ["🍟",[["Pommes","39 Kr",21],["Loaded Pommes","49 Kr",22],["Pommes med ost","59 Kr",23],["Chilimayo Pommes","49 Kr",24]]],
+ ["🥤",[["Dryck","25 Kr",25]]],
+ ["🥛",[["Välja","49 Kr",26]]],
+ ["➕",[["Extra dipp","10 Kr",27],["Extra kött (valfritt)","20 Kr",28],["Extra ost","10 Kr",29]]],
+ ["☕",[["Ost Paratha","89 Kr",[0]],["Aloo (Smash potatis) Ost Paratha","89 Kr",[1,0]],["Kyckling Ost Paratha","99 Kr",[2,0]],["Nötfärs Ost Paratha","99 Kr",[3,0]],["Platform92 Special Paratha","119 Kr",[8,0],1]],"hours"],
+ ["🍝",[["Kycklingpasta","119 Kr",[2,6,7,0]],["Nötfärspasta","119 Kr",[3,6,7,0]],["Combo Pasta Tallrik","129 Kr",[2,3,6,5,0],1],["Vegetarisk Pasta","119 Kr",[5,6,7,0]],["Räkpasta","129 Kr",[4,6,7,0]]]]
+];
+
+const $ = id => document.getElementById(id);
+const esc = s => String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;");
+const sel = $("lang"), nav = $("nav"), menu = $("menu");
+sel.innerHTML = Object.keys(T).map(k => `<option value="${k}">${T[k].n}</option>`).join("");
+
+function render(lang) {
+  const t = T[lang];
+  document.documentElement.lang = lang;
+  document.documentElement.dir = t.rtl ? "rtl" : "ltr";
+  sel.value = lang;
+  nav.innerHTML = S.map((s, i) => `<a href="#s${i}" data-i="${i}">${s[0]} ${esc(t.t[i])}</a>`).join("");
+  menu.innerHTML = S.map((s, i) => `
+    <section id="s${i}">
+      <h2><span>${s[0]}</span>${esc(t.t[i])}</h2>
+      ${s[2] ? `<div class="hours"><div><b>${esc(t.wk)}</b><span>14:00–17:00</span></div><div><b>${esc(t.we)}</b><span>12:00–17:00</span></div></div>` : ""}
+      ${s[1].map(([n, p, d, hot]) => `
+      <article class="item">
+        <div class="row"><div class="nm">${esc(n)}${hot ? `<span class="pop">${esc(t.pop)}</span>` : ""}</div><div class="price">${esc(p)}</div></div>
+        <p class="desc">${esc(Array.isArray(d) ? d.map(j => t.w[j]).join(" · ") : t.d[d])}</p>
+      </article>`).join("")}
+    </section>`).join("");
+  observe();
+  sizeBar();
+}
+
+function sizeBar() { document.documentElement.style.setProperty("--h", ($("top").offsetHeight + 8) + "px"); }
+let io;
+function observe() {
+  if (io) io.disconnect();
+  io = new IntersectionObserver(es => es.forEach(e => {
+    if (!e.isIntersecting) return;
+    const a = nav.querySelector(`[data-i="${e.target.id.slice(1)}"]`);
+    nav.querySelectorAll("a.on").forEach(x => x.classList.remove("on"));
+    a.classList.add("on");
+    const r = a.getBoundingClientRect(), nr = nav.getBoundingClientRect();
+    if (r.left < nr.left || r.right > nr.right) nav.scrollTo({ left: nav.scrollLeft + r.left - nr.left - 16, behavior: "smooth" });
+  }), { rootMargin: "-35% 0px -60% 0px" });
+  menu.querySelectorAll("section").forEach(s => io.observe(s));
+}
+
+sel.addEventListener("change", () => { render(sel.value); try { localStorage.setItem("lang", sel.value); } catch (e) {} });
+addEventListener("resize", sizeBar);
+
+let start = "sv";
+try { start = localStorage.getItem("lang") || ""; } catch (e) {}
+if (!T[start]) start = (navigator.language || "sv").slice(0, 2).toLowerCase();
+if (!T[start]) start = "sv";
+render(start);
+</script>
+</body>
+</html>
