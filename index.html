@@ -236,7 +236,7 @@
   #dlgCancel { background: #E6DDBE; color: #14284B; }
   #dlgGo { background: #14284B; color: #FFD23F; }
   #dlgGo:disabled { opacity: .4; cursor: not-allowed; }
-  .sheet.noprice .price, .sheet.noprice .d-price, .sheet.noprice .xp { display: none !important; }
+  .noprice .price, .noprice .d-price, .noprice .xp { display: none !important; }
   @media print { #dlg { display: none !important; } }
 </style>
 </head>
@@ -302,7 +302,7 @@
 <script>
 const MENU = [
   { title: "FÖRRÄTTER", items: [
-    ["Kyckling 65", "89 Kr", "Krispigt marinerad kyckling med indiska kryddor, friterad till perfektion och serverad", "a"],
+    ["Kyckling 65", "109 Kr", "Krispigt marinerad kyckling med indiska kryddor, friterad till perfektion och serverad", "a"],
     ["Nuggets", "49 Kr", "Krispiga, med mild dippsås.", "17"],
     ["Kycklingvingar", "49 Kr", "Saftiga & krispiga, med mild dippsås.", "18"]
   ]},
@@ -322,10 +322,13 @@ const MENU = [
     ["Combo rulle (ost)", "109 Kr / 129 Kr", "Grillad kyckling & kryddat nötkött i varmt pitabröd med sallad & mild sås.", "f"]
   ]},
   { title: "HAMBURGARE", items: [
-    ["Cheeseburgare", "119 Kr", "Nötköttsburgare grillad till perfektion, toppad med smält ost, serveras med pommes."],
+    ["Beef Cheeseburgare", "129 Kr", "Nötköttsburgare grillad till perfektion, toppad med smält ost, serveras med pommes."],
+    // NEW: photo id is fixed ("photosmenu1/10" re-uses the Beef Cheeseburgare photo) so no other photo number shifts.
+    // To give it its own picture, save e.g. photosmenu1/21.jpg and change "photosmenu1/10" to "21".
+    ["Double Cheeseburgare", "179 Kr", "Dubbel nötköttsburgare grillad till perfektion, toppad med smält ost, serveras med pommes.", "photosmenu1/10"],
     ["Krispig kyckling-cheeseburgare", "119 Kr", "Krispigt friterad till gyllene perfektion, med smält ost, serveras med pommes."],
     ["Fisk Burger", "119 Kr", "Fiskburgare, serveras med pommes."],
-    ["Bon Burger", "59 Kr", "Nötköttsburgare grillad till perfektion.", "b"],
+    ["Barn Burger", "59 Kr", "Nötköttsburgare grillad till perfektion.", "b"],
     ["Halloumi Burger (Veg)", "109 Kr", "Grillad halloumi med färska grönsaker.", "i"]
   ]},
   { title: "SALLAD", items: [
@@ -351,7 +354,7 @@ const MENU = [
   ]}
 ];
 
-// Translations: section titles (9) and 30 descriptions in menu order.
+// Translations: section titles (9) and 31 descriptions in menu order.
 // Dish names, prices and "Kr" stay as on the Swedish menu.
 const I18N = {
   en: { pop: "Popular", label: "English", t: ["STARTERS","PLATES","ROLLS","BURGERS","SALAD","FRIES","DRINKS","MILKSHAKES","EXTRAS"], d: [
@@ -370,6 +373,7 @@ const I18N = {
     "Falafel with fresh vegetables.",
     "Grilled chicken & spiced beef in warm pita bread with salad & mild sauce.",
     "Beef burger grilled to perfection, topped with melted cheese, served with fries.",
+    "Double beef patty grilled to perfection, topped with melted cheese, served with fries.",
     "Crispy chicken fried to golden perfection, with melted cheese, served with fries.",
     "Fish burger, served with fries.",
     "Beef burger grilled to perfection.",
@@ -402,6 +406,7 @@ const I18N = {
     "فلافل مع خضار طازجة.",
     "دجاج مشوي ولحم بقري متبّل في خبز بيتا دافئ مع السلطة وصلصة خفيفة.",
     "برغر لحم بقري مشوي بإتقان، مغطى بجبنة ذائبة، يُقدَّم مع البطاطس.",
+    "برغر لحم بقري مزدوج مشوي بإتقان، مغطى بجبنة ذائبة، يُقدَّم مع البطاطس.",
     "دجاج مقرمش مقلي حتى يصبح ذهبياً، مع جبنة ذائبة، يُقدَّم مع البطاطس.",
     "برغر سمك، يُقدَّم مع البطاطس.",
     "برغر لحم بقري مشوي بإتقان.",
@@ -434,6 +439,7 @@ const I18N = {
     "Falaafil la socda khudrad cusub.",
     "Digaag la dubay iyo hilib lo' xawaash leh oo ku jira rooti bita ah oo diiran, la socda salaad iyo suugo khafiif ah.",
     "Bargar hilib lo' ah oo si fiican loo dubay, jiis dhalaalay saaran yahay, la socda bataato.",
+    "Bargar hilib lo' laba-lakab ah oo si fiican loo dubay, jiis dhalaalay saaran yahay, la socda bataato.",
     "Digaag qallafsan oo la shiilay ilaa uu dahabi noqdo, jiis dhalaalay leh, la socda bataato.",
     "Bargar kalluun, la socda bataato.",
     "Bargar hilib lo' ah oo si fiican loo dubay.",
@@ -466,6 +472,7 @@ const I18N = {
     "فلافل با سبزیجات تازه.",
     "مرغ گریل‌شده و گوشت گاو ادویه‌دار در نان پیتای گرم با سالاد و سس ملایم.",
     "همبرگر گوشت گاو گریل‌شده، با پنیر ذوب‌شده، همراه سیب‌زمینی سرخ‌کرده.",
+    "همبرگر دوبل گوشت گاو گریل‌شده، با پنیر ذوب‌شده، همراه سیب‌زمینی سرخ‌کرده.",
     "مرغ ترد سرخ‌شده تا طلایی، با پنیر ذوب‌شده، همراه سیب‌زمینی سرخ‌کرده.",
     "همبرگر ماهی، همراه سیب‌زمینی سرخ‌کرده.",
     "همبرگر گوشت گاو گریل‌شده.",
@@ -498,6 +505,7 @@ const I18N = {
     "Taze sebzelerle falafel.",
     "Sıcak pide ekmeğinde ızgara tavuk ve baharatlı dana eti, salata ve hafif sos ile.",
     "Mükemmel ızgara dana burger, üzerinde eritilmiş peynir, patates kızartmasıyla servis edilir.",
+    "Mükemmel ızgara çift katlı dana burger, üzerinde eritilmiş peynir, patates kızartmasıyla servis edilir.",
     "Altın sarısı olana kadar kızartılmış çıtır tavuk, eritilmiş peynirli, patates kızartmasıyla servis edilir.",
     "Balık burger, patates kızartmasıyla servis edilir.",
     "Mükemmel ızgara dana burger.",
@@ -530,6 +538,7 @@ const I18N = {
     "Falafel ze świeżymi warzywami.",
     "Grillowany kurczak i przyprawiona wołowina w ciepłym chlebku pita z sałatką i łagodnym sosem.",
     "Burger wołowy grillowany do perfekcji, z roztopionym serem, podawany z frytkami.",
+    "Podwójny burger wołowy grillowany do perfekcji, z roztopionym serem, podawany z frytkami.",
     "Chrupiący kurczak smażony na złoty kolor, z roztopionym serem, podawany z frytkami.",
     "Burger rybny, podawany z frytkami.",
     "Burger wołowy grillowany do perfekcji.",
@@ -562,6 +571,7 @@ const I18N = {
     "Фалафель зі свіжими овочами.",
     "Курка гриль і пряна яловичина в теплому хлібі піта з салатом і м’яким соусом.",
     "Яловичий бургер, приготований на грилі до досконалості, з розплавленим сиром, подається з картоплею фрі.",
+    "Подвійний яловичий бургер, приготований на грилі до досконалості, з розплавленим сиром, подається з картоплею фрі.",
     "Хрустка курка, смажена до золотистого кольору, з розплавленим сиром, подається з картоплею фрі.",
     "Рибний бургер, подається з картоплею фрі.",
     "Яловичий бургер, приготований на грилі до досконалості.",
@@ -775,6 +785,7 @@ const DESIGN_W = 210, DESIGN_H = 296;
 const UNIT_MM = { mm: 1, cm: 10, in: 25.4, ft: 304.8 };
 const PAPERS = {
   a4:    [210, 297,     "A4 (210 × 297 mm)"],
+  long:  [210, 0,       "Long page – one single sheet, no cuts"],   // height is worked out from the number of menus chosen
   a5:    [148, 210,     "A5 (148 × 210 mm)"],
   a3:    [297, 420,     "A3 (297 × 420 mm)"],
   a2:    [420, 594,     "A2 (420 × 594 mm)"],
@@ -795,7 +806,8 @@ cu.addEventListener("change", () => {      // keep the same physical size when t
   const f = UNIT_MM[lastUnit] / UNIT_MM[cu.value];
   cw.value = +(cw.value * f).toFixed(3); ch.value = +(ch.value * f).toFixed(3); lastUnit = cu.value;
 });
-function chosenSizeMM() {
+function chosenSizeMM(count = 1) {
+  if (paperSel.value === "long") return [DESIGN_W, DESIGN_H * Math.max(1, count)];   // same width as the menu, height = all menus stacked
   if (paperSel.value !== "custom") return PAPERS[paperSel.value].slice(0, 2);
   const u = UNIT_MM[cu.value];
   const clamp = v => Math.min(MAX_MM, Math.max(MIN_MM, v));
@@ -811,23 +823,47 @@ function removePrintRoot() {
 }
 async function printPDF(menus = [1, 2, 3], variants = ["with"]) {
   removePrintRoot();
-  const [W, H] = chosenSizeMM().map(v => +v.toFixed(2));
-  const s = Math.min(W / DESIGN_W, H / DESIGN_H);
+  const segs = [];                                   // every menu page that goes into the PDF, in order
+  variants.forEach(variant => menus.forEach(k => segs.push([k, variant])));
+  const isLong = paperSel.value === "long";
+  const [W, H] = chosenSizeMM(segs.length).map(v => +v.toFixed(2));
   const root = document.createElement("div"); root.id = "printRoot";
-  variants.forEach(variant => menus.forEach(k => {
-    const page = pages[k];
-    const cs = getComputedStyle(page);
-    const sheet = document.createElement("div"); sheet.className = "sheet" + (variant === "without" ? " noprice" : "");
-    sheet.style.width = W + "mm"; sheet.style.height = H + "mm";
-    sheet.style.backgroundColor = cs.backgroundColor; sheet.style.backgroundImage = cs.backgroundImage;
-    const clone = page.cloneNode(true);
-    clone.style.display = "flex"; clone.style.width = DESIGN_W + "mm"; clone.style.height = DESIGN_H + "mm";
-    clone.style.left = ((W - DESIGN_W * s) / 2).toFixed(3) + "mm"; clone.style.top = ((H - DESIGN_H * s) / 2).toFixed(3) + "mm";
-    clone.style.transform = `scale(${s})`;
-    sheet.appendChild(clone); root.appendChild(sheet);
-  }));
   const st = document.createElement("style"); st.id = "printSize";
-  st.textContent = `@page { size: ${W}mm ${H}mm; margin: 0; }`;
+
+  if (isLong) {
+    // ONE continuous sheet: all menus stacked top to bottom at full size, no page breaks, nothing scaled or cut.
+    const bg = getComputedStyle(pages[segs[0][0]]);
+    const sheet = document.createElement("div"); sheet.className = "sheet";
+    sheet.style.width = W + "mm"; sheet.style.height = H + "mm";
+    sheet.style.backgroundColor = bg.backgroundColor; sheet.style.backgroundImage = bg.backgroundImage;
+    segs.forEach(([k, variant], i) => {
+      const clone = pages[k].cloneNode(true);
+      clone.style.display = "flex"; clone.style.width = DESIGN_W + "mm"; clone.style.height = DESIGN_H + "mm";
+      clone.style.left = "0mm"; clone.style.top = (i * DESIGN_H) + "mm"; clone.style.transform = "none";
+      if (variant === "without") clone.classList.add("noprice");
+      sheet.appendChild(clone);
+    });
+    root.appendChild(sheet);
+    // The paper is 0.5 mm taller than the content so rounding can never push a blank second page; that sliver uses the same gradient.
+    st.textContent = `@page { size: ${W}mm ${+(H + 0.5).toFixed(2)}mm; margin: 0; } @media print { html { background: ${bg.backgroundImage} !important; } }`;
+  } else {
+    // Fixed paper size: every menu on its own sheet, scaled uniformly to fit and centred.
+    const s = Math.min(W / DESIGN_W, H / DESIGN_H);
+    segs.forEach(([k, variant]) => {
+      const page = pages[k];
+      const cs = getComputedStyle(page);
+      const sheet = document.createElement("div"); sheet.className = "sheet" + (variant === "without" ? " noprice" : "");
+      sheet.style.width = W + "mm"; sheet.style.height = H + "mm";
+      sheet.style.backgroundColor = cs.backgroundColor; sheet.style.backgroundImage = cs.backgroundImage;
+      const clone = page.cloneNode(true);
+      clone.style.display = "flex"; clone.style.width = DESIGN_W + "mm"; clone.style.height = DESIGN_H + "mm";
+      clone.style.left = ((W - DESIGN_W * s) / 2).toFixed(3) + "mm"; clone.style.top = ((H - DESIGN_H * s) / 2).toFixed(3) + "mm";
+      clone.style.transform = `scale(${s})`;
+      sheet.appendChild(clone); root.appendChild(sheet);
+    });
+    st.textContent = `@page { size: ${W}mm ${H}mm; margin: 0; }`;
+  }
+
   document.head.appendChild(st); document.body.appendChild(root); document.body.classList.add("printing");
   // make sure every photo in the copies has loaded before the print dialog opens
   await Promise.all([...root.querySelectorAll("img")].filter(i => i.getAttribute("src") && !i.complete)
@@ -850,9 +886,10 @@ function dlgRefresh() {
   dlgGo.disabled = !ok;
   dlgInfo.classList.toggle("warn", !ok);
   if (!ok) { dlgInfo.textContent = variants.length ? "Choose at least one menu." : "Choose with prices, without prices, or both."; return; }
-  const [W, H] = chosenSizeMM();
-  const label = paperSel.value === "custom" ? `${+(W / 25.4).toFixed(2)} × ${+(H / 25.4).toFixed(2)} in` : PAPERS[paperSel.value][2].split(" (")[0];
   const n = menus.length * variants.length;
+  const [W, H] = chosenSizeMM(n);
+  if (paperSel.value === "long") { dlgInfo.textContent = `1 long page (${n} menu${n > 1 ? "s" : ""} stacked) · ${+W.toFixed(0)} × ${+H.toFixed(0)} mm`; return; }
+  const label = paperSel.value === "custom" ? `${+(W / 25.4).toFixed(2)} × ${+(H / 25.4).toFixed(2)} in` : PAPERS[paperSel.value][2].split(" (")[0];
   dlgInfo.textContent = `${n} page${n > 1 ? "s" : ""} · size ${label}`;
 }
 function dlgOpen() { dlg.hidden = false; dlgRefresh(); optWith.focus(); }
